@@ -52,7 +52,7 @@
   .date { opacity:.8; font-size:13px; margin-top:10px }
 
   /* section nav */
-  .nav { position:sticky; top:0; z-index:5; background:color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line) }
+  .nav { position:sticky; top:0; z-index:5; background:var(--bg); background:color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line) }
   .nav .in { max-width:1100px; margin:0 auto; padding:8px 16px; display:flex; gap:6px; overflow-x:auto; scrollbar-width:none } .nav .in::-webkit-scrollbar { display:none }
   .nav a { flex:none; text-decoration:none; color:var(--muted); font-size:13px; font-weight:700; padding:7px 12px; border-radius:999px; border:1px solid transparent; transition:all .15s }
   .nav a.on { color:var(--text); background:var(--card); border-color:var(--line); box-shadow:0 2px 8px rgba(17,22,51,.06) }
@@ -69,12 +69,12 @@
   .card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--c, var(--accent)); opacity:.9 }
   #pharm { --c:var(--c-pharm) } #transit { --c:var(--c-transit) } #fuel { --c:var(--c-fuel) } #hosp { --c:var(--c-hosp) } #around { --c:var(--c-around) }
   .card > h2 { margin:0 0 14px; font-size:17px; font-weight:800; display:flex; align-items:center; gap:10px; flex-wrap:wrap; letter-spacing:-.01em }
-  .card > h2 .ic { width:36px; height:36px; border-radius:12px; display:grid; place-items:center; background:color-mix(in srgb, var(--c, var(--accent)) 14%, transparent); font-size:18px; flex:none }
+  .card > h2 .ic { width:36px; height:36px; border-radius:12px; display:grid; place-items:center; background:var(--accent-soft); background:color-mix(in srgb, var(--c, var(--accent)) 14%, transparent); font-size:18px; flex:none }
   .card > h2 .right { margin-left:auto; display:flex; align-items:center; gap:8px; font-weight:600; font-size:12.5px; color:var(--muted); text-align:right; flex:0 1 auto }
   .sub { display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:14px 0 4px }
   .sub:first-child { margin-top:0 }
   .sub .live { display:inline-flex; align-items:center; gap:6px; color:var(--ok); text-transform:none; letter-spacing:0; font-weight:700 }
-  .live i { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 0 var(--ok); animation:pulse 1.6s infinite } @keyframes pulse { 0% { box-shadow:0 0 0 0 color-mix(in srgb, var(--ok) 45%, transparent) } 100% { box-shadow:0 0 0 8px transparent } }
+  .live i { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 0 var(--ok); animation:pulse 1.6s infinite } @keyframes pulse { 0% { box-shadow:0 0 0 0 var(--ok-soft) } 100% { box-shadow:0 0 0 8px transparent } }
   select { font:inherit; font-size:13.5px; font-weight:700; padding:7px 30px 7px 11px; border-radius:11px; border:1px solid var(--line); background:var(--bg2) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235f6a8c' stroke-width='1.8'/></svg>") no-repeat right 10px center; color:var(--text); appearance:none; max-width:56vw; cursor:pointer }
 
   /* rows */
@@ -155,6 +155,9 @@
 })();
 </script>
 <script>
+window.onerror = function (msg, src, line) { var b = document.getElementById("offline"); if (b) { b.hidden = false; b.textContent = "Σφάλμα σελίδας: " + msg + " (γραμμή " + line + "). Δοκίμασε να ανοίξεις τη σελίδα στο Chrome."; } if (window.gtag) gtag("event", "js_error", {message: String(msg).slice(0, 100), line: line}); };
+</script>
+<script>
 const API = (window.KONTA_API || "").replace(/\/$/, "");
 const RELAY = (window.KONTA_RELAY || "").replace(/\/$/, ""); // optional Cloudflare relay: the browser asks OASA itself (works from Greece)
 if (API) document.getElementById("about-link").hidden = false;
@@ -185,7 +188,7 @@ async function api(path) {
   return j;
 }
 const m = km => km < 1 ? `${Math.round(km*1000)} μ.` : `${km.toFixed(1)} χλμ`;
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const lineBadge = l => { const k = String(l||"?").toUpperCase(); const cls = /^M1/.test(k)?"m1":/^M2/.test(k)?"m2":/^M3/.test(k)?"m3":/^T/.test(k)?"t":""; return `<span class="ln ${cls}">${esc(k)}</span>`; };
 const mins = n => n <= 0 ? `<span class="now">τώρα</span>` : n === 1 ? `<span class="now">1′</span>` : `${n}′`;
 const empty = (icon, text) => `<div class="empty"><span>${icon}</span><span>${text}</span></div>`;
@@ -288,7 +291,7 @@ async function loadHospitals(spec) {
     const sel = $("#spec");
     if (sel.options.length <= 1) { sel.innerHTML = r.specialties.map(x=>`<option ${x===(spec||"Παθολογική")?"selected":""}>${esc(x)}</option>`).join(""); sel.onchange = () => loadHospitals(sel.value); }
     $("#hosp-meta").textContent = `Αττική, ${new Date(r.date).toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long"})}` + (r.health_centers.length ? ` · Κέντρα Υγείας: ${r.health_centers.map(x=>x.name.replace("Κ.Υ. ","")+" ("+x.hours+")").join(", ")}` : "");
-    const byShift = {}; for (const e of r.entries) (byShift[e.shift] ||= []).push(e);
+    const byShift = {}; for (const e of r.entries) (byShift[e.shift] || (byShift[e.shift] = [])).push(e);
     $("#hosp-body").innerHTML = Object.entries(byShift).map(([shift, es]) => `<div class="sub">${esc(shift)}</div>` +
       es.map(e => `<div class="row"><div class="name">${esc(e.name || e.hospital)}${e.region?` <span class="badge info">${esc(e.region)}</span>`:""}${e.distance_km!=null?`<span class="dist">· ${m(e.distance_km)}</span>`:""}</div>${e.note?`<div class="meta">${esc(e.note)}</div>`:""}${e.maps_url?`<div class="acts"><a href="${esc(e.maps_url)}" target="_blank" rel="noreferrer">🧭 Πλοήγηση</a></div>`:""}</div>`).join("")).join("") || empty("🩺", "Καμία καταχώρηση για αυτή την κλινική.");
   } catch (e) { $("#hosp-body").innerHTML = e.status===404 ? empty("📋", "Δεν υπάρχει ακόμη πρόγραμμα για σήμερα.") : `<div class="muted">${esc(e.message)}</div>`; }
@@ -310,7 +313,7 @@ async function loadRail() {
 const hav = (a,b,c,d) => { const r=Math.PI/180, x=(c-a)*r, y=(d-b)*r, h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2; return 2*6371*Math.asin(Math.sqrt(h)); };
 async function oasa(act, p) {
   const u = new URL(RELAY + "/oasa/api/"); u.searchParams.set("act", act); for (const [k,v] of Object.entries(p)) u.searchParams.set(k, v);
-  const r = await fetch(u, {signal: AbortSignal.timeout(12000)}); if (!r.ok) throw new Error("relay " + r.status); return await r.json();
+  const r = await fetch(u, AbortSignal.timeout ? {signal: AbortSignal.timeout(12000)} : {}); if (!r.ok) throw new Error("relay " + r.status); return await r.json();
 }
 async function nearStops() {
   if (RELAY) try {
