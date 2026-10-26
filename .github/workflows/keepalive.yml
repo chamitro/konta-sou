@@ -1,0 +1,16 @@
+name: Keep the API awake
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes; Render free sleeps after 15 idle
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health and warm the main endpoints
+        run: |
+          for p in /healthz "/api/fuel/latest" "/api/pharmacies/on-duty?lat=37.98&lng=23.73&limit=1"; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -m 90 "https://konta-sou.onrender.com$p")
+            echo "$p -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
