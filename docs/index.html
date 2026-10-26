@@ -2,6 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1823";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
 <meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
@@ -184,7 +185,6 @@
 <script>
 window.onerror = function (msg, src, line) { var b = document.getElementById("offline"); if (b) { b.hidden = false; b.textContent = "Σφάλμα σελίδας: " + msg + " (γραμμή " + line + "). Δοκίμασε να ανοίξεις τη σελίδα στο Chrome. [" + navigator.userAgent.slice(0, 160) + "]"; } if (window.gtag) gtag("event", "js_error", {message: String(msg).slice(0, 100), line: line}); };
 </script>
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1818";</script>
 <script>
 const API = (window.KONTA_API || "").replace(/\/$/, "");
 const RELAY = (window.KONTA_RELAY || "").replace(/\/$/, ""); // optional Cloudflare relay: the browser asks OASA itself (works from Greece)

@@ -17,7 +17,8 @@ relay = sys.argv[2].rstrip("/") if len(sys.argv) > 2 else ""
 ga = sys.argv[3].strip() if len(sys.argv) > 3 else ""
 version = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")  # stamped into the page, sw.js and version.json; installed copies compare it
 src = Path("simera/web/index.html").read_text(encoding="utf-8")
-out = src.replace("<script>\nconst API", f'<script>window.KONTA_API = "{api}"; window.KONTA_RELAY = "{relay}"; window.KONTA_GA = "{ga}"; window.KONTA_VERSION = "{version}";</script>\n<script>\nconst API', 1)
+# the globals go in <head>, before every script on the page (the consent loader reads KONTA_GA early)
+out = src.replace('<meta charset="utf-8">', f'<meta charset="utf-8">\n<script>window.KONTA_API = "{api}"; window.KONTA_RELAY = "{relay}"; window.KONTA_GA = "{ga}"; window.KONTA_VERSION = "{version}";</script>', 1)
 Path("docs/index.html").write_text(out, encoding="utf-8")
 # PWA files (manifest, service worker, icons) are published next to the page
 import shutil
