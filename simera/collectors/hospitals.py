@@ -11,6 +11,7 @@ import argparse
 import html
 import json
 import logging
+import os
 import re
 import subprocess
 import sys
@@ -29,7 +30,8 @@ from simera.models import HealthCenterDuty, HospitalDuty, HospitalRota
 
 log = logging.getLogger(__name__)
 
-PAGE_URL = "https://www.moh.gov.gr/articles/citizen/efhmeries-nosokomeiwn/68-efhmeries-nosokomeiwn-attikhs"
+MOH_BASE_URL = os.environ.get("MOH_BASE_URL", "https://www.moh.gov.gr").rstrip("/")  # may point at the relay worker
+PAGE_URL = f"{MOH_BASE_URL}/articles/citizen/efhmeries-nosokomeiwn/68-efhmeries-nosokomeiwn-attikhs"
 USER_AGENT = "simera-collector/0.1 (+contact: project owner)"
 HOSPITALS_FILE = Path(__file__).resolve().parent.parent / "data" / "attica_hospitals.json"
 

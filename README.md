@@ -53,6 +53,8 @@ The free instance sleeps after 15 minutes without traffic; the first request aft
 
 ## Known limits
 
+If a Greek server is not an option, `worker/` holds a small Cloudflare Worker relay that may let the API reach these two sources; see `worker/README.md`.
+
 - The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). Running the API on a server in Greece is the clean fix; until then the public page shows hospital rotas only via the relay file and no live buses.
 - About 1.5% of fuel bulletins since 2018 remain partially parsed (second-page column shifts in a few 2019–2020 files).
 

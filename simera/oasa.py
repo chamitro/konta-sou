@@ -4,12 +4,13 @@ Unofficial but public and widely used; no API key. Endpoints may change without 
 """
 from __future__ import annotations
 
+import os
 import time
 from typing import Any
 
 import httpx
 
-API_URL = "https://telematics.oasa.gr/api/"
+API_URL = os.environ.get("OASA_API_URL", "https://telematics.oasa.gr/api/")  # may point at the relay worker
 USER_AGENT = "simera/0.1"
 _cache: dict[str, tuple[float, Any]] = {}
 
