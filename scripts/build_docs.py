@@ -6,23 +6,27 @@ The page is identical to the one the server serves at /, plus one line setting w
 A third argument sets window.KONTA_GA (Google Analytics measurement id) on both pages; the pages only
 load Analytics after the visitor accepts the consent bar.
 """
+import json
 import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 api = sys.argv[1].rstrip("/") if len(sys.argv) > 1 else ""
 relay = sys.argv[2].rstrip("/") if len(sys.argv) > 2 else ""
 ga = sys.argv[3].strip() if len(sys.argv) > 3 else ""
+version = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")  # stamped into the page, sw.js and version.json; installed copies compare it
 src = Path("simera/web/index.html").read_text(encoding="utf-8")
-out = src.replace("<script>\nconst API", f'<script>window.KONTA_API = "{api}"; window.KONTA_RELAY = "{relay}"; window.KONTA_GA = "{ga}";</script>\n<script>\nconst API', 1)
+out = src.replace("<script>\nconst API", f'<script>window.KONTA_API = "{api}"; window.KONTA_RELAY = "{relay}"; window.KONTA_GA = "{ga}"; window.KONTA_VERSION = "{version}";</script>\n<script>\nconst API', 1)
 Path("docs/index.html").write_text(out, encoding="utf-8")
 # PWA files (manifest, service worker, icons) are published next to the page
 import shutil
-for name in ("manifest.webmanifest", "sw.js"):
-    shutil.copy(Path("simera/web") / name, Path("docs") / name)
+shutil.copy(Path("simera/web/manifest.webmanifest"), Path("docs/manifest.webmanifest"))
+Path("docs/sw.js").write_text(Path("simera/web/sw.js").read_text(encoding="utf-8").replace('"konta-shell-dev"', f'"konta-shell-{version}"', 1), encoding="utf-8")
+Path("docs/version.json").write_text(json.dumps({"version": version, "built": datetime.now(timezone.utc).isoformat(timespec="seconds")}), encoding="utf-8")
 Path("docs/icons").mkdir(exist_ok=True)
 for ic in (Path("simera/web/icons")).glob("*.png"):
     shutil.copy(ic, Path("docs/icons") / ic.name)
 about = Path("docs/about.html")
 about.write_text(re.sub(r'window\.KONTA_GA = "[^"]*";', f'window.KONTA_GA = "{ga}";', about.read_text(encoding="utf-8"), count=1), encoding="utf-8")
-print(f"docs/index.html written, API = {api or '(same origin)'}, relay = {relay or '(none)'}")
+print(f"version {version}; docs/index.html written, API = {api or '(same origin)'}, relay = {relay or '(none)'}")
