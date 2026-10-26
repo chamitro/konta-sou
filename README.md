@@ -41,6 +41,15 @@ Open http://127.0.0.1:8000/ for the page, http://127.0.0.1:8000/docs for the API
 
 Set `DATABASE_URL` to use PostgreSQL instead of the default SQLite file in `data/`.
 
+## Deploy (Render free tier + GitHub Pages)
+
+1. Push the repo to GitHub. Build a data snapshot here and attach it to a release: `scripts/snapshot.sh --release` (prints the `SNAPSHOT_URL`).
+2. In Render: **New → Blueprint**, pick the repo; `render.yaml` defines a free Docker web service. Set the `SNAPSHOT_URL` env var to the release asset URL. First boot downloads the snapshot (~40 MB) and starts collecting the daily data (pharmacies, hospitals, fuel) in the background; from then on once a day at 04:30 UTC.
+3. Build the page against the API and publish it: `python scripts/build_docs.py https://konta-sou-api.onrender.com`, commit `docs/`, enable GitHub Pages from the `docs` folder. Set `ALLOWED_ORIGINS` on Render to your Pages origin.
+4. Refresh the snapshot occasionally (new OpenStreetMap extract, new timetable): rerun the importers here, then `scripts/snapshot.sh --release` and redeploy.
+
+The free instance sleeps after 15 minutes without traffic; the first request afterwards takes about a minute.
+
 ## Daily run
 
 `scripts/daily.sh` runs all collectors; schedule it with cron (see the comment in the script).

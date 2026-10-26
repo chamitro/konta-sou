@@ -9,12 +9,26 @@ from simera import oasa
 from simera.db import SessionLocal, init_db
 from simera.models import FuelPrice
 
-app = FastAPI(title="Simera API", version="0.1")
+import os  # noqa: E402
+
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+
+app = FastAPI(title="Κοντά σου API", version="0.2")
+# The page may be served from another origin (e.g. GitHub Pages); restrict with ALLOWED_ORIGINS="https://a.b,https://c.d"
+app.add_middleware(CORSMiddleware, allow_origins=[o for o in os.environ.get("ALLOWED_ORIGINS", "*").split(",") if o], allow_methods=["GET"], allow_headers=["*"])
 
 
 @app.on_event("startup")
 def _startup() -> None:
     init_db()
+    from simera.scheduler import start_if_enabled
+
+    start_if_enabled()
+
+
+@app.get("/healthz", include_in_schema=False)
+def healthz():
+    return {"ok": True}
 
 
 # ---- fuel -----------------------------------------------------------------

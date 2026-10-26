@@ -1,0 +1,16 @@
+# Render Blueprint: New + Blueprint in the Render dashboard, pick this repo, deploy.
+services:
+  - type: web
+    name: konta-sou-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: SNAPSHOT_URL            # gzip'd SQLite snapshot built by scripts/snapshot.sh, attached to a GitHub release
+        sync: false
+      - key: SCHEDULER
+        value: "1"
+      - key: ALLOWED_ORIGINS         # the GitHub Pages origin, e.g. https://<user>.github.io
+        value: "*"
+      - key: DATABASE_URL
+        value: sqlite:///data/simera.db
