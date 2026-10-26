@@ -113,7 +113,7 @@
   </section>
 
   <footer>
-    Πηγές: Φαρμακευτικός Σύλλογος Αττικής · Υπουργείο Υγείας · ΟΑΣΑ · Παρατηρητήριο Τιμών Υγρών Καυσίμων (Υπ. Ανάπτυξης) · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL). Attica first, Greece next.
+    Πηγές: Φαρμακευτικός Σύλλογος Αττικής · Υπουργείο Υγείας · ΟΑΣΑ · Παρατηρητήριο Τιμών Υγρών Καυσίμων (Υπ. Ανάπτυξης) · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL). Attica first, Greece next. <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
   </footer>
 </div>
 <div id="consent" class="consent" hidden><p>Μπορούμε να κρατάμε ανώνυμα στατιστικά επισκεψιμότητας με το Google Analytics, για να δούμε τι χρησιμοποιείται; Η θέση σου δεν αποστέλλεται.</p><button class="yes" id="c-yes">Εντάξει</button><button id="c-no">Όχι, ευχαριστώ</button></div>
@@ -123,10 +123,12 @@
   let c = null; try { c = localStorage.getItem("ga-consent"); } catch (e) {}
   const load = () => { const s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id); document.head.appendChild(s);
     window.dataLayer = window.dataLayer || []; window.gtag = function(){ dataLayer.push(arguments); }; gtag("js", new Date()); gtag("config", id, {anonymize_ip: true}); };
-  if (c === "yes") load();
-  else if (c !== "no") { const b = document.getElementById("consent"); b.hidden = false;
+  const b = document.getElementById("consent"), reset = document.getElementById("consent-reset");
+  const ask = () => { b.hidden = false;
     b.querySelector("#c-yes").onclick = () => { try { localStorage.setItem("ga-consent", "yes"); } catch (e) {} b.hidden = true; load(); };
-    b.querySelector("#c-no").onclick = () => { try { localStorage.setItem("ga-consent", "no"); } catch (e) {} b.hidden = true; }; }
+    b.querySelector("#c-no").onclick = () => { try { localStorage.setItem("ga-consent", "no"); } catch (e) {} b.hidden = true; }; };
+  if (reset) { reset.hidden = false; reset.onclick = e => { e.preventDefault(); try { localStorage.removeItem("ga-consent"); } catch (x) {} ask(); }; }
+  if (c === "yes") load(); else if (c !== "no") ask();
 })();
 </script>
 </body>

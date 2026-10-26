@@ -160,7 +160,7 @@
   <section class="card" id="hosp"><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
   <section class="card" id="around"><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right"><button class="link-btn" id="around-change" hidden>αλλαγή</button><span id="around-src">1 χλμ · OpenStreetMap</span></span></h2><div id="around-body"><button class="cta" id="around-cta" type="button">🔎 Διάλεξε τι ψάχνεις κοντά σου</button></div></section>
 </main>
-<footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a>
+<footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a> <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
   <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span></div>
 </footer>
 <div id="sheet-bg" class="sheet-bg" hidden></div>
@@ -173,16 +173,18 @@
   let c = null; try { c = localStorage.getItem("ga-consent"); } catch (e) {}
   const load = () => { const s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id); document.head.appendChild(s);
     window.dataLayer = window.dataLayer || []; window.gtag = function(){ dataLayer.push(arguments); }; gtag("js", new Date()); gtag("config", id, {anonymize_ip: true}); };
-  if (c === "yes") load();
-  else if (c !== "no") { const b = document.getElementById("consent"); b.hidden = false;
+  const b = document.getElementById("consent"), reset = document.getElementById("consent-reset");
+  const ask = () => { b.hidden = false;
     b.querySelector("#c-yes").onclick = () => { try { localStorage.setItem("ga-consent", "yes"); } catch (e) {} b.hidden = true; load(); };
-    b.querySelector("#c-no").onclick = () => { try { localStorage.setItem("ga-consent", "no"); } catch (e) {} b.hidden = true; }; }
+    b.querySelector("#c-no").onclick = () => { try { localStorage.setItem("ga-consent", "no"); } catch (e) {} b.hidden = true; }; };
+  if (reset) { reset.hidden = false; reset.onclick = e => { e.preventDefault(); try { localStorage.removeItem("ga-consent"); } catch (x) {} ask(); }; }
+  if (c === "yes") load(); else if (c !== "no") ask();
 })();
 </script>
 <script>
 window.onerror = function (msg, src, line) { var b = document.getElementById("offline"); if (b) { b.hidden = false; b.textContent = "Σφάλμα σελίδας: " + msg + " (γραμμή " + line + "). Δοκίμασε να ανοίξεις τη σελίδα στο Chrome. [" + navigator.userAgent.slice(0, 160) + "]"; } if (window.gtag) gtag("event", "js_error", {message: String(msg).slice(0, 100), line: line}); };
 </script>
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1642";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1818";</script>
 <script>
 const API = (window.KONTA_API || "").replace(/\/$/, "");
 const RELAY = (window.KONTA_RELAY || "").replace(/\/$/, ""); // optional Cloudflare relay: the browser asks OASA itself (works from Greece)
