@@ -152,6 +152,7 @@
 <main id="main">
   <div class="col" id="col1"></div><div class="col" id="col2"></div>
   <div id="inapp" class="inapp" hidden>Ανοίγεις τη σελίδα μέσα από εφαρμογή μηνυμάτων, που συχνά μπλοκάρει την τοποθεσία και την εγκατάσταση. <a id="inapp-link" href="#">Άνοιξέ τη στον browser</a> (ή πάτα το μενού <b>⋯</b> και «Άνοιγμα σε Chrome / Safari»). Μέχρι τότε γράψε την περιοχή σου πιο πάνω.</div>
+  <div id="stale" class="banner" hidden></div>
   <div id="offline" class="banner" hidden>Ο διακομιστής δεδομένων δεν απαντά αυτή τη στιγμή. Η σελίδα χρειάζεται το API του «Κοντά σου». <a href="about.html">Δες τι κάνει η εφαρμογή →</a></div>
   <section class="card" id="pharm"><h2><span class="ic">💊</span>Εφημερεύοντα φαρμακεία<span class="right" id="pharm-right">Αττική</span></h2><div id="pharm-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
   <section class="card" id="transit"><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
@@ -205,11 +206,27 @@ $("#today").textContent = now.toLocaleDateString("el-GR", {weekday:"long", day:"
   document.querySelectorAll("main .card").forEach(c => io.observe(c));
 })();
 
+// API calls: the last good answer of every request is kept on the device, so when the server is
+// asleep or down the page still shows yesterday's pharmacies, prices and rota, marked as such.
+const NO_CACHE = /\/api\/transit\/stops|\/api\/geocode/;
+function staleBanner(ts) {
+  const b = $("#stale"); if (!b) return; b.hidden = false;
+  b.textContent = `Ο διακομιστής δεν απαντά αυτή τη στιγμή. Βλέπεις τα τελευταία δεδομένα που είχαν φορτωθεί (${new Date(ts).toLocaleString("el-GR", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"})}).`;
+}
 async function api(path) {
-  const r = await fetch(API + path);
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) { const e = new Error(j.detail || r.statusText); e.status = r.status; throw e; }
-  return j;
+  const key = "api:" + path;
+  try {
+    const r = await fetch(API + path);
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { const e = new Error(j.detail || r.statusText); e.status = r.status; throw e; }
+    if (!NO_CACHE.test(path)) try { localStorage.setItem(key, JSON.stringify({t: Date.now(), d: j})); } catch (e) {}
+    return j;
+  } catch (e) {
+    if (e.status && e.status < 500) throw e;           // a real answer (404 etc.), not an outage
+    let c = null; try { c = JSON.parse(localStorage.getItem(key)); } catch (x) {}
+    if (c && c.d) { staleBanner(c.t); return c.d; }
+    throw e;
+  }
 }
 const m = km => km < 1 ? `${Math.round(km*1000)} μ.` : `${km.toFixed(1)} χλμ`;
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -250,7 +267,7 @@ $("#search").onsubmit = async e => {
   $("#inapp-link").target = /Android/i.test(ua) ? "_self" : "_blank";
 })();
 async function start(lat, lng, fallback) {
-  pos = [lat, lng];
+  pos = [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4];
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
   loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat);
@@ -375,7 +392,7 @@ async function loadStops() {
   clearTimeout(stopsTimer);
   const body = $("#transit-body");
   try {
-    const stops = (await nearStops()).slice(0,5);
+    const stops = (await nearStops()).slice(0,4);
     if (!stops.length) { body.innerHTML = empty("🚏", "Καμία στάση ΟΑΣΑ κοντά."); return; }
     $("#bus-live").hidden = false;
     body.innerHTML = stops.map(s=>`<div class="row" data-code="${esc(s.code)}"><div class="name">🚏 ${esc(s.name)}<span class="dist">· ${m(s.distance_km)}</span></div><div class="pills"><span class="muted">…</span></div></div>`).join("");
@@ -384,7 +401,7 @@ async function loadStops() {
       const el = body.querySelector(`[data-code="${s.code}"] .pills`); if (!el) continue;
       el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill" title="${esc(x.destination||"")}">${lineBadge(x.line)} ${mins(x.minutes)}</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
     }
-    stopsTimer = setTimeout(loadStops, 30000);
+    stopsTimer = setTimeout(() => document.hidden ? (stopsTimer = setTimeout(loadStops, 15000)) : loadStops(), 60000); // live arrivals: once a minute, and not while the tab is hidden
   } catch (e) { $("#bus-live").hidden = true; body.innerHTML = empty("🚌", e.status === 503 || e.name === "TypeError" ? "Τα live δεδομένα λεωφορείων δεν είναι διαθέσιμα αυτή τη στιγμή. Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων." : esc(e.message)); }
 }
 
@@ -454,7 +471,7 @@ locate(false);
   }
   if (navigator.serviceWorker) navigator.serviceWorker.addEventListener("controllerchange", () => { if (!reloading) { reloading = true; location.reload(); } });
   check(); setInterval(check, 15 * 60 * 1000);
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") check(); });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { check(); if (pos) loadStops(); } });
 })();
 </script>
 </body>
