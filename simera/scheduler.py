@@ -13,6 +13,7 @@ import time
 from datetime import datetime, timedelta, timezone
 
 log = logging.getLogger(__name__)
+STATUS: dict[str, dict] = {}  # last outcome per task, shown by /healthz
 
 
 def _hospitals():
@@ -25,7 +26,7 @@ def _hospitals():
         if not relay:
             raise
         log.warning("hospitals: ministry fetch failed (%s); importing relay file %s", e, relay)
-        return hospitals.import_json(relay)
+        return {"fallback_file": hospitals.import_json(relay)}
 
 
 def _run_all() -> None:
@@ -34,12 +35,14 @@ def _run_all() -> None:
     for name, fn in (("fuel", lambda: fuel.collect(since=datetime.now(timezone.utc).date() - timedelta(days=14), keep_raw=False)),
                      ("pharmacies", lambda: pharmacies.collect(7)),
                      ("hospitals", _hospitals)):
+        t0 = time.time()
         try:
-            t0 = time.time()
             result = fn()
             log.info("scheduler: %s done in %.0fs (%s)", name, time.time() - t0, result)
-        except Exception:  # noqa: BLE001
+            STATUS[name] = {"ok": True, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "seconds": round(time.time() - t0), "result": str(result)[:200]}
+        except Exception as e:  # noqa: BLE001
             log.exception("scheduler: %s failed", name)
+            STATUS[name] = {"ok": False, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "error": str(e)[:200]}
 
 
 def _loop() -> None:

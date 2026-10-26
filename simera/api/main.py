@@ -32,7 +32,8 @@ def _startup() -> None:
 def healthz():
     from urllib.parse import urlsplit
     from simera.collectors import hospitals as _h
-    return {"ok": True, "oasa_via": urlsplit(oasa.API_URL).netloc, "moh_via": urlsplit(_h.MOH_BASE_URL).netloc}
+    from simera import scheduler
+    return {"ok": True, "oasa_via": urlsplit(oasa.API_URL).netloc, "moh_via": urlsplit(_h.MOH_BASE_URL).netloc, "scheduler": scheduler.STATUS}
 
 
 # ---- fuel -----------------------------------------------------------------

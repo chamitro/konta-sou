@@ -53,7 +53,7 @@ The free instance sleeps after 15 minutes without traffic; the first request aft
 
 ## Known limits
 
-- The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). They do answer Cloudflare's Athens edge, so the API reaches them through the relay in `worker/`. If the relay is ever blocked, hospital rotas fall back to `HOSPITALS_URL` and bus endpoints return 503 with a notice.
+- The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). They do answer Cloudflare's Athens edge, which serves callers located in Greece: the page asks OASA through the relay in `worker/` straight from the visitor's phone, and visitors in Greece also refresh the relay's stored copy of the ministry rota pages, which the API server reads (see `worker/README.md`). If nobody in Greece opens the app for two weeks the copy expires; hospital rotas then fall back to `HOSPITALS_URL`, and bus endpoints on the server return 503 with a notice.
 - About 1.5% of fuel bulletins since 2018 remain partially parsed (second-page column shifts in a few 2019–2020 files).
 
 ## Daily run
