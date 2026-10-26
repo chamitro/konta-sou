@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Κοντά σου</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1b1f24; --muted:#5b6470; --line:#e3e6ea; --up:#b42318; --down:#157f3b; --accent:#1d4ed8; --chip:#eef2ff; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1317; --card:#171c22; --text:#e8ecf1; --muted:#98a2ad; --line:#2a323c; --up:#f97066; --down:#4ade80; --accent:#60a5fa; --chip:#1e2a44; } }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif }
+  header { padding:20px 16px 8px; max-width:720px; margin:0 auto } h1 { margin:0; font-size:26px } .sub { color:var(--muted); font-size:14px }
+  #place { font-weight:600; color:var(--text) } #relocate { margin-left:8px; font-size:13px; color:var(--accent); background:none; border:0; padding:0; cursor:pointer }
+  main { padding:0 16px 32px; max-width:720px; margin:0 auto; display:grid; gap:16px }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px }
+  .card h2 { margin:0 0 10px; font-size:17px; display:flex; justify-content:space-between; align-items:center; gap:8px }
+  .card h2 small { color:var(--muted); font-weight:normal; font-size:13px }
+  select { font:inherit; padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--text); max-width:55% }
+  table { width:100%; border-collapse:collapse } td { padding:8px 0; border-top:1px solid var(--line) } tr:first-child td { border-top:0 }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap }
+  .chg { font-size:13px; margin-left:6px } .up { color:var(--up) } .down { color:var(--down) } .flat { color:var(--muted) }
+  .muted { color:var(--muted); font-size:14px } .err { color:var(--up); font-size:14px }
+  .row { padding:10px 0; border-top:1px solid var(--line) } .row:first-child { border-top:0 }
+  .row .name { font-weight:600 } .row .meta { color:var(--muted); font-size:14px }
+  .row a { color:var(--accent); text-decoration:none; margin-right:12px; font-size:14px }
+  .badge { font-size:12px; padding:2px 8px; border-radius:999px; margin-left:6px; vertical-align:middle }
+  .badge.open { background:#dcfce7; color:#14532d } .badge.soon { background:#fef3c7; color:#78350f } .badge.closed { background:#fee2e2; color:#7f1d1d }
+  @media (prefers-color-scheme: dark) { .badge.open { background:#14532d; color:#dcfce7 } .badge.soon { background:#78350f; color:#fef3c7 } .badge.closed { background:#7f1d1d; color:#fee2e2 } }
+  .arr { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px }
+  .pill { background:var(--bg); border:1px solid var(--line); border-radius:999px; padding:3px 10px; font-size:14px; white-space:nowrap } .pill b { color:var(--accent) }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px }
+  .chip { background:var(--chip); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:6px 12px; font-size:14px; cursor:pointer }
+  .chip.on { background:var(--accent); color:#fff; border-color:var(--accent) }
+  button.btn { font:inherit; padding:8px 14px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--text); cursor:pointer }
+  svg.spark { width:100%; height:48px; margin-top:8px; display:block }
+  footer { text-align:center; color:var(--muted); font-size:12px; padding:0 16px 24px; max-width:720px; margin:0 auto }
+</style>
+</head>
+<body>
+<header>
+  <h1>Κοντά σου</h1>
+  <div class="sub"><span id="place">Εντοπισμός θέσης…</span><button id="relocate" hidden>αλλαγή</button></div>
+  <div class="sub" id="today"></div>
+</header>
+<main id="main">
+  <section class="card" id="pharm">
+    <h2><span>Εφημερεύοντα φαρμακεία</span><small>Αττική</small></h2>
+    <div id="pharm-body"><div class="muted">…</div></div>
+  </section>
+  <section class="card" id="transit">
+    <h2><span>Λεωφορεία</span><small>live · ΟΑΣΑ</small></h2>
+    <div id="transit-body"><div class="muted">…</div></div>
+  </section>
+  <section class="card" id="fuel">
+    <h2><span>Καύσιμα</span><select id="pref"></select></h2>
+    <div class="muted" id="fuel-meta">…</div>
+    <table id="fuel-table"></table>
+    <svg class="spark" id="spark" viewBox="0 0 300 48" preserveAspectRatio="none"></svg>
+    <div class="muted" id="spark-label"></div>
+    <div id="fuel-stations"></div>
+  </section>
+  <section class="card" id="hosp">
+    <h2><span>Εφημερεύοντα νοσοκομεία</span><select id="spec"><option>Παθολογική</option></select></h2>
+    <div class="muted" id="hosp-meta"></div>
+    <div id="hosp-body"><div class="muted">…</div></div>
+  </section>
+  <section class="card" id="around">
+    <h2><span>Τι υπάρχει κοντά</span><small>OpenStreetMap · 1 χλμ</small></h2>
+    <div class="chips" id="chips"></div>
+    <div id="around-body"><div class="muted">Διάλεξε κατηγορία.</div></div>
+  </section>
+</main>
+<footer>Πηγές: Φαρμακευτικός Σύλλογος Αττικής (fsa-efimeries.gr) · Υπουργείο Υγείας (εφημερίες νοσοκομείων Αττικής, συντεταγμένες προσεγγιστικές) · τηλεματική ΟΑΣΑ · Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές ανά νομό) · © OpenStreetMap contributors (ODbL).</footer>
+<script>
+const $ = s => document.querySelector(s);
+const FUELS = {unleaded_95:"Αμόλυβδη 95", unleaded_100:"Αμόλυβδη 100", diesel:"Diesel κίνησης", autogas:"Υγραέριο (Autogas)", heating_oil:"Πετρέλαιο θέρμανσης", super:"Super"};
+const DEFAULT_POS = [37.9838, 23.7275]; // Omonoia
+let pos = null, latest = null;
+$("#today").textContent = new Date().toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+
+// ---- card order by time of day -------------------------------------------
+(function orderCards(){
+  const h = new Date().getHours();
+  const order = h < 11 ? ["transit","fuel","pharm","hosp","around"] : h < 19 ? ["pharm","transit","around","fuel","hosp"] : ["pharm","hosp","transit","around","fuel"];
+  const main = $("#main"); for (const id of order) main.appendChild(document.getElementById(id));
+})();
+
+// ---- location --------------------------------------------------------------
+function locate(force) {
+  const saved = (()=>{ try { return JSON.parse(localStorage.getItem("pos")); } catch(e) { return null; } })();
+  if (saved && !force) { start(saved[0], saved[1], false); }
+  if (!navigator.geolocation) { if (!saved) start(...DEFAULT_POS, true); return; }
+  navigator.geolocation.getCurrentPosition(p => {
+    const np = [p.coords.latitude, p.coords.longitude];
+    try { localStorage.setItem("pos", JSON.stringify(np)); } catch(e) {}
+    if (!saved || force || Math.abs(saved[0]-np[0])+Math.abs(saved[1]-np[1]) > 0.002) start(np[0], np[1], false);
+  }, () => { if (!saved) start(...DEFAULT_POS, true); }, {timeout:8000, maximumAge:60000});
+}
+$("#relocate").onclick = () => locate(true);
+async function start(lat, lng, fallback) {
+  pos = [lat, lng];
+  $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
+  $("#relocate").hidden = false;
+  loadPharmacies(); loadStops(); loadHospitals(); loadAround(currentCat);
+  try {
+    const loc = await (await fetch(`/api/location?lat=${lat}&lng=${lng}`)).json();
+    if (!fallback) $("#place").textContent = loc.display || `${lat.toFixed(3)}, ${lng.toFixed(3)}`;
+    loadFuel(loc.prefecture);
+  } catch (e) { loadFuel("ΝΟΜΟΣ ΑΤΤΙΚΗΣ"); }
+}
+
+// ---- fuel ------------------------------------------------------------------
+async function loadFuel(autoPref) {
+  try {
+    if (!latest) {
+      latest = await (await fetch("/api/fuel/latest")).json();
+      if (latest.detail) throw new Error(latest.detail);
+    }
+    const prefs = Object.keys(latest.prefectures).sort((a,b)=>a.localeCompare(b,"el"));
+    const sel = $("#pref"); const pick = prefs.includes(autoPref) ? autoPref : "ΝΟΜΟΣ ΑΤΤΙΚΗΣ";
+    sel.innerHTML = prefs.map(p=>`<option value="${p}" ${p===pick?"selected":""}>${p==="ΕΛΛΑΔΑ"?"Ελλάδα (μέσος όρος)":p.replace("ΝΟΜΟΣ ","")}</option>`).join("");
+    sel.onchange = () => renderFuel(sel.value);
+    renderFuel(pick);
+    loadFuelStations();
+  } catch (e) { $("#fuel-meta").innerHTML = `<span class="err">Δεν υπάρχουν ακόμη δεδομένα καυσίμων (${e.message}).</span>`; }
+}
+function renderFuel(pref) {
+  const d = latest.prefectures[pref];
+  $("#fuel-meta").textContent = `Μέσες τιμές νομού ${new Date(latest.date).toLocaleDateString("el-GR")} · €/λίτρο · μεταβολή 7 ημερών`;
+  $("#fuel-table").innerHTML = Object.entries(d).map(([f,v]) => {
+    const c = v.change_7d; const cls = c==null?"flat":c>0.0005?"up":c<-0.0005?"down":"flat";
+    const txt = c==null?"":(c>0?"+":"")+(c*100).toFixed(1)+" λ.";
+    return `<tr><td>${FUELS[f]||f}</td><td class="num">${v.price.toFixed(3)}<span class="chg ${cls}">${txt}</span></td></tr>`;
+  }).join("");
+  loadSpark(pref, "unleaded_95");
+}
+async function loadSpark(pref, fuel) {
+  const r = await (await fetch(`/api/fuel/history?prefecture=${encodeURIComponent(pref)}&fuel=${fuel}&days=90`)).json();
+  const pts = r.points, svg = $("#spark");
+  if (pts.length < 2) { svg.innerHTML = ""; $("#spark-label").textContent = ""; return; }
+  const ys = pts.map(p=>p.price), min = Math.min(...ys), max = Math.max(...ys), span = (max-min)||0.01;
+  svg.innerHTML = `<path d="${pts.map((p,i)=>`${i?"L":"M"}${(i/(pts.length-1)*300).toFixed(1)},${(44-(p.price-min)/span*40).toFixed(1)}`).join(" ")}" fill="none" stroke="var(--accent)" stroke-width="2"/>`;
+  $("#spark-label").textContent = `${FUELS[fuel]}, ${pts.length} ημέρες: ${min.toFixed(3)} – ${max.toFixed(3)} €`;
+}
+async function loadFuelStations() {
+  const el = $("#fuel-stations");
+  try {
+    const r = await (await fetch(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=fuel&radius=1500&limit=5`)).json();
+    if (!r.items) throw new Error(r.detail || "σφάλμα");
+    el.innerHTML = `<div class="muted" style="margin-top:10px">Βενζινάδικα κοντά σου (οι τιμές ανά πρατήριο δεν δημοσιεύονται ανοιχτά):</div>` +
+      r.items.map(s=>`<div class="row"><span class="name">${s.name}</span>${badge(s)}<div class="meta">${s.address?s.address+" · ":""}${Math.round(s.distance_km*1000)} μ.${s.opening_hours?" · "+s.opening_hours:""}</div><div><a href="${s.maps_url}" target="_blank" rel="noreferrer">Πλοήγηση</a></div></div>`).join("");
+  } catch (e) { el.innerHTML = `<div class="muted" style="margin-top:10px">Βενζινάδικα κοντά σου: μη διαθέσιμα τώρα (${e.message}).</div>`; }
+}
+
+// ---- pharmacies -------------------------------------------------------------
+async function loadPharmacies() {
+  const body = $("#pharm-body");
+  try {
+    const r = await (await fetch(`/api/pharmacies/on-duty?lat=${pos[0]}&lng=${pos[1]}&limit=6`)).json();
+    if (!r.pharmacies.length) { body.innerHTML = `<div class="muted">Δεν βρέθηκαν εφημερεύοντα φαρμακεία.</div>`; return; }
+    body.innerHTML = r.pharmacies.map(p => `
+      <div class="row"><div><span class="name">${p.name}</span>${p.open_now?`<span class="badge open">ανοιχτό</span>`:`<span class="badge soon">ανοίγει σε ${Math.round(p.opens_in_min/60*10)/10} ώρ.</span>`}</div>
+        <div class="meta">${p.address}, ${p.area} · ${p.distance_km} χλμ · ${p.hours.toLowerCase()}</div>
+        <div><a href="tel:${p.phone}">Κλήση ${p.phone}</a><a href="${p.maps_url}" target="_blank" rel="noreferrer">Πλοήγηση</a></div></div>`).join("");
+  } catch (e) { body.innerHTML = `<div class="err">Σφάλμα: ${e.message}</div>`; }
+}
+
+// ---- hospitals ------------------------------------------------------------------
+async function loadHospitals(spec) {
+  try {
+    const q = new URLSearchParams({specialty: spec || $("#spec").value || "Παθολογική", lat: pos[0], lng: pos[1]});
+    const res = await fetch(`/api/hospitals/on-duty?${q}`); const r = await res.json();
+    if (!res.ok) { $("#hosp-body").innerHTML = `<div class="muted">Δεν υπάρχει ακόμη πρόγραμμα για σήμερα.</div>`; return; }
+    const sel = $("#spec");
+    if (sel.options.length <= 1) { sel.innerHTML = r.specialties.map(x=>`<option ${x===(spec||"Παθολογική")?"selected":""}>${x}</option>`).join(""); sel.onchange = () => loadHospitals(sel.value); }
+    $("#hosp-meta").textContent = `Αττική, ${new Date(r.date).toLocaleDateString("el-GR")}` + (r.health_centers.length ? ` · Κ.Υ.: ${r.health_centers.map(h=>h.name.replace("Κ.Υ. ","")+" ("+h.hours+")").join(", ")}` : "");
+    const byShift = {}; for (const e of r.entries) (byShift[e.shift] ||= []).push(e);
+    $("#hosp-body").innerHTML = Object.entries(byShift).map(([shift, es]) => `<div class="row"><div class="meta"><b>${shift}</b></div>` +
+      es.map(e => `<div>${e.name || e.hospital}${e.region?` <span class="muted">(${e.region})</span>`:""}${e.note?` <span class="muted">${e.note}</span>`:""}${e.distance_km!=null?`<span class="muted"> · ${e.distance_km} χλμ</span>`:""}${e.maps_url?` <a href="${e.maps_url}" target="_blank" rel="noreferrer">χάρτης</a>`:""}</div>`).join("") + `</div>`).join("") || `<div class="muted">Καμία καταχώρηση.</div>`;
+  } catch (e) { $("#hosp-body").innerHTML = `<div class="err">Σφάλμα: ${e.message}</div>`; }
+}
+
+// ---- buses -----------------------------------------------------------------------
+let stopsTimer = null;
+async function loadStops() {
+  clearTimeout(stopsTimer);
+  try {
+    const stops = (await (await fetch(`/api/transit/stops/near?lat=${pos[0]}&lng=${pos[1]}`)).json()).slice(0,5);
+    const body = $("#transit-body");
+    if (!stops.length) { body.innerHTML = `<div class="muted">Καμία στάση ΟΑΣΑ κοντά (εκτός Αττικής;).</div>`; return; }
+    body.innerHTML = stops.map(s=>`<div class="row" data-code="${s.code}"><span class="name">${s.name}</span><span class="meta"> ${Math.round(s.distance_km*1000)} μ.</span><div class="arr muted">…</div></div>`).join("");
+    for (const s of stops) {
+      const a = await (await fetch(`/api/transit/stops/${s.code}/arrivals`)).json();
+      const el = body.querySelector(`[data-code="${s.code}"] .arr`); if (!el) continue;
+      el.classList.remove("muted");
+      el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill"><b>${x.line||"?"}</b> ${x.minutes}′</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
+    }
+    stopsTimer = setTimeout(loadStops, 30000);
+  } catch (e) { $("#transit-body").innerHTML = `<div class="err">Σφάλμα: ${e.message}</div>`; }
+}
+
+// ---- what's around ---------------------------------------------------------------
+let currentCat = null;
+function badge(s) { return s.open_now===true?`<span class="badge open">ανοιχτό</span>`:s.open_now===false?`<span class="badge closed">κλειστό</span>`:""; }
+async function initChips() {
+  const cats = await (await fetch("/api/nearby/categories")).json();
+  $("#chips").innerHTML = cats.filter(c=>c.key!=="fuel").map(c=>`<button class="chip" data-k="${c.key}">${c.label}</button>`).join("");
+  $("#chips").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; currentCat = b.dataset.k; document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on", x===b)); loadAround(currentCat); };
+}
+async function loadAround(cat) {
+  if (!cat || !pos) return;
+  const body = $("#around-body"); body.innerHTML = `<div class="muted">Αναζήτηση…</div>`;
+  try {
+    const r = await (await fetch(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=1000&limit=15`)).json();
+    if (!r.items) throw new Error(r.detail || "σφάλμα");
+    body.innerHTML = r.items.length ? r.items.map(s=>`<div class="row"><span class="name">${s.name}</span>${badge(s)}<div class="meta">${s.address?s.address+" · ":""}${Math.round(s.distance_km*1000)} μ.${s.opening_hours?" · "+s.opening_hours:""}${s.cuisine?" · "+s.cuisine:""}</div><div>${s.phone?`<a href="tel:${s.phone}">Κλήση</a>`:""}<a href="${s.maps_url}" target="_blank" rel="noreferrer">Πλοήγηση</a>${s.website?`<a href="${s.website}" target="_blank" rel="noreferrer">site</a>`:""}</div></div>`).join("")
+                                   : `<div class="muted">Τίποτα σε ακτίνα 1 χλμ.</div>`;
+  } catch (e) { body.innerHTML = `<div class="err">${e.message}</div>`; }
+}
+
+initChips();
+locate(false);
+</script>
+</body>
+</html>

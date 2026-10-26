@@ -1,0 +1,1490 @@
+
+<style>
+    .card {
+        transition: .3s;
+    }
+
+        .card:hover {
+            box-shadow: 8px 8px 5px grey;
+            transform: scale(1.02);
+        }
+
+        /* Animation for the selected card when it is targeted */
+        .card:target {
+            scroll-margin: 10rem;
+            animation: target 1s ease-in-out 0.5s;
+            background-color: ghostwhite;
+        }
+
+    @keyframes target {
+
+        50% {
+            outline: 5px double #35C88A;
+            background-color: #35C88A;
+            outline-offset: 5px;
+            transform: scale(1.02);
+            opacity: 0.1;
+        }
+    }
+
+    .text-small {
+        font-size: 0.8rem;
+    }
+
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+
+    img.position-huechange {
+        filter: hue-rotate(90deg);
+    }
+
+    img.open-huechange {
+        filter: hue-rotate(-50deg);
+    }
+
+    img.closed-huechange {
+        filter: hue-rotate(160deg);
+    }
+</style>
+
+<div id="map-container" class="mb-5 ">
+    
+<div id="map" class=""></div>
+
+<script>
+    // Map style URL
+    var mapTilerStyle = "https://api.maptiler.com/maps/bright/style.json?key=TTHdhT01ZJ3Aj8SM3F80";
+
+    // Center coordinates for Athens, Greece (default)
+    var defaultCenter = [37.9838, 23.7275];
+
+    // Retrieve map center from sessionStorage if available
+    var userPosition = JSON.parse(sessionStorage.getItem('userPositionCenter')) || defaultCenter;
+    var center = JSON.parse(sessionStorage.getItem('mapCenter')) || defaultCenter;
+    var zoomLevel = parseInt(sessionStorage.getItem('zoomLevel')) || 13;
+    // Initialize the map with the center coordinates
+    var map = L.map('map').setView(center, zoomLevel);
+
+    var positionMarker = L.marker(userPosition, { zIndexOffset: 1100 }).addTo(map);
+    positionMarker._icon.classList.add("position-huechange");
+    // Load the map style
+    // var gl = L.mapboxGL({
+    //     attribution: `<a href="https://www.iteq.gr/" target="_blank">ITeQ A.E.</a> © <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>`,
+    //     style: mapTilerStyle
+    // }).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    minZoom:7,
+    maxZoom: 17,
+    attribution: '<a href="https://www.iteq.gr/" target="_blank">ITeQ A.E.</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    //     var Stadia_Outdoors = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.{ext}', {
+    //     minZoom: 0,
+    //     maxZoom: 20,
+    //     attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //     ext: 'png'
+    // });
+    // Stadia_Outdoors.addTo(map);
+    map.on('zoomend', function (ev) {
+    sessionStorage.setItem("zoomLevel", map.getZoom());
+    });
+
+
+    // Optional: Save the center of the map in sessionStorage whenever the map is moved
+    map.on('moveend', function () {
+    let currentCenter = map.getCenter();
+    sessionStorage.setItem('mapCenter', JSON.stringify([currentCenter.lat, currentCenter.lng]));
+    });
+
+
+    //Add a marker for each duty in DutyCardsViewModel.Duties
+
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0279106, 23.7216171], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292445"><p>&#x39C;&#x391;&#x3A4;&#x396;&#x391;&#x39A;&#x39F;&#x3A5;-&#x39A;&#x391;&#x3A1;&#x391;&#x3A3;&#x3A4;&#x391;&#x3A4;&#x397;&#x3A1;&#x397; &#x391;&#x39D;&#x391;&#x3A3;&#x3A4;&#x391;&#x3A3;&#x399;&#x391; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;&#x395;<br>&#x39A;&#x395;&#x3A6;&#x391;&#x39B;&#x39B;&#x397;&#x39D;&#x399;&#x391;&#x3A3; 98<br>&#x391;&#x393;.&#x391;&#x39D;&#x391;&#x3A1;&#x393;&#x3A5;&#x3A1;&#x39F;&#x399;<br>Τηλ: 2102629305</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9936929, 23.6650506], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292443"><p>&#x39B;&#x395;&#x39F;&#x3A5; &#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397;-&#x3A3;&#x39A;&#x391;&#x39D;&#x394;&#x391;&#x39C;&#x397;&#x3A3; &#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A3;-&#x3A3;&#x3A0;&#x397;&#x39B;&#x399;&#x39F;&#x3A3; &#x39F;&#x395;.<br>&#x394;&#x3A9;&#x394;&#x395;&#x39A;&#x391;&#x39D;&#x397;&#x3A3;&#x39F;&#x3A5; 29<br>&#x391;&#x393;.&#x392;&#x391;&#x3A1;&#x392;&#x391;&#x3A1;&#x391;<br>Τηλ: 2105450992</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9397324, 23.7358797], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292465"><p>&#x39A;&#x391;&#x3A1;&#x391;&#x392;&#x391; &#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x399;&#x39A;&#x397;<br>&#x3A3;&#x3A4;&#x3A1;.&#x3A0;&#x391;&#x3A0;&#x391;&#x393;&#x39F;&#x3A5; 43<br>&#x391;&#x393;.&#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A3;<br>Τηλ: 2109710620</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0192934, 23.7315661], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292441"><p>&#x39B;&#x391;&#x39C;&#x3A0;&#x39F;&#x3A5;&#x3A3;&#x391;&#x39A;&#x397;&#x3A3; &#x391;&#x39D;&#x3A4;&#x3A9;&#x39D;&#x399;&#x39F;&#x3A3;-&#x392;&#x395;&#x3A1;&#x399;&#x3A4;&#x3A3;&#x397; &#x396;&#x3A9;&#x397; &#x39F;.&#x395;.<br>&#x39B;.&#x399;&#x3A9;&#x39D;&#x399;&#x391;&#x3A3; 262 &#x39A;&#x391;&#x399; &#x3A7;&#x3A1;.&#x3A3;&#x39C;&#x3A5;&#x3A1;&#x39D;&#x397;&#x3A3; 69<br>&#x391;&#x393;.&#x395;&#x39B;&#x395;&#x3A5;&#x398;&#x395;&#x3A1;&#x399;&#x39F;&#x3A3;<br>Τηλ: 2102029126</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0135974, 23.8298396], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292484"><p>&#x39F;&#x399;&#x39A;&#x39F;&#x39D;&#x39F;&#x39C;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x391;&#x393;&#x393;&#x395;&#x39B;&#x39F;&#x3A3; - &#x3A0;&#x391;&#x3A0;&#x391;&#x394;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x399;&#x3A9;&#x391;&#x39D;&#x39D;&#x397;&#x3A3;<br>&#x39B;.&#x39C;&#x395;&#x3A3;&#x39F;&#x393;&#x395;&#x399;&#x3A9;&#x39D; 450<br>&#x391;&#x393;.&#x3A0;&#x391;&#x3A1;&#x391;&#x3A3;&#x39A;&#x395;&#x3A5;&#x397;<br>Τηλ: 2106002841</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.1414362, 23.8568765], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#303547"><p>&#x39A;&#x3A1;&#x39F;&#x3A4;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397;<br>&#x39A;&#x391;&#x3A1;&#x391;&#x39F;&#x39B;&#x397; &#x39A;&#x391;&#x399; &#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A5; 9<br>&#x391;&#x393;.&#x3A3;&#x3A4;&#x395;&#x3A6;&#x391;&#x39D;&#x39F;&#x3A3;<br>Τηλ: 2106218357</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9807803, 23.7378439], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292485"><p>&#x3A3;&#x3A9;&#x3A4;&#x397;&#x3A1;&#x399;&#x391;&#x394;&#x39F;&#x3A5; &#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397;<br>&#x3A3;&#x39A;&#x39F;&#x3A5;&#x3A6;&#x391; 48, &#x391;&#x398;&#x397;&#x39D;&#x391; 10672<br>&#x391;&#x398;&#x397;&#x39D;&#x391;<br>Τηλ: 2103630183</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9994437, 23.6856833], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292435"><p>&#x394;&#x39F;&#x3A5;&#x39C;&#x39F;&#x3A5;&#x39B;&#x391;&#x39A;&#x397; &#x398;&#x395;&#x3A9;&#x39D;&#x397;<br>&#x3A0;&#x391;&#x39B;.&#x39A;&#x391;&#x392;&#x391;&#x39B;&#x391;&#x3A3; 116 &#x39A;&#x391;&#x399; &#x3A0;&#x395;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x395;&#x3A1;&#x399;&#x39F;&#x3A5;<br>&#x391;&#x399;&#x393;&#x391;&#x39B;&#x395;&#x3A9;<br>Τηλ: 2105985931</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9108849, 23.7165575], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292480"><p>&#x39A;&#x391;&#x396;&#x391;&#x39D;&#x3A4;&#x396;&#x399;&#x391;&#x39D; &#x391;&#x39D;&#x39D;&#x391; - &#x39D;&#x391;&#x3A3;&#x39F;&#x3A5;&#x3A1; &#x39D;&#x391;&#x3A4;&#x391;&#x39B;&#x399;&#x391;<br>&#x398;&#x395;&#x39C;&#x399;&#x3A3;&#x3A4;&#x39F;&#x39A;&#x39B;&#x395;&#x39F;&#x3A5;&#x3A3; 62-&#x3A5;&#x3A8;&#x397;&#x39B;&#x391;&#x39D;&#x3A4;&#x39F;&#x3A5;<br>&#x391;&#x39B;&#x399;&#x39C;&#x39F;&#x3A3;<br>Τηλ: 2109822413</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9830927, 23.7623402], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292448"><p>&#x39A;&#x39F;&#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x39F;&#x3A5; &#x391;&#x39D;&#x39D;&#x391;-&#x395;&#x39B;&#x395;&#x39D;&#x397;<br>&#x39C;&#x399;&#x3A7;&#x391;&#x39B;&#x391;&#x39A;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; 152<br>&#x391;&#x39C;&#x3A0;&#x395;&#x39B;&#x39F;&#x39A;&#x397;&#x3A0;&#x39F;&#x399;<br>Τηλ: 2107703323</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9893642, 23.7688976], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292482"><p>&#x39B;&#x391;&#x398;&#x39F;&#x3A5;&#x3A1;&#x391; &#x3A1;&#x391;&#x3A6;&#x391;&#x395;&#x39B;&#x391;-&#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397;-&#x398;&#x395;&#x39F;&#x394;&#x39F;&#x3A3;&#x399;&#x391;<br>&#x39B;&#x395;&#x3A9;&#x3A6;. &#x39C;&#x395;&#x3A3;&#x39F;&#x393;&#x395;&#x399;&#x3A9;&#x39D; 87<br>&#x391;&#x39C;&#x3A0;&#x395;&#x39B;&#x39F;&#x39A;&#x397;&#x3A0;&#x39F;&#x399;<br>Τηλ: 2106993802</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9881873, 23.7515752], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292455"><p>&#x3A3;&#x391;&#x39C;&#x391;&#x3A1;&#x391;&#x3A3; &#x391;&#x39D;&#x394;&#x3A1;&#x395;&#x391;&#x3A3;--&#x3A3;&#x391;&#x39C;&#x391;&#x3A1;&#x391;&#x3A3; &#x399;&#x3A9;&#x391;&#x39D;&#x39D;&#x397;&#x3A3; &#x39F;.&#x395;.<br>&#x39B;&#x395;&#x3A9;&#x3A6;.&#x391;&#x39B;&#x395;&#x39E;&#x391;&#x39D;&#x394;&#x3A1;&#x391;&#x3A3; 146 &#x392;<br>&#x391;&#x39C;&#x3A0;&#x395;&#x39B;&#x39F;&#x39A;&#x397;&#x3A0;&#x39F;&#x399;<br>Τηλ: 2106441620</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9899480, 23.7602386], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292483"><p>&#x3A3;&#x399;&#x394;&#x397;&#x3A1;&#x391;&#x3A3; &#x39B;&#x39F;&#x3A5;&#x39A;&#x391;&#x3A3;<br>&#x39B;.&#x3A1;&#x399;&#x391;&#x39D;&#x39A;&#x39F;&#x3A5;&#x3A1; 22<br>&#x391;&#x39C;&#x3A0;&#x395;&#x39B;&#x39F;&#x39A;&#x397;&#x3A0;&#x39F;&#x399;<br>Τηλ: 2106449592</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.7370190, 23.9500316], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#305098"><p>&#x3A0;&#x391;&#x39B;&#x3A4;&#x391;&#x39B;&#x399;&#x394;&#x397;&#x3A3; &#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A3;-&#x3A0;&#x391;&#x39B;&#x3A4;&#x391;&#x39B;&#x399;&#x394;&#x397;&#x3A3; &#x3A3;&#x3A4;&#x3A5;&#x39B;&#x399;&#x391;&#x39D;&#x39F;&#x3A3; &#x39F;.&#x395;.<br>&#x3A3;&#x3A9;&#x39A;&#x3A1;&#x391;&#x3A4;&#x39F;&#x3A5;&#x3A3; 5 (&#x3A0;&#x395;&#x396;&#x39F;&#x394;&#x3A1;&#x39F;&#x39C;&#x39F;&#x3A3;)<br>&#x391;&#x39D;&#x391;&#x392;&#x3A5;&#x3A3;&#x3A3;&#x39F;&#x3A3;<br>Τηλ: 2291061380</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0755686, 23.7050419], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292471"><p>&#x39A;&#x3A5;&#x3A1;&#x399;&#x391;&#x39A;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x398;&#x395;&#x39F;&#x394;&#x3A9;&#x3A1;&#x391;<br>&#x39B;&#x395;&#x3A9;&#x3A6;&#x39F;&#x3A1;&#x39F;&#x3A3; &#x3A6;&#x3A5;&#x39B;&#x397;&#x3A3; 110<br>&#x391;&#x39D;&#x3A9; &#x39B;&#x399;&#x39F;&#x3A3;&#x399;&#x391;<br>Τηλ: 2130990064</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9173763, 23.7473382], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292463"><p>&#x3A7;&#x391;&#x3A1;&#x391;&#x39B;&#x391;&#x39C;&#x3A0;&#x399;&#x394;&#x397;&#x3A3; &#x391;&#x398;&#x391;&#x39D;&#x391;&#x3A3;&#x399;&#x39F;&#x3A3;<br>&#x39A;&#x3A1;&#x397;&#x3A4;&#x397;&#x3A3; 38 &#x39A;&#x391;&#x399; &#x398;&#x395;&#x3A1;&#x39C;&#x39F;&#x3A0;&#x3A5;&#x39B;&#x3A9;&#x39D;<br>&#x391;&#x3A1;&#x393;&#x3A5;&#x3A1;&#x39F;&#x3A5;&#x3A0;&#x39F;&#x39B;&#x397;<br>Τηλ: 2109967647</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9768731, 24.0085054], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#303181"><p>&#x391;&#x39D;&#x394;&#x3A1;&#x399;&#x391;&#x39D;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x39A;&#x3A9;&#x39D;&#x3A3;&#x3A4;&#x391;&#x39D;&#x3A4;&#x399;&#x39D;&#x39F;&#x3A3; - &#x391;&#x39D;&#x394;&#x3A1;&#x399;&#x391;&#x39D;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x398;&#x395;&#x39C;&#x399;&#x3A3; &#x39F;.&#x395;.<br>&#x39B;. &#x391;&#x3A1;&#x3A4;&#x395;&#x39C;&#x399;&#x394;&#x39F;&#x3A3; 88 &#x39A;&#x391;&#x399; &#x3A3;&#x391;&#x39B;&#x391;&#x39C;&#x399;&#x39D;&#x39F;&#x3A3;<br>&#x391;&#x3A1;&#x3A4;&#x395;&#x39C;&#x399;&#x3A3;<br>Τηλ: 2294082444</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = false;
+                    var pharmacyMarker = L.marker([37.9737599, 24.0082185], { zIndexOffset: 1000 })
+            .bindPopup(`<a href="#224657"><p>&#x39A;&#x391;&#x392;&#x392;&#x391;&#x394;&#x399;&#x391; &#x39C;&#x391;&#x393;&#x394;&#x391;&#x39B;&#x397;&#x39D;&#x397; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x395;.&#x395;.<br>&#x39B;.&#x391;&#x3A1;&#x3A4;&#x395;&#x39C;&#x399;&#x394;&#x39F;&#x3A3; 39<br>&#x391;&#x3A1;&#x3A4;&#x395;&#x39C;&#x399;&#x3A3;<br>Τηλ: 2294082318</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0636880, 23.5897295], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#223513"><p>&#x3A6;&#x399;&#x39B;&#x397;&#x3A3; &#x399;&#x3A3;&#x399;&#x394;&#x3A9;&#x3A1;&#x39F;&#x3A3;<br>&#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A5; &#x39B;&#x399;&#x391;&#x39A;&#x39F;&#x3A5; 11<br>&#x391;&#x3A3;&#x3A0;&#x3A1;&#x39F;&#x3A0;&#x3A5;&#x3A1;&#x393;&#x39F;&#x3A3;<br>Τηλ: 2105582462</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.2028522, 23.8404932], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#307906"><p>&#x39A;&#x39F;&#x3A1;&#x39F;&#x392;&#x395;&#x3A3;&#x397; &#x3A3;&#x39F;&#x3A6;&#x399;&#x391;<br>&#x391;&#x3A6;&#x399;&#x394;&#x39D;&#x391;&#x399;<br>&#x391;&#x3A6;&#x399;&#x394;&#x39D;&#x391;&#x399;<br>Τηλ: 2295022500</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0802325, 23.7331333], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292452"><p>&#x3A0;&#x39F;&#x3A1;&#x399;&#x39A;&#x39F;&#x3A5; &#x3A0;&#x391;&#x3A1;&#x391;&#x3A3;&#x39A;&#x395;&#x3A5;&#x397;<br>&#x391;&#x3A1;&#x3A7;&#x391;&#x399;&#x39F;&#x3A5; &#x398;&#x395;&#x391;&#x3A4;&#x3A1;&#x39F;&#x3A5; 36<br>&#x391;&#x3A7;&#x391;&#x3A1;&#x39D;&#x391;&#x399;<br>Τηλ: 2102463245</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8335851, 23.8028394], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292475"><p>&#x396;&#x395;&#x3A1;&#x392;&#x391;&#x39A;&#x391;&#x39A;&#x397;&#x3A3; &#x3A0;&#x391;&#x39D;&#x391;&#x393;&#x399;&#x3A9;&#x3A4;&#x397;&#x3A3; (&amp; &#x3A7;. &#x391;&#x3A0;&#x39F;&#x3A3;&#x3A4;&#x39F;&#x39B;&#x39F;&#x3A5;  &#x39F;.&#x395;.)<br>&#x391;&#x39D;&#x391;&#x393;&#x3A5;&#x3A1;&#x39F;&#x3A5;&#x39D;&#x3A4;&#x39F;&#x3A3; 45<br>&#x392;&#x391;&#x3A1;&#x397;<br>Τηλ: 2108970111</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8484568, 23.7653157], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292459"><p>&#x3A3;&#x3A4;&#x391;&#x39C;&#x395;&#x39B;&#x39F;&#x3A5; &#x391;&#x39D;&#x394;&#x3A1;&#x39F;&#x39D;&#x399;&#x39A;&#x397;-&#x394;&#x399;&#x391;&#x39D;&#x39D;&#x395;&#x39B;&#x399;&#x394;&#x39F;&#x3A5;-&#x3A3;&#x3A4;&#x391;&#x39C;&#x395;&#x39B;&#x39F;&#x3A5; &#x39B;&#x397;&#x394;&#x391; &#x39F;.&#x395;.<br>&#x3A3;&#x3A9;&#x39A;&#x3A1;&#x391;&#x3A4;&#x39F;&#x3A5;&#x3A3; 17 &#x39A;&#x391;&#x399; &#x3A0;&#x391;&#x39D;&#x39F;&#x3A3;<br>&#x392;&#x39F;&#x3A5;&#x39B;&#x391;<br>Τηλ: 2108956122</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9616284, 23.7533406], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292457"><p>&#x392;&#x39F;&#x39D;&#x391;&#x3A0;&#x391;&#x3A1;&#x3A4;&#x397; &#x391;&#x39D;&#x39D;&#x391;<br>&#x395;&#x3A5;&#x391;&#x393;&#x393;&#x395;&#x39B;&#x399;&#x39A;&#x397;&#x3A3; &#x3A3;&#x3A7;&#x39F;&#x39B;&#x397;&#x3A3; 11-13<br>&#x392;&#x3A5;&#x3A1;&#x3A9;&#x39D;&#x391;&#x3A3;<br>Τηλ: 2107650163, 2107645547</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0239275, 23.7526464], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292438"><p>&#x39A;&#x391;&#x3A1;&#x391;&#x393;&#x399;&#x391;&#x39D;&#x39D;&#x397; &#x3A7;&#x3A1;&#x3A5;&#x3A3;&#x391;&#x39D;&#x398;&#x397;<br>&#x39D;&#x391;&#x3A1;&#x39A;&#x399;&#x3A3;&#x3A3;&#x39F;&#x3A5; 30<br>&#x393;&#x391;&#x39B;&#x391;&#x3A4;&#x3A3;&#x399;<br>Τηλ: 2102918924</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = false;
+                    var pharmacyMarker = L.marker([38.0100822, 23.8593662], { zIndexOffset: 1000 })
+            .bindPopup(`<a href="#224656"><p>&#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x391;&#x39A;&#x397;&#x3A3; &#x395;&#x3A5;&#x391;&#x393;&#x393;&#x395;&#x39B;&#x39F;&#x3A3;<br>&#x397;&#x3A1;&#x3A9;&#x3A9;&#x39D; &#x3A0;&#x39F;&#x39B;&#x3A5;&#x3A4;&#x395;&#x3A7;&#x39D;&#x395;&#x399;&#x39F;&#x3A5; 27<br>&#x393;&#x395;&#x3A1;&#x391;&#x39A;&#x391;&#x3A3;<br>Τηλ: 2111110042</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0259972, 23.8503404], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#302816"><p>&#x39C;&#x3A0;&#x391;&#x39B;&#x391;&#x39F;&#x3A5;&#x399; &#x3A4;&#x396;&#x395;&#x39D;&#x397; (2) (METROPOLIS PHARMACY &#x395;.&#x3A0;.&#x395;.)<br>&#x39A;&#x39B;&#x395;&#x399;&#x3A3;&#x398;&#x395;&#x39D;&#x39F;&#x3A5;&#x3A3; 192<br>&#x393;&#x395;&#x3A1;&#x391;&#x39A;&#x391;&#x3A3;<br>Τηλ: 2106048735</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8810401, 23.7589575], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292454"><p>&#x3A3;&#x391;&#x39A;&#x39A;&#x39F;&#x3A3; &#x399;&#x3A9;&#x391;&#x39D;&#x39D;&#x397;&#x3A3; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x391;.&#x3A0;&#x391;&#x3A0;&#x391;&#x39D;&#x394;&#x3A1;&#x395;&#x39F;&#x3A5; 138 &#x3A0;&#x3A1;&#x3A9;&#x397;&#x39D; &#x391;&#x398;&#x397;&#x39D;&#x3A9;&#x39D;<br>&#x393;&#x39B;&#x3A5;&#x3A6;&#x391;&#x394;&#x391; &#x391;&#x39D;&#x3A9;<br>Τηλ: 2109620454</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9496427, 23.7304221], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292450"><p>&#x39A;&#x391;&#x39B;&#x39F;&#x393;&#x395;&#x3A1;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A3;<br>&#x395;&#x398;&#x39D;.&#x39C;&#x391;&#x39A;&#x391;&#x3A1;&#x399;&#x39F;&#x3A5; 95<br>&#x394;&#x391;&#x3A6;&#x39D;&#x397;<br>Τηλ: 2109714259</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0426927, 23.5417829], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#305547"><p>&#x39C;&#x391;&#x39D;&#x393;&#x39A;&#x391;&#x39D;&#x399; &#x3A4;&#x396;&#x39F;&#x3A5;&#x396;&#x395;&#x3A0;&#x3A0;&#x391; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;&#x395;<br>&#x3A0;&#x391;&#x393;&#x39A;&#x391;&#x39B;&#x39F;&#x3A5; 81<br>&#x395;&#x39B;&#x395;&#x3A5;&#x3A3;&#x399;&#x39D;&#x391;<br>Τηλ: 2105547602</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9793692, 23.7679893], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292460"><p>&#x39A;&#x39F;&#x39B;&#x399;&#x391; &#x3A0;&#x391;&#x39D;&#x391;&#x393;&#x399;&#x3A9;&#x3A4;&#x391;<br>&#x394;&#x391;&#x392;&#x391;&#x39A;&#x397; &#x3A0;&#x399;&#x39D;&#x394;&#x39F;&#x3A5; 11<br>&#x396;&#x3A9;&#x393;&#x3A1;&#x391;&#x3A6;&#x39F;&#x3A5;<br>Τηλ: 2107757661</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9445639, 23.7585084], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292447"><p>&#x39C;&#x39F;&#x3A3;&#x3A7;&#x39F;&#x3A5;&#x394;&#x397; &#x3A7;&#x3A1;&#x3A5;&#x3A3;&#x39F;&#x3A5;&#x39B;&#x391;<br>&#x394;&#x399;&#x393;&#x395;&#x39D;&#x397; 17<br>&#x397;&#x39B;&#x399;&#x39F;&#x3A5;&#x3A0;&#x39F;&#x39B;&#x397;<br>Τηλ: 2109702645</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0332325, 23.6993589], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292467"><p>&#x3A4;&#x3A3;&#x391;&#x39D;&#x391;&#x39A;&#x391;&#x3A3; &#x391;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x395;&#x399;&#x394;&#x397;&#x3A3;<br>&#x395;&#x39A;&#x3A4;&#x39F;&#x3A1;&#x39F;&#x3A3; 156<br>&#x399;&#x39B;&#x399;&#x39F;&#x39D;<br>Τηλ: 2102693999</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9785675, 23.7539217], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292453"><p>&#x3A1;&#x39F;&#x3A5;&#x3A3;&#x3A3;&#x39F;&#x3A5; &#x395;&#x3A5;&#x393;&#x395;&#x39D;&#x399;&#x391; &#x3A0;&#x391;&#x3A0;&#x391;&#x3A3;&#x399;&#x394;&#x395;&#x3A1;&#x397;&#x3A3; &#x391;&#x393;&#x393;&#x395;&#x39B;&#x39F;&#x3A3; -&#x3A0;&#x391;&#x3A0;&#x391;&#x3A3;&#x399;&#x394;&#x395;&#x3A1;&#x397;&#x3A3; &#x39B;&#x39F;&#x3A5;&#x39A;&#x391;&#x3A3;  &#x39F;.&#x395;<br>&#x3A0;&#x391;&#x3A0;&#x391;&#x394;&#x399;&#x391;&#x39C;&#x391;&#x39D;&#x3A4;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; 15<br>&#x399;&#x39B;&#x399;&#x3A3;&#x399;&#x391;<br>Τηλ: 2107231537</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9679384, 23.7598895], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292434"><p>&#x3A4;&#x3A3;&#x395;&#x39D;&#x3A4;&#x3A3;&#x395;&#x3A1;&#x397; &#x39C;&#x391;&#x3A1;&#x399;&#x391;<br>&#x395;&#x398;&#x39D;.&#x391;&#x39D;&#x3A4;&#x399;&#x3A3;&#x3A4;&#x391;&#x3A3;&#x395;&#x3A9;&#x3A3; 88<br>&#x39A;&#x391;&#x399;&#x3A3;&#x391;&#x3A1;&#x399;&#x391;&#x39D;&#x397;<br>Τηλ: 2107213409</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.2952271, 23.9105608], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#308120"><p>&#x39A;&#x39F;&#x39D;&#x3A4;&#x39F;&#x393;&#x399;&#x3A9;&#x3A1;&#x393;&#x39F;&#x3A3; &#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A3;-&#x39A;&#x39F;&#x39D;&#x3A4;&#x39F;&#x393;&#x399;&#x3A9;&#x3A1;&#x393;&#x39F;&#x3A3; &#x3A0;&#x391;&#x39D;&#x3A4;&#x395;&#x39B;&#x395;&#x397;&#x39C;&#x3A9;&#x39D; &#x39F;.&#x395;.<br>&#x3A0;&#x391;&#x3A1;&#x391;&#x39B;&#x399;&#x391; &#x391;&#x393;&#x399;&#x3A9;&#x39D; &#x391;&#x3A0;&#x39F;&#x3A3;&#x3A4;&#x39F;&#x39B;&#x3A9;&#x39D;<br>&#x39A;&#x391;&#x39B;&#x391;&#x39C;&#x39F;&#x3A3;<br>Τηλ: 2295082076</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9486917, 23.6941050], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292433"><p>&#x392;&#x39F;&#x393;&#x399;&#x391;&#x3A4;&#x396;&#x397; &#x391;&#x3A1;&#x393;&#x3A5;&#x3A1;&#x3A9;<br>&#x39E;&#x395;&#x39D;&#x39F;&#x3A6;&#x3A9;&#x39D;&#x3A4;&#x39F;&#x3A3; 90-92<br>&#x39A;&#x391;&#x39B;&#x39B;&#x399;&#x398;&#x395;&#x391;<br>Τηλ: 2109412920</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9585098, 23.7040972], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292456"><p>&#x3A3;&#x391;&#x39C;&#x391;&#x3A1;&#x391; &#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x395;.&#x395;.<br>&#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x391;&#x39A;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5;-&#x391;&#x3A1;&#x391;&#x3A0;&#x391;&#x39A;&#x397; 44<br>&#x39A;&#x391;&#x39B;&#x39B;&#x399;&#x398;&#x395;&#x391;<br>Τηλ: 2109568733</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8389120, 23.9251535], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#301018"><p>&#x39A;&#x399;&#x39F;&#x3A5;&#x3A3;&#x397;&#x3A3; &#x3A0;&#x391;&#x39D;&#x391;&#x393;&#x399;&#x3A9;&#x3A4;&#x397;&#x3A3; (1)<br>28&#x397;&#x3A3; &#x39F;&#x39A;&#x3A4;&#x3A9;&#x392;&#x3A1;&#x399;&#x39F;&#x3A5; 24<br>&#x39A;&#x391;&#x39B;&#x3A5;&#x392;&#x399;&#x391; &#x398;&#x39F;&#x3A1;&#x399;&#x39A;&#x39F;&#x3A5;<br>Τηλ: 2299046434</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9882339, 23.8593373], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#305984"><p>&#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A5; &#x397;&#x39B;&#x399;&#x391;&#x3A3; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x39B;&#x395;&#x39F;&#x39D;&#x3A4;&#x391;&#x3A1;&#x399;&#x39F;&#x3A5;  92<br>&#x39A;&#x391;&#x39D;&#x3A4;&#x396;&#x391; &#x3A0;&#x391;&#x39B;&#x39B;&#x397;&#x39D;&#x397;&#x3A3;<br>Τηλ: 2106040942</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.2148918, 23.8761260], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#308119"><p>&#x392;&#x39B;&#x391;&#x3A3;&#x399;&#x391;&#x394;&#x397;&#x3A3; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x39F;&#x3A3; (&#x393;&#x391;&#x3A1;&#x39C;&#x3A0;&#x397;-&#x39A;&#x3A1;&#x39F;&#x39A;&#x39F;&#x3A5;-&#x392;&#x39B;&#x391;&#x3A3;&#x399;&#x391;&#x394;&#x397; &#x395;.&#x395;.)<br>&#x39A;&#x391;&#x3A0;&#x391;&#x39D;&#x394;&#x3A1;&#x399;&#x3A4;&#x399; &#x391;&#x3A4;&#x3A4;&#x399;&#x39A;&#x397;&#x3A3; (&#x39B;&#x395;&#x3A9;&#x3A6;&#x39F;&#x3A1;&#x39F;&#x3A3; &#x391;&#x398;&#x397;&#x39D;&#x3A9;&#x39D;- &#x39A;&#x391;&#x39B;&#x391;&#x39C;&#x39F;&#x3A5; 18)<br>&#x39A;&#x391;&#x3A0;&#x391;&#x39D;&#x394;&#x3A1;&#x399;&#x3A4;&#x399;<br>Τηλ: 2295053313</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9769484, 23.7273187], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292436"><p>&#x39A;&#x391;&#x39D;&#x391;&#x392;&#x391;&#x3A1;&#x39F;&#x3A3; &#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A3; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x391;&#x393;&#x399;&#x391;&#x3A3; &#x395;&#x399;&#x3A1;&#x397;&#x39D;&#x397;&#x3A3; 5, &#x391;&#x398;&#x397;&#x39D;&#x391; 10551<br>&#x39A;&#x395;&#x39D;&#x3A4;&#x3A1;&#x39F; &#x391;&#x398;&#x397;&#x39D;&#x391;&#x3A3;<br>Τηλ: 2103238369</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8092871, 23.9743875], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#302425"><p>&#x39C;&#x391;&#x3A1;&#x393;&#x3A9;&#x39D;&#x397; &#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x399;&#x39A;&#x397;<br>&#x399;&#x3A0;&#x3A0;&#x39F;&#x39A;&#x3A1;&#x391;&#x3A4;&#x39F;&#x3A5;&#x3A3; 13<br>&#x39A;&#x395;&#x3A1;&#x391;&#x3A4;&#x395;&#x391;<br>Τηλ: 2299042222</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0737530, 23.8054800], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292468"><p>&#x3A7;&#x3A1;&#x39F;&#x39D;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x395;&#x39B;&#x395;&#x39D;&#x397;<br>&#x3A3;&#x3A9;&#x39A;&#x3A1;&#x391;&#x3A4;&#x39F;&#x3A5;&#x3A3; &#x39A;&#x391;&#x399; &#x391;&#x3A7;&#x391;&#x3A1;&#x39D;&#x3A9;&#x39D; 15<br>&#x39A;&#x397;&#x3A6;&#x399;&#x3A3;&#x399;&#x391;<br>Τηλ: 2108085117</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8950533, 23.8788741], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#304860"><p>&#x39D;&#x3A4;&#x39F;&#x39D;&#x3A4;&#x39F;&#x3A5; &#x395;&#x3A1;&#x399;&#x3A6;&#x3A5;&#x39B;&#x397;<br>&#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x395;&#x3A9;&#x3A3; &#x39A;&#x3A9;&#x39D;&#x3A3;&#x3A4;&#x391;&#x39D;&#x3A4;&#x399;&#x39D;&#x39F;&#x3A5; 289, 19441 &#x39A;&#x39F;&#x3A1;&#x3A9;&#x3A0;&#x399;<br>&#x39A;&#x39F;&#x3A1;&#x3A9;&#x3A0;&#x399;<br>Τηλ: 2106628100</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0099830, 23.7360318], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292478"><p>&#x392;&#x391;&#x39B;&#x391;&#x3A4;&#x3A3;&#x39F;&#x3A3; &#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A3; (&#x395;.&#x398;&#x395;&#x39F;&#x394;&#x3A9;&#x3A1;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; ) &#x395;.&#x395;.<br>&#x399;.&#x394;&#x3A1;&#x39F;&#x3A3;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; 187 &#x39A;&#x391;&#x399; &#x39A;&#x395;&#x391;&#x3A3; 9<br>&#x39A;&#x3A5;&#x3A8;&#x395;&#x39B;&#x397;<br>Τηλ: 2102281565</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0019811, 23.7364684], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292451"><p>&#x3A0;&#x391;&#x39D;&#x3A4;&#x391;&#x396;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x39C;&#x3A5;&#x3A1;&#x3A3;.&#x3A7;&#x391;&#x3A4;&#x396;&#x397;&#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x395;&#x399;&#x39F;&#x3A5; &#x39F;&#x3A5;&#x3A1;.&#x39F;&#x395;<br>&#x395;&#x3A0;&#x3A4;&#x391;&#x39D;&#x397;&#x3A3;&#x39F;&#x3A5; 58<br>&#x39A;&#x3A5;&#x3A8;&#x395;&#x39B;&#x397;<br>Τηλ: 2108657082</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.7143165, 24.0553113], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#306372"><p>&#x396;&#x391;&#x393;&#x39F;&#x3A5;&#x3A1;&#x397; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x391; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x392;&#x391;&#x3A3;.&#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x39F;&#x3A5; &#x39A;&#x391;&#x399; &#x395;&#x3A1;&#x39C;&#x39F;&#x3A5;<br>&#x39B;&#x391;&#x3A5;&#x3A1;&#x399;&#x39F;<br>Τηλ: 2292024333</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0749390, 23.4968082], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#307258"><p>&#x393;&#x39A;&#x399;&#x39D;&#x397; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x391;<br>&#x3A0;&#x39B;&#x391;&#x3A4;&#x395;&#x399;&#x391; &#x39A;&#x39F;&#x3A1;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x397;  1<br>&#x39C;&#x391;&#x39D;&#x394;&#x3A1;&#x391;<br>Τηλ: 2105550309</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8879839, 23.9329613], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#301850"><p>&#x39C;&#x399;&#x3A7;&#x391;&#x399;&#x3A1;&#x399;&#x39D;&#x391;&#x3A3; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x39F;&#x3A3; &#x395;.&#x395;.<br>&#x39A;. &#x3A0;&#x391;&#x3A0;&#x391;&#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A5; 15 &#x391;<br>&#x39C;&#x391;&#x3A1;&#x39A;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;<br>Τηλ: 2299023171</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0559536, 23.8045697], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292439"><p>&#x3A6;&#x3A1;&#x391;&#x393;&#x39A;&#x39F;&#x3A3; &#x391;&#x39D;&#x394;&#x3A1;&#x395;&#x391;&#x3A3;-&#x39A;&#x3A1;&#x391;&#x392;&#x392;&#x391;&#x3A1;&#x399;&#x3A4;&#x397; &#x3A7;&#x391;&#x3A1;&#x399;&#x39A;&#x39B;&#x395;&#x399;&#x391; &#x39F;.&#x395;<br>&#x3A0;&#x39B;.&#x395;&#x3A5;&#x3A4;&#x395;&#x3A1;&#x3A0;&#x397;&#x3A3; 1<br>&#x39C;&#x391;&#x3A1;&#x39F;&#x3A5;&#x3A3;&#x399;<br>Τηλ: 2108020283</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0000120, 23.3416525], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#223512"><p>&#x3A7;&#x391;&#x3A4;&#x396;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A3;<br>&#x3A3;&#x399;&#x398;&#x39D;&#x399;&#x394;&#x3A9;&#x39D; 7<br>&#x39C;&#x395;&#x393;&#x391;&#x3A1;&#x391;<br>Τηλ: 2296021330</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0515273, 23.8375472], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292458"><p>&#x394;&#x391;&#x3A1;&#x391; &#x39A;&#x3A9;&#x39D;/&#x39D;&#x391; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;. (2)<br>&#x394;&#x397;&#x39C;&#x39F;&#x39A;&#x3A1;&#x391;&#x3A4;&#x399;&#x391;&#x3A3; 75 &#x39A;&#x391;&#x3A4;&#x391;&#x3A3;&#x3A4;&#x397;&#x39C;&#x391; 2 &#x39A;&#x391;&#x399; 3<br>&#x39C;&#x395;&#x39B;&#x399;&#x3A3;&#x3A3;&#x399;&#x391;<br>Τηλ: 2106132434</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0597522, 23.7548559], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292449"><p>&#x3A0;&#x391;&#x3A1;&#x391;&#x3A3;&#x39A;&#x395;&#x3A5;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x391;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x39F;&#x39C;&#x395;&#x39D;&#x397;&#x3A3; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x39A;&#x39F;&#x3A1;&#x399;&#x39D;&#x398;&#x39F;&#x3A5; 1 &#x39A;&#x391;&#x399; &#x3A4;&#x391;&#x3A4;&#x39F;&#x399;&#x39F;&#x3A5;<br>&#x39C;&#x395;&#x3A4;&#x391;&#x39C;&#x39F;&#x3A1;&#x3A6;&#x3A9;&#x3A3;&#x397;<br>Τηλ: 2102834902</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0504583, 23.7648162], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292464"><p>&#x39A;&#x391;&#x39B;&#x391;&#x39C;&#x391;&#x39A;&#x397;  &#x395;&#x3A1;&#x391;&#x3A4;&#x3A9;<br>&#x397;&#x3A1;&#x391;&#x39A;&#x39B;&#x395;&#x399;&#x39F;&#x3A5;  390<br>&#x39D;.&#x397;&#x3A1;&#x391;&#x39A;&#x39B;&#x395;&#x399;&#x39F;<br>Τηλ: 2102826875</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0409553, 23.7504671], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292446"><p>&#x39B;&#x39F;&#x3A5;&#x3A4;&#x3A3;&#x397; &#x395;&#x39B;&#x395;&#x39D;&#x397; &#x39A;&#x391;&#x399;  &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x395;&#x39B; &#x391;&#x39B;&#x391;&#x39C;&#x395;&#x399;&#x39D; 18<br>&#x39D;.&#x399;&#x3A9;&#x39D;&#x399;&#x391;<br>Τηλ: 2102712221</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9561783, 23.7192304], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292476"><p>&#x39A;&#x3A5;&#x394;&#x3A9;&#x39D;&#x391;&#x39A;&#x397; &#x391;&#x3A1;&#x393;&#x3A5;&#x3A1;&#x3A9; &amp; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x3A3;&#x3A6;&#x399;&#x393;&#x393;&#x39F;&#x3A3; 58<br>&#x39D;.&#x39A;&#x39F;&#x3A3;&#x39C;&#x39F;&#x3A3;<br>Τηλ: 2109349160</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9361954, 23.7120286], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292442"><p>&#x39A;&#x39F;&#x3A5;&#x3A4;&#x3A1;&#x391;&#x3A3; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x39F;&#x3A3;<br>&#x395;&#x39B;.&#x392;&#x395;&#x39D;&#x399;&#x396;&#x395;&#x39B;&#x39F;&#x3A5; 169<br>&#x39D;.&#x3A3;&#x39C;&#x3A5;&#x3A1;&#x39D;&#x397;<br>Τηλ: 2109357326</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0366480, 23.7384303], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292473"><p>&#x3A4;&#x3A3;&#x399;&#x39B;&#x399;&#x39A;&#x391;&#x3A3; &#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A3; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x395;.&#x395;.<br>&#x3A4;&#x3A1;&#x3A5;&#x3A0;&#x399;&#x391; 82 &#x39A;&#x391;&#x399; &#x39C;&#x391;&#x393;&#x39D;&#x397;&#x3A3;&#x399;&#x391;&#x3A3;<br>&#x39D;.&#x3A6;&#x399;&#x39B;&#x391;&#x394;&#x395;&#x39B;&#x3A6;&#x395;&#x399;&#x391;<br>Τηλ: 2102583363</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0824152, 23.9791976], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#300784"><p>&#x39C;&#x395;&#x3A4;&#x391;&#x39E;&#x3A9;&#x3A4;&#x39F;&#x3A3; &#x3A3;&#x3A9;&#x3A4;&#x397;&#x3A1;&#x399;&#x39F;&#x3A3;<br>&#x39B;&#x395;&#x3A9;&#x3A6;. &#x39C;&#x391;&#x3A1;&#x391;&#x398;&#x3A9;&#x39D;&#x39F;&#x3A3; 56<br>&#x39D;&#x395;&#x391; &#x39C;&#x391;&#x39A;&#x3A1;&#x397;<br>Τηλ: 2294094470</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = false;
+                    var pharmacyMarker = L.marker([38.0613448, 23.9820136], { zIndexOffset: 1000 })
+            .bindPopup(`<a href="#224658"><p>&#x3A3;&#x391;&#x39C;&#x391;&#x3A1;&#x3A4;&#x396;&#x397; &#x395;&#x39B;&#x395;&#x39D;&#x397; - &#x391;&#x39D;&#x391;&#x3A3;&#x3A4;&#x391;&#x3A3;&#x399;&#x39F;&#x3A5; &#x39A;&#x3A9;&#x39D;&#x3A3;&#x3A4;&#x391;&#x39D;&#x3A4;&#x399;&#x39D;&#x39F;&#x3A3; &#x39F;.&#x395;.<br>&#x39B;&#x395;&#x3A9;&#x3A6;.&#x39C;&#x391;&#x3A1;&#x391;&#x398;&#x3A9;&#x39D;&#x39F;&#x3A3; 4 &#x391;&#x393;. &#x39C;&#x391;&#x3A1;&#x399;&#x39D;&#x391;<br>&#x39D;&#x395;&#x391; &#x39C;&#x391;&#x39A;&#x3A1;&#x397;<br>Τηλ: 2294099622</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9215778, 23.7135068], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292440"><p>&#x393;&#x39F;&#x3A5;&#x3A1;&#x396;&#x397;&#x3A3; &#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x395;&#x399;&#x39F;&#x3A3;<br>&#x39B;&#x395;&#x3A9;&#x3A6;. &#x391;&#x393;.&#x392;&#x391;&#x3A1;&#x392;&#x391;&#x3A1;&#x391;&#x3A3; 54 &#x3A0;.&#x3A6;&#x391;&#x39B;&#x397;&#x3A1;&#x39F; 17563<br>&#x3A0;.&#x3A6;&#x391;&#x39B;&#x397;&#x3A1;&#x39F;<br>Τηλ: 2109811193</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = false;
+                    var pharmacyMarker = L.marker([37.7173982, 23.9464171], { zIndexOffset: 1000 })
+            .bindPopup(`<a href="#224659"><p>&#x3A0;&#x391;&#x3A0;&#x39F;&#x3A5;&#x3A4;&#x3A3;&#x397;&#x3A3; &#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A3; - &#x39A;&#x39F;&#x39B;&#x39B;&#x391; &#x3A3;&#x3A4;&#x395;&#x39B;&#x39B;&#x391;<br>&#x391;&#x393;.&#x395;&#x399;&#x3A1;&#x397;&#x39D;&#x397;&#x3A3; 3<br>&#x3A0;.&#x3A6;&#x3A9;&#x39A;&#x391;&#x399;&#x391;<br>Τηλ: 2291037908</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9595745, 23.7398025], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292479"><p>&#x393;&#x395;&#x3A1;&#x391;&#x3A3;&#x399;&#x39C;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x3A3;&#x3A4;&#x391;&#x3A5;&#x3A1;&#x39F;&#x3A5;&#x39B;&#x391;<br>&#x3A6;&#x399;&#x39B;&#x39F;&#x39B;&#x391;&#x39F;&#x3A5; 212<br>&#x3A0;&#x391;&#x393;&#x39A;&#x3A1;&#x391;&#x3A4;&#x399;<br>Τηλ: 2107524657</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9551662, 23.8552646], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#307712"><p>&#x391;&#x39D;&#x391;&#x3A3;&#x3A4;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x39A;&#x3A9;&#x39D;&#x3A3;&#x3A4;&#x391;&#x39D;&#x3A4;&#x399;&#x39D;&#x39F;&#x3A3;<br>&#x391;&#x393;&#x399;&#x391;&#x3A3; &#x3A4;&#x3A1;&#x399;&#x391;&#x394;&#x39F;&#x3A3; 59<br>&#x3A0;&#x391;&#x399;&#x391;&#x39D;&#x399;&#x391;<br>Τηλ: 2106641400</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0043126, 23.8755455], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#301410"><p>&#x3A6;&#x399;&#x39B;&#x399;&#x3A0;&#x3A0;&#x39F;&#x3A5; &#x39C;&#x391;&#x3A1;&#x399;&#x391; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x39B;&#x395;&#x3A9;&#x3A6;. &#x39C;&#x391;&#x3A1;&#x391;&#x398;&#x3A9;&#x39D;&#x39F;&#x3A3; 19<br>&#x3A0;&#x391;&#x39B;&#x39B;&#x397;&#x39D;&#x397;<br>Τηλ: 2106668154</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0129763, 23.7228239], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292444"><p>&#x39C;&#x391;&#x39D;&#x399;&#x39A;&#x391; &#x391;&#x39D;&#x3A4;&#x399;&#x393;&#x39F;&#x39D;&#x397; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x3A3;&#x3A4;&#x3A1;&#x391;&#x3A4;&#x397;&#x393;&#x39F;&#x3A5; &#x39A;&#x391;&#x39B;&#x391;&#x3A1;&#x397; &amp; &#x391;&#x3A1;.&#x39F;&#x399;&#x39A;&#x39F;&#x39D;&#x39F;&#x39C;&#x39F;&#x3A5; 50, &#x391;&#x398;&#x397;&#x39D;&#x391; 1145<br>&#x3A0;&#x391;&#x3A4;&#x397;&#x3A3;&#x399;&#x391; &#x39A;&#x391;&#x3A4;&#x3A9;<br>Τηλ: 2108310110</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0236990, 23.7369035], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292461"><p>&#x395;&#x39B;&#x395;&#x3A5;&#x398;&#x395;&#x3A1;&#x399;&#x391;&#x394;&#x397;&#x3A3; &#x395;&#x39B;&#x395;&#x3A5;&#x398;&#x395;&#x3A1;&#x399;&#x39F;&#x3A3; (1)<br>&#x391;&#x393;.&#x39B;&#x391;&#x3A5;&#x3A1;&#x391;&#x3A3; 92<br>&#x3A0;&#x391;&#x3A4;&#x397;&#x3A3;&#x399;&#x391; &#x3A4;&#x395;&#x3A1;&#x39C;&#x391;<br>Τηλ: 2102285223</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0138391, 23.6756637], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292437"><p>&#x39A;&#x391;&#x392;&#x39F;&#x3A5;&#x39D;&#x397; &#x391;&#x393;&#x393;&#x395;&#x39B;&#x399;&#x39A;&#x397;<br>&#x3A0;&#x395;&#x39B;&#x391;&#x3A3;&#x393;&#x399;&#x391;&#x3A3; 127<br>&#x3A0;&#x395;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x395;&#x3A1;&#x399;<br>Τηλ: 2105737759</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0133030, 23.7060897], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292470"><p>&#x39A;&#x39F;&#x3A5;&#x3A4;&#x39B;&#x397; &#x395;&#x399;&#x3A1;&#x397;&#x39D;&#x397;-&#x39C;&#x391;&#x39D;&#x391;&#x3A4;&#x39F;&#x3A3; &#x3A3;&#x3A0;&#x3A5;&#x3A1;&#x399;&#x394;&#x3A9;&#x39D; &#x39F;.&#x395;.<br>&#x39B;&#x395;&#x3A9;&#x3A6;. &#x39A;&#x3A9;&#x39D;&#x3A3;&#x3A4;&#x391;&#x39D;&#x3A4;&#x399;&#x39D;&#x39F;&#x3A5;&#x3A0;&#x39F;&#x39B;&#x395;&#x3A9;&#x3A3; 63<br>&#x3A0;&#x395;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x395;&#x3A1;&#x399;<br>Τηλ: 2105741865</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0164196, 23.6913074], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292477"><p>&#x3A7;&#x3A1;&#x3A5;&#x3A3;&#x397; &#x395;&#x39B;&#x395;&#x39D;&#x397;  (6) (PHARMACY 295 IKE)  (&#x3A5;&#x3A0;&#x39F;&#x39A;&#x391;&#x3A4;&#x391;&#x3A3;&#x3A4;&#x397;&#x39C;&#x391;)<br>&#x398;&#x397;&#x392;&#x3A9;&#x39D; 201<br>&#x3A0;&#x395;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x395;&#x3A1;&#x399;<br>Τηλ: 2102241220</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0368796, 23.6757691], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292474"><p>&#x39A;&#x399;&#x39F;&#x3A5;&#x39C;&#x39F;&#x3A5;&#x3A1;&#x3A4;&#x396;&#x399;&#x394;&#x397; &#x3A6;&#x391;&#x39D;&#x397; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;.&#x395;.<br>&#x3A0;&#x395;&#x3A1;&#x399;&#x39A;&#x39B;&#x395;&#x39F;&#x3A5;&#x3A3; 108<br>&#x3A0;&#x395;&#x3A4;&#x3A1;&#x39F;&#x3A5;&#x3A0;&#x39F;&#x39B;&#x397;<br>Τηλ: 2105029415</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0661355, 23.7960285], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292481"><p>&#x392;&#x395;&#x39D;&#x399;&#x396;&#x395;&#x39B;&#x39F;&#x3A5; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x391;<br>&#x3A0;&#x399;&#x39D;&#x394;&#x39F;&#x3A5; &#x39A;&#x391;&#x399; 25 &#x39C;&#x391;&#x3A1;&#x3A4;&#x399;&#x39F;&#x3A5; 2<br>&#x3A0;&#x395;&#x3A5;&#x39A;&#x397;<br>Τηλ: 2108064775</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0012645, 23.9393636], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#303847"><p>&#x39A;&#x39F;&#x3A5;&#x3A1;&#x39C;&#x3A0;&#x395;&#x39B;&#x397; &#x3A0;&#x391;&#x39D;&#x391;&#x393;&#x399;&#x3A9;&#x3A4;&#x391; (1)<br>&#x39B;.&#x39C;&#x391;&#x3A1;&#x391;&#x398;&#x3A9;&#x39D;&#x39F;&#x3A3; 22 &#x393;<br>&#x3A0;&#x399;&#x39A;&#x395;&#x3A1;&#x39C;&#x399;<br>Τηλ: 2106036242</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.8873277, 24.0033835], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#301849"><p>&#x3A4;&#x391;&#x39B;&#x399;&#x391;&#x394;&#x3A9;&#x3A1;&#x39F;&#x3A3; &#x398;&#x395;&#x39F;&#x394;&#x39F;&#x3A3;&#x399;&#x39F;&#x3A3; &#x39F;.&#x395;.<br>&#x39B;.&#x3A0;&#x39F;&#x3A1;&#x3A4;&#x39F; &#x3A1;&#x391;&#x3A6;&#x3A4;&#x397; 661<br>&#x3A0;&#x39F;&#x3A1;&#x3A4;&#x39F; &#x3A1;&#x391;&#x3A6;&#x3A4;&#x397;<br>Τηλ: 2299076035</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9779350, 23.9032483], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#304464"><p>&#x393;&#x391;&#x399;&#x3A4;&#x391;&#x39D;&#x397;&#x3A3; &#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x395;&#x399;&#x39F;&#x3A3; ( &#x395;&#x394;&#x3A1;&#x391;)<br>&#x395;&#x3A0;&#x399;&#x3A7;&#x395;&#x399;&#x3A1;&#x397;&#x39C;&#x391;&#x3A4;&#x399;&#x39A;&#x39F; &#x3A0;&#x391;&#x3A1;&#x39A;&#x39F; (&#x395;&#x39C;&#x3A0;&#x39F;&#x3A1;&#x399;&#x39A;&#x39F; &#x39A;&#x395;&#x39D;&#x3A4;&#x3A1;&#x39F;) &#x393;&#x3A5;&#x391;&#x39B;&#x39F;&#x3A5; &#x39F;&#x3A4;.&#x395;71<br>&#x3A3;&#x3A0;&#x391;&#x3A4;&#x391;<br>Τηλ: 2106632540</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([37.9764197, 23.7338158], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292472"><p>&#x39A;&#x39F;&#x3A5;&#x39C;&#x3A0;&#x39F;&#x3A5;&#x3A1;&#x39B;&#x397;&#x3A3; &#x399;&#x3A9;&#x391;&#x39D;&#x39D;&#x397;&#x3A3; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x395;.&#x395;. (DOWNTOWNPHARMACY)<br>&#x39A;&#x391;&#x3A1;&#x391;&#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x397; &#x3A3;&#x395;&#x3A1;&#x392;&#x399;&#x391;&#x3A3; 4<br>&#x3A3;&#x3A5;&#x39D;&#x3A4;&#x391;&#x393;&#x39C;&#x391;<br>Τηλ: 2103238661</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0090529, 23.6564511], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292462"><p>&#x3A7;&#x3A1;&#x399;&#x3A3;&#x3A4;&#x39F;&#x394;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x391;&#x39D;&#x3A4;&#x3A9;&#x39D;&#x399;&#x39F;&#x3A3;<br>&#x391;&#x39D;&#x398;&#x395;&#x3A9;&#x39D; 35<br>&#x3A7;&#x391;&#x399;&#x394;&#x391;&#x3A1;&#x399;<br>Τηλ: 2105814400</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0325730, 23.8209675], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292466"><p>&#x39C;&#x3A0;&#x395;&#x39C;&#x3A0;&#x397; &#x3A6;&#x391;&#x399;&#x394;&#x3A1;&#x391;<br>&#x39B;.&#x3A0;&#x395;&#x39D;&#x3A4;&#x395;&#x39B;&#x397;&#x3A3; 138<br>&#x3A7;&#x391;&#x39B;&#x391;&#x39D;&#x394;&#x3A1;&#x399;<br>Τηλ: 2106855263</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.3320314, 23.7334256], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#306560"><p>&#x392;&#x391;&#x398;&#x397; &#x393;&#x395;&#x3A9;&#x3A1;&#x393;&#x399;&#x391;<br>25&#x397;&#x3A3; &#x39C;&#x391;&#x3A1;&#x3A4;&#x399;&#x39F;&#x3A5; 14<br>&#x3A7;&#x391;&#x39B;&#x39A;&#x39F;&#x3A5;&#x3A4;&#x3A3;&#x399;<br>Τηλ: 2295072389</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        
+            var isOpen = true;
+                    var pharmacyMarker = L.marker([38.0013781, 23.8007710], { zIndexOffset: 1001 })
+            .bindPopup(`<a href="#292469"><p>&#x39F;&#x399;&#x39A;&#x39F;&#x39D;&#x39F;&#x39C;&#x39F;&#x3A5; &#x3A3;&#x39F;&#x3A6;&#x399;&#x391;<br>&#x39C;&#x399;&#x39B;&#x3A4;&#x399;&#x391;&#x394;&#x39F;&#x3A5; 29<br>&#x3A7;&#x39F;&#x39B;&#x391;&#x3A1;&#x393;&#x39F;&#x3A3;<br>Τηλ: 2106549919</p></a>`)
+            .addTo(map);
+        
+            if (isOpen)
+            {
+                pharmacyMarker._icon.classList.add("open-huechange");
+            }
+            else
+            {
+                pharmacyMarker._icon.classList.add("closed-huechange");
+            }
+
+        </script>
+</div>
+<div class="container bg-white pt-5">
+    <div class="row card-deck">
+            <div class="card-frame col-xl-4 col-sm-6 col-12 mb-5 d-flex align-items-stretch">
+                <div id="292445" class="card w-100">
+                    <div class="card-body ">
+                        <div class="card-title d-flex justify-content-between">
+                            <h6 class="">&#x39A;&#x395;&#x3A6;&#x391;&#x39B;&#x39B;&#x397;&#x39D;&#x399;&#x391;&#x3A3; 98</h6>
+                        </div>
+                        <div class="card-subtitle text-secondary">&#x391;&#x393;.&#x391;&#x39D;&#x391;&#x3A1;&#x393;&#x3A5;&#x3A1;&#x39F;&#x399;</div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex my-1 flex-column card-text text-small">
+                                <span>&#x39C;&#x391;&#x3A4;&#x396;&#x391;&#x39A;&#x39F;&#x3A5;-&#x39A;&#x391;&#x3A1;&#x391;&#x3A3;&#x3A4;&#x391;&#x3A4;&#x397;&#x3A1;&#x397; &#x391;&#x39D;&#x391;&#x3A3;&#x3A4;&#x391;&#x3A3;&#x399;&#x391; &#x39A;&#x391;&#x399; &#x3A3;&#x399;&#x391; &#x39F;&#x395;</span>
+                                <span>8 &#x3A0;&#x3A1;&#x3A9;&#x399; - 2 &#x39C;&#x395;&#x3A3;&#x397;&#x39C;&#x395;&#x3A1;&#x399; &amp; 5 &#x391;&#x3A0;&#x39F;&#x393;&#x395;&#x3A5;&#x39C;&#x391; - 8 &#x3A0;&#x3A1;&#x3A9;&#x399; &#x395;&#x3A0;&#x39F;&#x39C;&#x395;&#x39D;&#x397;&#x3A3;</span>
+                                <h6 class=" text-secondary">2102629305</h6>
+                            </div>
+                                <div class="pl-1">
+                                    <img src="/images/fsa-anoixto-70.png" class="rounded mx-auto d-block" />
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="tel:2102629305"
+                           class="btn btn-outline-primary">Κλήση</a>
+                        <a href="https://www.google.gr/maps/search/?api=1&amp;query=38.0279106%2C23.7216171"
+                           class="btn btn-outline-secondary"
+                           target="_blank"
+                           rel="noreferrer">Πλοήγηση</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-frame col-xl-4 col-sm-6 col-12 mb-5 d-flex align-items-stretch">
+                <div id="292443" class="card w-100">
+                    <div class="card-body ">
+                        <div class="card-title d-flex justify-content-between">
+                            <h6 class="">&#x394;&#x3A9;&#x394;&#x395;&#x39A;&#x391;&#x39D;&#x397;&#x3A3;&#x39F;&#x3A5; 29</h6>
+                        </div>
+                        <div class="card-subtitle text-secondary">&#x391;&#x393;.&#x392;&#x391;&#x3A1;&#x392;&#x391;&#x3A1;&#x391;</div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex my-1 flex-column card-text text-small">
+                                <span>&#x39B;&#x395;&#x39F;&#x3A5; &#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397;-&#x3A3;&#x39A;&#x391;&#x39D;&#x394;&#x391;&#x39C;&#x397;&#x3A3; &#x39D;&#x399;&#x39A;&#x39F;&#x39B;&#x391;&#x39F;&#x3A3;-&#x3A3;&#x3A0;&#x397;&#x39B;&#x399;&#x39F;&#x3A3; &#x39F;&#x395;.</span>
+                                <span>8 &#x3A0;&#x3A1;&#x3A9;&#x399; - 11 &#x392;&#x3A1;&#x391;&#x394;&#x3A5;</span>
+                                <h6 class=" text-secondary">2105450992</h6>
+                            </div>
+                                <div class="pl-1">
+                                    <img src="/images/fsa-anoixto-70.png" class="rounded mx-auto d-block" />
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="tel:2105450992"
+                           class="btn btn-outline-primary">Κλήση</a>
+                        <a href="https://www.google.gr/maps/search/?api=1&amp;query=37.9936929%2C23.6650506"
+                           class="btn btn-outline-secondary"
+                           target="_blank"
+                           rel="noreferrer">Πλοήγηση</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-frame col-xl-4 col-sm-6 col-12 mb-5 d-flex align-items-stretch">
+                <div id="292465" class="card w-100">
+                    <div class="card-body ">
+                        <div class="card-title d-flex justify-content-between">
+                            <h6 class="">&#x3A3;&#x3A4;&#x3A1;.&#x3A0;&#x391;&#x3A0;&#x391;&#x393;&#x39F;&#x3A5; 43</h6>
+                        </div>
+                        <div class="card-subtitle text-secondary">&#x391;&#x393;.&#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A3;</div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex my-1 flex-column card-text text-small">
+                                <span>&#x39A;&#x391;&#x3A1;&#x391;&#x392;&#x391; &#x392;&#x391;&#x3A3;&#x399;&#x39B;&#x399;&#x39A;&#x397;</span>
+                                <span>8 &#x3A0;&#x3A1;&#x3A9;&#x399; - 11 &#x392;&#x3A1;&#x391;&#x394;&#x3A5;</span>
+                                <h6 class=" text-secondary">2109710620</h6>
+                            </div>
+                                <div class="pl-1">
+                                    <img src="/images/fsa-anoixto-70.png" class="rounded mx-auto d-block" />
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="tel:2109710620"
+                           class="btn btn-outline-primary">Κλήση</a>
+                        <a href="https://www.google.gr/maps/search/?api=1&amp;query=37.9397324%2C23.7358797"
+                           class="btn btn-outline-secondary"
+                           target="_blank"
+                           rel="noreferrer">Πλοήγηση</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-frame col-xl-4 col-sm-6 col-12 mb-5 d-flex align-items-stretch">
+                <div id="292441" class="card w-100">
+                    <div class="card-body ">
+                        <div class="card-title d-flex justify-content-between">
+                            <h6 class="">&#x39B;.&#x399;&#x3A9;&#x39D;&#x399;&#x391;&#x3A3; 262 &#x39A;&#x391;&#x399; &#x3A7;&#x3A1;.&#x3A3;&#x39C;&#x3A5;&#x3A1;&#x39D;&#x397;&#x3A3; 69</h6>
+                        </div>
+                        <div class="card-subtitle text-secondary">&#x391;&#x393;.&#x395;&#x39B;&#x395;&#x3A5;&#x398;&#x395;&#x3A1;&#x399;&#x39F;&#x3A3;</div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex my-1 flex-column card-text text-small">
+                                <span>&#x39B;&#x391;&#x39C;&#x3A0;&#x39F;&#x3A5;&#x3A3;&#x391;&#x39A;&#x397;&#x3A3; &#x391;&#x39D;&#x3A4;&#x3A9;&#x39D;&#x399;&#x39F;&#x3A3;-&#x392;&#x395;&#x3A1;&#x399;&#x3A4;&#x3A3;&#x397; &#x396;&#x3A9;&#x397; &#x39F;.&#x395;.</span>
+                                <span>8 &#x3A0;&#x3A1;&#x3A9;&#x399; - 11 &#x392;&#x3A1;&#x391;&#x394;&#x3A5;</span>
+                                <h6 class=" text-secondary">2102029126</h6>
+                            </div>
+                                <div class="pl-1">
+                                    <img src="/images/fsa-anoixto-70.png" class="rounded mx-auto d-block" />
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="tel:2102029126"
+                           class="btn btn-outline-primary">Κλήση</a>
+                        <a href="https://www.google.gr/maps/search/?api=1&amp;query=38.0192934%2C23.7315661"
+                           class="btn btn-outline-secondary"
+                           target="_blank"
+                           rel="noreferrer">Πλοήγηση</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-frame col-xl-4 col-sm-6 col-12 mb-5 d-flex align-items-stretch">
+                <div id="292484" class="card w-100">
+                    <div class="card-body ">
+                        <div class="card-title d-flex justify-content-between">
+                            <h6 class="">&#x39B;.&#x39C;&#x395;&#x3A3;&#x39F;&#x393;&#x395;&#x399;&#x3A9;&#x39D; 450</h6>
+                        </div>
+                        <div class="card-subtitle text-secondary">&#x391;&#x393;.&#x3A0;&#x391;&#x3A1;&#x391;&#x3A3;&#x39A;&#x395;&#x3A5;&#x397;</div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex my-1 flex-column card-text text-small">
+                                <span>&#x39F;&#x399;&#x39A;&#x39F;&#x39D;&#x39F;&#x39C;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x391;&#x393;&#x393;&#x395;&#x39B;&#x39F;&#x3A3; - &#x3A0;&#x391;&#x3A0;&#x391;&#x394;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A3; &#x399;&#x3A9;&#x391;&#x39D;&#x39D;&#x397;&#x3A3;</span>
+                                <span>8 &#x3A0;&#x3A1;&#x3A9;&#x399; - 2 &#x39C;&#x395;&#x3A3;&#x397;&#x39C;&#x395;&#x3A1;&#x399; &amp; 5 &#x391;&#x3A0;&#x39F;&#x393;&#x395;&#x3A5;&#x39C;&#x391; - 8 &#x3A0;&#x3A1;&#x3A9;&#x399; &#x395;&#x3A0;&#x39F;&#x39C;&#x395;&#x39D;&#x397;&#x3A3;</span>
+                                <h6 class=" text-secondary">2106002841</h6>
+                            </div>
+                                <div class="pl-1">
+                                    <img src="/images/fsa-anoixto-70.png" class="rounded mx-auto d-block" />
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="tel:2106002841"
+                           class="btn btn-outline-primary">Κλήση</a>
+                        <a href="https://www.google.gr/maps/search/?api=1&amp;query=38.0135974%2C23.8298396"
+                           class="btn btn-outline-secondary"
+                           target="_blank"
+                           rel="noreferrer">Πλοήγηση</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-frame col-xl-4 col-sm-6 col-12 mb-5 d-flex align-items-stretch">
+                <div id="303547" class="card w-100">
+                    <div class="card-body ">
+                        <div class="card-title d-flex justify-content-between">
+                            <h6 class="">&#x39A;&#x391;&#x3A1;&#x391;&#x39F;&#x39B;&#x397; &#x39A;&#x391;&#x399; &#x394;&#x397;&#x39C;&#x397;&#x3A4;&#x3A1;&#x399;&#x39F;&#x3A5; 9</h6>
+                        </div>
+                        <div class="card-subtitle text-secondary">&#x391;&#x393;.&#x3A3;&#x3A4;&#x395;&#x3A6;&#x391;&#x39D;&#x39F;&#x3A3;</div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex my-1 flex-column card-text text-small">
+                                <span>&#x39A;&#x3A1;&#x39F;&#x3A4;&#x39F;&#x3A0;&#x39F;&#x3A5;&#x39B;&#x39F;&#x3A5; &#x391;&#x399;&#x39A;&#x391;&#x3A4;&#x395;&#x3A1;&#x399;&#x39D;&#x397;</span>
+                                <span>8 &#x3A0;&#x3A1;&#x3A9;&#x399; - 8 &#x3A0;&#x3A1;&#x3A9;&#x399; &#x395;&#x3A0;&#x39F;&#x39C;&#x395;&#x39D;&#x397;&#x3A3; &#x397;&#x39C;&#x395;&#x3A1;&#x391;&#x3A3;</span>
+                                <h6 class=" text-secondary">2106218357</h6>
+                            </div>
+                                <div class="pl-1">
+                                    <img src="/images/fsa-anoixto-70.png" class="rounded mx-auto d-block" />
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="tel:2106218357"
+                           class="btn btn-outline-primary">Κλήση</a>
+                        <a href="https://www.google.gr/maps/search/?api=1&amp;query=38.1414362%2C23.8568765"
+                           class="btn btn-outline-secondary"
+                           target="_blank"
+                           rel="noreferrer">Πλοήγηση</a>
+                    </div>
+                </div>
+            </div>
+            
+</div>

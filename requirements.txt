@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+httpx
+pdfplumber
+python-dateutil
+jinja2
+pytest
+osmium
