@@ -112,12 +112,22 @@
   .chg { font-size:12.5px; font-weight:700 } .up { color:var(--bad) } .down { color:var(--ok) } .flat { color:var(--muted) }
   svg.spark { width:100%; height:56px; margin-top:10px; display:block }
 
-  /* around */
-  .chips { display:flex; gap:8px; margin-bottom:12px; overflow-x:auto; padding:2px 2px 6px; scrollbar-width:none; -webkit-overflow-scrolling:touch; mask-image:linear-gradient(90deg,#000 92%,transparent) } .chips::-webkit-scrollbar { display:none }
-  @media (min-width:900px) { .chips { flex-wrap:wrap; overflow:visible; mask-image:none } }
-  .chip { flex:none; background:var(--bg2); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:8px 13px; font-size:14px; font-weight:600; cursor:pointer; transition:transform .08s, background .15s }
-  .chip:active { transform:scale(.97) } .chip.on { background:var(--c-around); color:#fff; border-color:var(--c-around) }
-  .toggle { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px; margin:0 0 10px; cursor:pointer } .toggle input { width:18px; height:18px; accent-color:var(--c-around) }
+  /* category menu */
+  .menu-btn { margin-left:auto; flex:none; background:var(--accent); color:#fff; border:0; border-radius:999px; padding:7px 14px; font-size:13px; font-weight:800; display:inline-flex; align-items:center; gap:6px; cursor:pointer; box-shadow:0 4px 14px rgba(42,91,215,.3) }
+  .menu-btn:active { transform:scale(.97) }
+  .sheet-bg { position:fixed; inset:0; background:rgba(10,14,40,.45); z-index:40; backdrop-filter:blur(2px) }
+  .sheet { position:fixed; left:0; right:0; bottom:0; z-index:41; background:var(--card); color:var(--text); border-radius:22px 22px 0 0; padding:14px 16px calc(18px + env(safe-area-inset-bottom)); max-height:82vh; overflow:auto; box-shadow:0 -12px 40px rgba(0,0,0,.25); animation:up .22s ease-out }
+  @keyframes up { from { transform:translateY(24px); opacity:0 } }
+  @media (min-width:900px) { .sheet { left:50%; right:auto; bottom:auto; top:64px; transform:translateX(-50%); width:760px; border-radius:22px; max-height:calc(100vh - 90px); animation:none } }
+  .sheet .grip { width:40px; height:4px; border-radius:2px; background:var(--line); margin:0 auto 12px } @media (min-width:900px) { .sheet .grip { display:none } }
+  .sheet h3 { margin:0 0 4px; font-size:18px; font-weight:800; display:flex; align-items:center; gap:10px } .sheet h3 .x { margin-left:auto; background:var(--bg2); border:1px solid var(--line); color:var(--muted); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:grid; place-items:center }
+  .sheet .hint { color:var(--muted); font-size:13.5px; margin:0 0 12px }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px } @media (min-width:600px) { .grid { grid-template-columns:repeat(4,1fr) } } @media (min-width:900px) { .grid { grid-template-columns:repeat(6,1fr) } }
+  .tile { background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:12px 6px 10px; display:grid; justify-items:center; gap:6px; font-size:12.5px; font-weight:700; cursor:pointer; color:var(--text); text-align:center; line-height:1.2; transition:transform .08s, background .15s }
+  .tile .i { font-size:24px; line-height:1 } .tile:active { transform:scale(.96) } .tile.on { background:var(--accent-soft); border-color:var(--accent); color:var(--accent) }
+  .toggle { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px; margin:14px 0 0; cursor:pointer } .toggle input { width:18px; height:18px; accent-color:var(--accent) }
+  .cta { width:100%; background:var(--accent-soft); color:var(--accent); border:1px dashed var(--accent); border-radius:14px; padding:14px; font-weight:800; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px }
+  .link-btn { background:none; border:0; padding:0; color:var(--accent); font:inherit; font-size:13px; font-weight:700; cursor:pointer }
   .skel { height:14px; border-radius:7px; background:linear-gradient(90deg,var(--bg2),var(--line),var(--bg2)); background-size:200% 100%; animation:sh 1.2s infinite; margin:10px 0 } @keyframes sh { to { background-position:-200% 0 } }
   footer { max-width:1100px; margin:0 auto; padding:0 16px 36px; color:var(--muted); font-size:12.5px; line-height:1.6 } footer a { color:var(--muted) }
   footer .srcs { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:6px }
@@ -137,6 +147,7 @@
 </div></header>
 <nav class="nav" aria-label="Ενότητες"><div class="in" id="nav">
   <a href="#pharm" data-for="pharm">💊 Φαρμακεία</a><a href="#transit" data-for="transit">🚌 Συγκοινωνίες</a><a href="#fuel" data-for="fuel">⛽ Καύσιμα</a><a href="#hosp" data-for="hosp">🏥 Νοσοκομεία</a><a href="#around" data-for="around">🧭 Κοντά</a>
+  <button class="menu-btn" id="menu-btn" type="button">🔎 Τι ψάχνεις; ▾</button>
 </div></nav>
 <main id="main">
   <div class="col" id="col1"></div><div class="col" id="col2"></div>
@@ -146,11 +157,13 @@
   <section class="card" id="transit"><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
   <section class="card" id="fuel"><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><div class="prices" id="fuel-table"></div><svg class="spark" id="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
   <section class="card" id="hosp"><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
-  <section class="card" id="around"><h2><span class="ic">🧭</span>Τι υπάρχει κοντά<span class="right">1 χλμ · OpenStreetMap</span></h2><div class="chips" id="chips"></div><label class="toggle"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label><div id="around-body"><div class="empty"><span>👆</span><span>Διάλεξε μια κατηγορία για να δεις τι υπάρχει σε ακτίνα 1 χλμ.</span></div></div></section>
+  <section class="card" id="around"><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right"><button class="link-btn" id="around-change" hidden>αλλαγή</button><span id="around-src">1 χλμ · OpenStreetMap</span></span></h2><div id="around-body"><button class="cta" id="around-cta" type="button">🔎 Διάλεξε τι ψάχνεις κοντά σου</button></div></section>
 </main>
 <footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a>
   <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span></div>
 </footer>
+<div id="sheet-bg" class="sheet-bg" hidden></div>
+<div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Σε ακτίνα 1 χλμ από τη θέση σου, από το OpenStreetMap.</p><div class="grid" id="menu-grid"><div class="skel"></div></div><label class="toggle"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label></div>
 <div id="update" class="update" hidden>🆕 Νέα έκδοση διαθέσιμη <button id="update-btn">Ανανέωση</button></div>
 <div id="consent" class="consent" hidden><p>Μπορούμε να κρατάμε ανώνυμα στατιστικά επισκεψιμότητας με το Google Analytics, για να δούμε τι χρησιμοποιείται; Η θέση σου δεν αποστέλλεται.</p><button class="yes" id="c-yes">Εντάξει</button><button id="c-no">Όχι, ευχαριστώ</button></div>
 <script>
@@ -168,7 +181,7 @@
 <script>
 window.onerror = function (msg, src, line) { var b = document.getElementById("offline"); if (b) { b.hidden = false; b.textContent = "Σφάλμα σελίδας: " + msg + " (γραμμή " + line + "). Δοκίμασε να ανοίξεις τη σελίδα στο Chrome. [" + navigator.userAgent.slice(0, 160) + "]"; } if (window.gtag) gtag("event", "js_error", {message: String(msg).slice(0, 100), line: line}); };
 </script>
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1601";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1607";</script>
 <script>
 const API = (window.KONTA_API || "").replace(/\/$/, "");
 const RELAY = (window.KONTA_RELAY || "").replace(/\/$/, ""); // optional Cloudflare relay: the browser asks OASA itself (works from Greece)
@@ -373,20 +386,36 @@ async function loadStops() {
       el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill" title="${esc(x.destination||"")}">${lineBadge(x.line)} ${mins(x.minutes)}</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
     }
     stopsTimer = setTimeout(loadStops, 30000);
-  } catch (e) { $("#bus-live").hidden = true; body.innerHTML = `<div class="muted">${esc(e.message)}${e.status===503?" Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων.":""}</div>`; }
+  } catch (e) { $("#bus-live").hidden = true; body.innerHTML = empty("🚌", e.status === 503 || e.name === "TypeError" ? "Τα live δεδομένα λεωφορείων δεν είναι διαθέσιμα αυτή τη στιγμή. Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων." : esc(e.message)); }
 }
 
-// ---- what's around ---------------------------------------------------------------
+// ---- what's around: category menu --------------------------------------------------
+let cats = [];
+function openMenu() { $("#sheet-bg").hidden = false; $("#sheet").hidden = false; document.body.style.overflow = "hidden"; }
+function closeMenu() { $("#sheet-bg").hidden = true; $("#sheet").hidden = true; document.body.style.overflow = ""; }
+$("#menu-btn").onclick = openMenu; $("#around-cta").onclick = openMenu; $("#around-change").onclick = openMenu; $("#sheet-x").onclick = closeMenu; $("#sheet-bg").onclick = closeMenu;
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+function pick(k, scroll) {
+  currentCat = k; try { localStorage.setItem("cat", k); } catch (e) {}
+  document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x.dataset.k === k));
+  const c = cats.find(c => c.key === k);
+  $("#around-title").textContent = `${CAT_ICONS[k] || ""} ${c ? c.label : k} κοντά σου`; $("#around-change").hidden = false;
+  closeMenu(); loadAround(k);
+  if (scroll) document.getElementById("around").scrollIntoView({behavior: "smooth", block: "start"});
+}
 async function initChips() {
   try {
-    const cats = await api("/api/nearby/categories");
-    $("#chips").innerHTML = cats.filter(c=>c.key!=="fuel").map(c=>`<button class="chip" data-k="${c.key}">${CAT_ICONS[c.key]||""} ${esc(c.label)}</button>`).join("");
-    $("#chips").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; currentCat = b.dataset.k; if (window.gtag) gtag("event", "select_category", {category: currentCat}); document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on", x===b)); loadAround(currentCat); };
+    cats = (await api("/api/nearby/categories")).filter(c => c.key !== "fuel");
+    $("#menu-grid").innerHTML = cats.map(c => `<button class="tile" type="button" data-k="${c.key}"><span class="i">${CAT_ICONS[c.key] || "📍"}</span>${esc(c.label)}</button>`).join("");
+    $("#menu-grid").onclick = e => { const b = e.target.closest(".tile"); if (!b) return; if (window.gtag) gtag("event", "select_category", {category: b.dataset.k}); pick(b.dataset.k, true); };
     $("#acc").onchange = () => loadAround(currentCat);
+    let last = null; try { last = localStorage.getItem("cat"); } catch (e) {}
+    if (last && cats.some(c => c.key === last) && pos) pick(last, false); else if (last && cats.some(c => c.key === last)) currentCat = last;
   } catch (e) { $("#offline").hidden = false; }
 }
 async function loadAround(cat) {
   if (!cat || !pos) return;
+  if ($("#around-change").hidden && cats.length) { const c = cats.find(c => c.key === cat); if (c) { $("#around-title").textContent = `${CAT_ICONS[cat] || ""} ${c.label} κοντά σου`; $("#around-change").hidden = false; document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x.dataset.k === cat)); } }
   const body = $("#around-body"); body.innerHTML = `<div class="skel"></div><div class="skel" style="width:70%"></div>`;
   try {
     const acc = $("#acc").checked;
