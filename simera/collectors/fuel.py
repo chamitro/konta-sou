@@ -136,9 +136,6 @@ def main(argv=None) -> int:
     return 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
-
 
 EXPECTED_MIN_ROWS = 52 * 4  # 51 prefectures + national average, at least 4 fuel columns
 
@@ -164,3 +161,7 @@ def repair(dry_run: bool = False) -> int:
         session.execute(delete(FuelPrice).where(FuelPrice.price_date.in_(list(dates))))
         session.commit()
     return collect(since=None, keep_raw=False)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
