@@ -14,3 +14,13 @@ def test_bus_endpoints_fail_gracefully_when_oasa_unreachable(monkeypatch):
     assert r.status_code == 503 and "ΟΑΣΑ" in r.json()["detail"]
     assert c.get("/api/transit/stops/60134/arrivals").status_code == 503
     assert c.get("/healthz").json()["ok"] is True
+
+
+def test_geocode_endpoint(monkeypatch):
+    from simera import geo
+    monkeypatch.setattr(geo, "geocode", lambda q, limit=5: [{"name": "Κυψέλη, Αθήνα", "lat": 37.99, "lng": 23.74}])
+    monkeypatch.setattr(main, "geocode", geo.geocode)
+    c = TestClient(main.app)
+    r = c.get("/api/geocode?q=Κυψέλη")
+    assert r.status_code == 200 and r.json()["results"][0]["name"].startswith("Κυψέλη")
+    assert c.get("/api/geocode?q=a").status_code == 422

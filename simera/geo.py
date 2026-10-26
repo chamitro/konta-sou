@@ -131,3 +131,31 @@ def is_open_now(opening_hours: str | None, at: datetime | None = None) -> bool |
                     return True
                 result = result or False
     return result if matched_any else False
+
+
+_search_cache: dict[str, tuple[float, list]] = {}
+
+
+def geocode(query: str, limit: int = 5) -> list[dict]:
+    """Address/area search in Greece via Nominatim: [{'name', 'lat', 'lng'}]. Cached ~1 day; 1 request/second."""
+    global _last_nominatim
+    q = " ".join(query.split()).lower()
+    if len(q) < 2:
+        return []
+    now = time.time()
+    if q in _search_cache and _search_cache[q][0] > now:
+        return _search_cache[q][1]
+    wait = 1.1 - (now - _last_nominatim)
+    if wait > 0:
+        time.sleep(wait)
+    _last_nominatim = time.time()
+    try:
+        with httpx.Client(headers={"User-Agent": USER_AGENT}, timeout=10) as c:
+            r = c.get("https://nominatim.openstreetmap.org/search", params={"q": q, "format": "jsonv2", "accept-language": "el", "countrycodes": "gr", "limit": limit})
+            r.raise_for_status()
+            rows = r.json()
+    except Exception:
+        return []
+    out = [{"name": x.get("display_name", "").split(", ")[0] + (", " + x["display_name"].split(", ")[1] if x.get("display_name", "").count(", ") >= 1 else ""), "lat": float(x["lat"]), "lng": float(x["lon"])} for x in rows if "lat" in x]
+    _search_cache[q] = (now + 86400, out)
+    return out

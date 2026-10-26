@@ -227,13 +227,19 @@ def hospitals_on_duty(day: date | None = None, lat: float | None = None, lng: fl
 # ---- location & nearby places --------------------------------------------------
 
 from simera import osm  # noqa: E402
-from simera.geo import nearest_prefecture, reverse_geocode  # noqa: E402
+from simera.geo import geocode, nearest_prefecture, reverse_geocode  # noqa: E402
 
 
 @app.get("/api/location")
 def location(lat: float, lng: float):
     """What we know about a point: neighbourhood name (OSM Nominatim) and the fuel-bulletin prefecture."""
     return {"prefecture": nearest_prefecture(lat, lng), **reverse_geocode(lat, lng)}
+
+
+@app.get("/api/geocode")
+def geocode_endpoint(q: str = Query(..., min_length=2, max_length=120)):
+    """Address or area search (Greece only), for browsers that cannot share the device location."""
+    return {"results": geocode(q)}
 
 
 @app.get("/api/nearby/categories")
