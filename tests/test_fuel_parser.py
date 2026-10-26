@@ -87,3 +87,27 @@ def test_2018_august_headerless_bulletin_uses_fallback_columns():
     assert by_pref(p, "ΝΟΜΟΣ ΑΤΤΙΚΗΣ") == {"unleaded_95": 1.618, "unleaded_100": 1.830, "super": 1.724, "diesel": 1.391, "autogas": 0.787}
     assert by_pref(p, "ΝΟΜΟΣ ΜΕΣΣΗΝΙΑΣ")["heating_oil"] == 1.119
     assert parse_bulletin_pdf(data, fallback_columns=cols[:5]).rows == []  # wrong column count: refuse rather than guess
+
+
+def test_2019_second_garbled_font_variant_snaps_labels():
+    from simera.collectors.fuel_parser import snap_label
+    assert snap_label("ΝΟΜΟΣ ΑΤΤΗΚΖΣ") == "ΝΟΜΟΣ ΑΤΤΙΚΗΣ"
+    assert snap_label("ΝΟΜΟΣ ΓΡΔΒΔΝΩΝ") == "ΝΟΜΟΣ ΓΡΕΒΕΝΩΝ"
+    assert snap_label("ΠΑΝΔΛΛΖΝΗΟΣ ΣΤΑΘΜΗΣΜΔΝΟΣ Μ.Ο.") == "ΕΛΛΑΔΑ"
+    assert snap_label("ΝΟΜΟΣ ΑΙΤΩΛΙΑΣ ΚΑΙ ΑΚΑΡΝΑΝΙΑΣ") == "ΝΟΜΟΣ ΑΙΤΩΛΙΑΣ ΚΑΙ ΑΚΑΡΝΑΝΙΑΣ"
+    assert snap_label("ΚΑΤΙ ΑΛΛΟ ΕΝΤΕΛΩΣ") is None
+    assert snap_label("ΝΟΜΟΣ ΥΑΛΚΗΓΗΚΖΣ") == "ΝΟΜΟΣ ΧΑΛΚΙΔΙΚΗΣ"
+    assert snap_label("ΝΟΜΟΣ ΖΛΔΗΑΣ") == "ΝΟΜΟΣ ΗΛΕΙΑΣ"
+    p = parse_bulletin_pdf((FIX / "IMERISIO_DELTIO_ANA_NOMO_05_11_2019.pdf").read_bytes())
+    assert p.price_date == date(2019, 11, 5)
+    assert len({r.prefecture for r in p.rows}) == 52
+    assert by_pref(p, "ΝΟΜΟΣ ΑΤΤΙΚΗΣ") == {"unleaded_95": 1.552, "unleaded_100": 1.800, "super": 1.778, "diesel": 1.358, "heating_oil": 1.029, "autogas": 0.746}
+    assert "super" not in by_pref(p, "ΝΟΜΟΣ ΑΡΓΟΛΙΔΟΣ")
+    assert all(r.prefecture.startswith("ΝΟΜΟΣ ") or r.prefecture == "ΕΛΛΑΔΑ" for r in p.rows)
+    assert "ΝΟΜΟΣ ΑΧΑΪΑΣ" in {r.prefecture for r in p.rows}
+
+
+def test_split_number_words_are_merged():
+    from simera.collectors.fuel_parser import _merge_split_numbers
+    words = [{"text": "1,9", "x0": 100, "x1": 112, "top": 50}, {"text": "98", "x0": 113, "x1": 122, "top": 50}, {"text": "2,014", "x0": 150, "x1": 170, "top": 50}]
+    assert [w["text"] for w in _merge_split_numbers(words)] == ["1,998", "2,014"]

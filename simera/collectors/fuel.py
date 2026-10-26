@@ -146,7 +146,10 @@ def repair(dry_run: bool = False) -> int:
     init_db()
     with SessionLocal() as session:
         bulletins = session.scalars(select(FuelBulletin)).all()
-        suspicious = [b for b in bulletins if b.rows_parsed < EXPECTED_MIN_ROWS or date_from_filename(b.url) != b.price_date or b.price_date < MIN_DATE]
+        from sqlalchemy import func
+
+        actual = dict(session.execute(select(FuelPrice.price_date, func.count(FuelPrice.id)).group_by(FuelPrice.price_date)).all())
+        suspicious = [b for b in bulletins if actual.get(b.price_date, 0) < EXPECTED_MIN_ROWS or date_from_filename(b.url) != b.price_date or b.price_date < MIN_DATE]
         dates = {b.price_date for b in suspicious} | {date_from_filename(b.url) for b in suspicious}
         victims = [b for b in bulletins if b.price_date in dates or date_from_filename(b.url) in dates]
         log.info("%d suspicious bulletins, %d bulletins/%d dates to re-fetch", len(suspicious), len(victims), len(dates))

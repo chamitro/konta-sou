@@ -7,6 +7,7 @@ column headers by x-position and assigns each price cell to the nearest header.
 """
 from __future__ import annotations
 
+import difflib
 import io
 import logging
 import re
@@ -119,6 +120,65 @@ def _group_rows(words, tol: float = 2.5):
 
 
 NATIONAL_RE = re.compile(r"^(ΠΑΝΕΛΛΗΝΙΟΣ|ΠΑΝΕΛΛΑΔΙΚ|Μ\.Ο\.|ΣΤΑΘΜΙΣΜΕΝΟΣ)")
+NATIONAL_FULL = "ΠΑΝΕΛΛΗΝΙΟΣ ΣΤΑΘΜΙΣΜΕΝΟΣ Μ.Ο."
+
+
+def _canonical_names() -> list[str]:
+    from simera.geo import PREFECTURE_CENTROIDS
+
+    return list(PREFECTURE_CENTROIDS) + [NATIONAL_FULL]
+
+
+_CANON: list[str] = []
+
+
+def _garble_similarity(a: str, b: str) -> float:
+    """Position-wise similarity where letters count as equal when their code points differ by at
+    most 2: broken PDF fonts shift glyphs by one or two places (Ι->Η, Δ->Γ, Χ->Υ, Σ->΢)."""
+    if abs(len(a) - len(b)) > 1:
+        return 0.0
+    n = max(len(a), len(b))
+    hits = sum(1 for x, y in zip(a, b) if x == y or abs(ord(x) - ord(y)) <= 2)
+    return hits / n
+
+
+def snap_label(label: str) -> str | None:
+    """Map a row label to a canonical prefecture name (or NATIONAL_LABEL), tolerating the
+    letter substitutions of broken PDF fonts (ΑΣΣΗΚΖ΢ -> ΑΤΤΙΚΗΣ). None if nothing is close."""
+    global _CANON
+    if not _CANON:
+        _CANON = _canonical_names()
+    label = re.sub(r"\s+", " ", label).strip()
+    if label in _CANON:
+        return NATIONAL_LABEL if label == NATIONAL_FULL else label
+    if NATIONAL_RE.match(label):
+        return NATIONAL_LABEL
+    scored = sorted(((_garble_similarity(label, c), c) for c in _CANON), reverse=True)
+    best, name = scored[0]
+    if best < 0.8 or (len(scored) > 1 and scored[1][0] == best):
+        m = difflib.get_close_matches(label, _CANON, n=1, cutoff=0.85)  # last resort for other kinds of damage
+        if not m:
+            return None
+        name = m[0]
+    return NATIONAL_LABEL if name == NATIONAL_FULL else name
+
+
+def _merge_split_numbers(words: list) -> list:
+    """Some fonts make pdfplumber split '1,998' into '1,9' + '98'; glue such pairs back."""
+    out = []
+    i = 0
+    while i < len(words):
+        w = words[i]
+        if i + 1 < len(words):
+            n = words[i + 1]
+            if re.fullmatch(r"\d,\d{1,2}", w["text"]) and re.fullmatch(r"\d{1,2}", n["text"]) and len(w["text"].split(",")[1]) + len(n["text"]) == 3 \
+                    and abs(n["top"] - w["top"]) < 2 and 0 <= n["x0"] - w["x1"] < 8:
+                out.append({**w, "text": w["text"] + n["text"], "x1": n["x1"]})
+                i += 2
+                continue
+        out.append(w)
+        i += 1
+    return out
 
 
 def parse_bulletin_pdf(data: bytes, fallback_columns: list[str] | None = None) -> ParsedBulletin:
@@ -126,11 +186,12 @@ def parse_bulletin_pdf(data: bytes, fallback_columns: list[str] | None = None) -
     (a few 2018 bulletins); normally the previous day's columns."""
     rows_out: list[PriceRow] = []
     anchors: list[tuple[float, str]] = []
+    seen_prefectures: set[str] = set()
     used_fallback = False  # noqa: F841 (kept for debugging)
     full_text = []
     with pdfplumber.open(io.BytesIO(data)) as pdf:
         for page in pdf.pages:
-            words = page.extract_words()
+            words = _merge_split_numbers(page.extract_words())
             full_text.append(fix_garble(page.extract_text() or ""))
             page_anchors = _find_anchors(words)
             if len(page_anchors) >= 3:
@@ -151,9 +212,16 @@ def parse_bulletin_pdf(data: bytes, fallback_columns: list[str] | None = None) -
                         if abs(other[0]["top"] - row[0]["top"]) <= 10 and not any(VALUE_RE.match(w["text"]) for w in other):
                             label_words += other
                 label = fix_garble(" ".join(w["text"] for w in sorted(label_words, key=lambda w: (w["top"], w["x0"])))).strip()
-                if not values or not (label.startswith("ΝΟΜΟΣ") or NATIONAL_RE.match(label)):
+                if not values or not (label.startswith("ΝΟΜΟ") or NATIONAL_RE.match(label) or label.startswith("ΠΑΝ")):
                     continue
-                prefecture = NATIONAL_LABEL if NATIONAL_RE.match(label) else re.sub(r"\s+", " ", label)
+                prefecture = snap_label(label)
+                if prefecture is None:
+                    log.warning("unrecognised row label %r", label)
+                    continue
+                if prefecture in seen_prefectures:
+                    log.warning("label %r resolved to %r which this bulletin already has; skipped", label, prefecture)
+                    continue
+                seen_prefectures.add(prefecture)
                 if len(values) == len(anchors):
                     assigned = [(w, f) for w, (_, f) in zip(values, anchors)]
                 else:
