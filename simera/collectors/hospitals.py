@@ -363,14 +363,67 @@ def collect(days_back: int = 1, refresh_today: bool = True, force: bool = False)
     return n
 
 
+# ---- relay: export/import of parsed rotas ---------------------------------------
+# The ministry's site answers 421 to requests from hosting networks (Render, GitHub Actions),
+# while a normal connection from Greece works. So a machine at home runs the collector and
+# publishes the parsed rota as JSON; the server imports that file when its own fetch fails.
+
+def export_json(path: Path, days_back: int = 1, days_ahead: int = 2) -> int:
+    init_db()
+    today = date.today()
+    out = {"generated_at": datetime.utcnow().isoformat() + "Z", "days": {}}
+    with SessionLocal() as s:
+        for rota in s.scalars(select(HospitalRota).where(HospitalRota.duty_date.between(today - timedelta(days=days_back), today + timedelta(days=days_ahead)))).all():
+            d = rota.duty_date
+            entries = s.scalars(select(HospitalDuty).where(HospitalDuty.duty_date == d)).all()
+            hcs = s.scalars(select(HealthCenterDuty).where(HealthCenterDuty.duty_date == d)).all()
+            out["days"][d.isoformat()] = {
+                "source_id": rota.source_id,
+                "entries": [dict(specialty=e.specialty, shift=e.shift, hospital=e.hospital, region=e.region, note=e.note, key=e.hospital_key) for e in entries],
+                "health_centers": [[h.name, h.hours, h.hospital_key] for h in hcs],
+            }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    return len(out["days"])
+
+
+def import_json(src: str) -> int:
+    """src: a URL or a local path to a file written by export_json."""
+    init_db()
+    if src.startswith("http"):
+        with httpx.Client(headers={"User-Agent": USER_AGENT}, timeout=60, follow_redirects=True) as c:
+            r = c.get(src)
+            r.raise_for_status()
+            data = r.json()
+    else:
+        data = json.loads(Path(src).read_text(encoding="utf-8"))
+    n = 0
+    with SessionLocal() as s:
+        for ymd, day in data["days"].items():
+            d = date.fromisoformat(ymd)
+            parsed = ParsedRota(d, [], [DutyEntry(e["specialty"], e["shift"], e["hospital"], e.get("region", ""), e.get("note", ""), e.get("key", "")) for e in day["entries"]],
+                                [tuple(h) for h in day["health_centers"]])
+            store(s, d, day.get("source_id", "relay"), parsed)
+            n += 1
+    log.info("imported %d rota days from %s", n, src)
+    return n
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description="Collect Attica hospital duty rotas (Ministry of Health)")
     p.add_argument("--days-back", type=int, default=1)
     p.add_argument("--force", action="store_true", help="re-fetch days already stored")
+    p.add_argument("--export", type=Path, help="after collecting, write the parsed rotas (yesterday..+2 days) to this JSON file")
+    p.add_argument("--import", dest="import_src", help="import rotas from a JSON file or URL instead of the ministry site")
     a = p.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
+    if a.import_src:
+        print(f"imported {import_json(a.import_src)} days")
+        return 0
     print(f"fetched {collect(a.days_back, force=a.force)} rota documents")
+    if a.export:
+        print(f"exported {export_json(a.export)} days to {a.export}")
     return 0
 
 

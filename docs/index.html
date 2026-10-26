@@ -222,7 +222,7 @@ async function loadStops() {
       el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill"><b>${esc(x.line||"?")}</b> ${x.minutes<=1?"τώρα":x.minutes+"′"}</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
     }
     stopsTimer = setTimeout(loadStops, 30000);
-  } catch (e) { body.innerHTML = `<div class="muted">${esc(e.message)}</div>`; }
+  } catch (e) { body.innerHTML = `<div class="muted">${esc(e.message)}${e.status===503?" Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων.":""}</div>`; }
 }
 
 // ---- what's around ---------------------------------------------------------------

@@ -6,7 +6,11 @@ cd "$(dirname "$0")/.."
 PY=.venv/bin/python
 echo "== $(date -Is) fuel";       $PY -m simera.collectors.fuel --days 7 --discard-raw
 echo "== $(date -Is) pharmacies"; $PY -m simera.collectors.pharmacies --days-ahead 7
-echo "== $(date -Is) hospitals";  $PY -m simera.collectors.hospitals --days-back 1
+echo "== $(date -Is) hospitals";  $PY -m simera.collectors.hospitals --days-back 1 --export data/export/hospitals-latest.json
+# The ministry site blocks hosting networks, so publish the parsed rota for the server (needs GH_TOKEN with repo scope).
+if [ -n "${GH_TOKEN:-}" ] && command -v gh >/dev/null; then
+  gh release upload data data/export/hospitals-latest.json -R chamitro/konta-sou --clobber && echo "hospital rota relay uploaded"
+fi
 echo "== $(date -Is) done"
 # Weekly (e.g. Sunday 04:00): metro/tram timetable and the places table from the OpenStreetMap Greece extract
 #   0 3 * * 0  cd /home/harry/newspaper_validity && .venv/bin/python -m simera.collectors.gtfs >> data/daily.log 2>&1

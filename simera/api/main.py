@@ -75,9 +75,19 @@ def fuel_prefectures():
 
 # ---- transit (Athens) -----------------------------------------------------
 
+LIVE_UNAVAILABLE = "Τα live δεδομένα ΟΑΣΑ δεν είναι διαθέσιμα από αυτόν τον διακομιστή."
+
+
+def _oasa(fn, *args):
+    try:
+        return fn(*args)
+    except Exception as e:  # network blocked or OASA down: tell the client instead of a bare 500
+        raise HTTPException(503, LIVE_UNAVAILABLE) from e
+
+
 @app.get("/api/transit/stops/near")
 def stops_near(lat: float, lng: float):
-    stops = oasa.closest_stops(lat, lng)
+    stops = _oasa(oasa.closest_stops, lat, lng)
     return [
         {"code": s["StopCode"], "name": s["StopDescr"], "street": s.get("StopStreet"), "lat": float(s["StopLat"]), "lng": float(s["StopLng"]), "distance_km": round(float(s["distance"]), 3)}
         for s in stops
@@ -86,12 +96,12 @@ def stops_near(lat: float, lng: float):
 
 @app.get("/api/transit/stops/{stop_code}/arrivals")
 def stop_arrivals(stop_code: str):
-    return {"stop": stop_code, "arrivals": oasa.arrivals_with_lines(stop_code)}
+    return {"stop": stop_code, "arrivals": _oasa(oasa.arrivals_with_lines, stop_code)}
 
 
 @app.get("/api/transit/stops/{stop_code}/routes")
 def stop_routes(stop_code: str):
-    return [{"line": r["LineID"], "route_code": r["RouteCode"], "destination": r["RouteDescr"]} for r in oasa.routes_for_stop(stop_code)]
+    return [{"line": r["LineID"], "route_code": r["RouteCode"], "destination": r["RouteDescr"]} for r in _oasa(oasa.routes_for_stop, stop_code)]
 
 
 

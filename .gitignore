@@ -5,6 +5,7 @@ data/*.db
 data/raw/
 data/osm/
 data/*.log
+data/export/
 .pytest_cache/
 .env
 data/shots/

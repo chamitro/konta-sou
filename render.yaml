@@ -12,5 +12,7 @@ services:
         value: "1"
       - key: ALLOWED_ORIGINS         # the GitHub Pages origin, e.g. https://<user>.github.io
         value: "*"
+      - key: HOSPITALS_URL           # relay file published by scripts/daily.sh from a machine in Greece (see README)
+        value: https://github.com/chamitro/konta-sou/releases/download/data/hospitals-latest.json
       - key: DATABASE_URL
         value: sqlite:///data/simera.db

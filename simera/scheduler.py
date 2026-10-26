@@ -15,12 +15,25 @@ from datetime import datetime, timedelta, timezone
 log = logging.getLogger(__name__)
 
 
+def _hospitals():
+    from simera.collectors import hospitals
+
+    try:
+        return hospitals.collect(1)
+    except Exception as e:  # noqa: BLE001
+        relay = os.environ.get("HOSPITALS_URL")
+        if not relay:
+            raise
+        log.warning("hospitals: ministry fetch failed (%s); importing relay file %s", e, relay)
+        return hospitals.import_json(relay)
+
+
 def _run_all() -> None:
     from simera.collectors import fuel, hospitals, pharmacies
 
     for name, fn in (("fuel", lambda: fuel.collect(since=datetime.now(timezone.utc).date() - timedelta(days=14), keep_raw=False)),
                      ("pharmacies", lambda: pharmacies.collect(7)),
-                     ("hospitals", lambda: hospitals.collect(1))):
+                     ("hospitals", _hospitals)):
         try:
             t0 = time.time()
             result = fn()
