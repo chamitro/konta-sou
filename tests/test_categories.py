@@ -10,6 +10,9 @@ def test_categorize():
     assert categorize({"amenity": "place_of_worship", "religion": "christian"}) == "church"
     assert categorize({"shop": "bakery"}) == "bakery"
     assert categorize({"highway": "bus_stop"}) is None
+    assert categorize({"internet_access": "wlan", "internet_access:fee": "no", "leisure": "park"}) == "wifi"
+    assert categorize({"internet_access": "wlan", "internet_access:fee": "no", "shop": "clothes"}) is None  # a shop's WiFi is not a public hotspot
+    assert categorize({"internet_access": "wlan", "internet_access:fee": "no", "amenity": "cafe"}) == "cafe"
 
 
 def test_every_category_has_label_filter_and_match():

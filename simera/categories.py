@@ -46,8 +46,11 @@ CATEGORIES: dict[str, dict] = {
 
 
 def _is_private_venue(t: dict) -> bool:
-    """Free WiFi is interesting as a public amenity (squares, libraries, municipal spots), not as a café perk."""
-    return t.get("amenity") in {"cafe", "restaurant", "bar", "pub", "fast_food", "hotel"} or t.get("tourism") == "hotel"
+    """Free WiFi is interesting as a public amenity (squares, parks, libraries, municipal hotspots),
+    not as a perk of a shop, café or hotel."""
+    return any(k in t for k in ("shop", "office", "craft", "tourism")) or t.get("amenity") in {
+        "cafe", "restaurant", "bar", "pub", "fast_food", "hotel", "bank", "pharmacy", "fuel", "car_rental", "dentist", "doctors", "clinic",
+    }
 
 
 def categorize(tags: dict) -> str | None:
