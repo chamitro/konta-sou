@@ -8,6 +8,7 @@ Open the app, it finds where you are, and shows what matters around you right no
 |---|---|---|
 | Fuel prices per prefecture (incl. heating oil) | working | fuelprices.gr daily PDF bulletins (archive from 2018; 2017 uses an unsupported Excel layout) |
 | Live bus arrivals (Athens) | working | OASA telematics API (public, unofficial) |
+| Metro and tram: nearest station, next departures (Athens) | working | ΣΤΑΣΥ GTFS feed (data.gov.gr, CC BY 4.0); exact day when the feed covers it, otherwise a representative same-weekday schedule labelled as indicative |
 | Electricity tariff of the month | planned | RAAEY monthly tariff tables |
 | Pharmacies on duty (Attica) | working | Attica Pharmacists' Association site (fsa-efimeries.gr), fetched daily for the next 7 days |
 | Hospitals on duty (Attica) | working | Ministry of Health daily rota (.doc), converted with LibreOffice; hospital coordinates from a curated table (approximate) |
@@ -31,6 +32,8 @@ python3.10 -m venv --without-pip .venv && curl -sS https://bootstrap.pypa.io/get
 .venv/bin/python -m simera.collectors.pharmacies            # next 7 days of Attica duty rotas
 .venv/bin/python -m simera.collectors.hospitals             # today's and tomorrow's Attica hospital rota (needs `soffice` on PATH)
 .venv/bin/python -m simera.collectors.osm_pois              # weekly: download the Greece OSM extract (~400 MB) and rebuild the places table
+.venv/bin/python -m simera.collectors.gtfs                  # weekly: metro/tram timetable (GTFS)
+scripts/devserver.sh start                                  # dev server on :8891 with a pid file (stop|restart)
 .venv/bin/uvicorn simera.api.main:app --reload
 ```
 

@@ -81,6 +81,18 @@ def stop_routes(stop_code: str):
 
 
 
+
+# ---- metro / tram (Athens, GTFS) -------------------------------------------
+
+from simera import rail  # noqa: E402
+
+
+@app.get("/api/transit/rail/near")
+def rail_near(lat: float, lng: float, limit: int = Query(3, le=10)):
+    """Nearest metro/tram stations with the next scheduled departures (timetable, not live)."""
+    return rail.stations_near(lat, lng, limit=limit)
+
+
 # ---- pharmacies (Attica) --------------------------------------------------
 
 import math  # noqa: E402

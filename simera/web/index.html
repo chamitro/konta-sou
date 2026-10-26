@@ -48,7 +48,8 @@
     <div id="pharm-body"><div class="muted">…</div></div>
   </section>
   <section class="card" id="transit">
-    <h2><span>Λεωφορεία</span><small>live · ΟΑΣΑ</small></h2>
+    <h2><span>Λεωφορεία, μετρό, τραμ</span><small>ΟΑΣΑ live · ΣΤΑΣΥ πρόγραμμα</small></h2>
+    <div id="rail-body"></div>
     <div id="transit-body"><div class="muted">…</div></div>
   </section>
   <section class="card" id="fuel">
@@ -71,7 +72,7 @@
     <div id="around-body"><div class="muted">Διάλεξε κατηγορία.</div></div>
   </section>
 </main>
-<footer>Πηγές: Φαρμακευτικός Σύλλογος Αττικής (fsa-efimeries.gr) · Υπουργείο Υγείας (εφημερίες νοσοκομείων Αττικής, συντεταγμένες προσεγγιστικές) · τηλεματική ΟΑΣΑ · Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές ανά νομό) · © OpenStreetMap contributors (ODbL).</footer>
+<footer>Πηγές: Φαρμακευτικός Σύλλογος Αττικής (fsa-efimeries.gr) · Υπουργείο Υγείας (εφημερίες νοσοκομείων Αττικής, συντεταγμένες προσεγγιστικές) · τηλεματική ΟΑΣΑ · δρομολόγια ΣΤΑΣΥ (GTFS, data.gov.gr) · Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές ανά νομό) · © OpenStreetMap contributors (ODbL).</footer>
 <script>
 const $ = s => document.querySelector(s);
 const FUELS = {unleaded_95:"Αμόλυβδη 95", unleaded_100:"Αμόλυβδη 100", diesel:"Diesel κίνησης", autogas:"Υγραέριο (Autogas)", heating_oil:"Πετρέλαιο θέρμανσης", super:"Super"};
@@ -102,7 +103,7 @@ async function start(lat, lng, fallback) {
   pos = [lat, lng];
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
-  loadPharmacies(); loadStops(); loadHospitals(); loadAround(currentCat);
+  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat);
   try {
     const loc = await (await fetch(`/api/location?lat=${lat}&lng=${lng}`)).json();
     if (!fallback) $("#place").textContent = loc.display || `${lat.toFixed(3)}, ${lng.toFixed(3)}`;
@@ -179,6 +180,18 @@ async function loadHospitals(spec) {
     $("#hosp-body").innerHTML = Object.entries(byShift).map(([shift, es]) => `<div class="row"><div class="meta"><b>${shift}</b></div>` +
       es.map(e => `<div>${e.name || e.hospital}${e.region?` <span class="muted">(${e.region})</span>`:""}${e.note?` <span class="muted">${e.note}</span>`:""}${e.distance_km!=null?`<span class="muted"> · ${e.distance_km} χλμ</span>`:""}${e.maps_url?` <a href="${e.maps_url}" target="_blank" rel="noreferrer">χάρτης</a>`:""}</div>`).join("") + `</div>`).join("") || `<div class="muted">Καμία καταχώρηση.</div>`;
   } catch (e) { $("#hosp-body").innerHTML = `<div class="err">Σφάλμα: ${e.message}</div>`; }
+}
+
+// ---- metro / tram ----------------------------------------------------------------
+async function loadRail() {
+  const el = $("#rail-body");
+  try {
+    const r = await (await fetch(`/api/transit/rail/near?lat=${pos[0]}&lng=${pos[1]}&limit=2`)).json();
+    if (!r.feed || !r.stations.length) { el.innerHTML = ""; return; }
+    el.innerHTML = r.stations.map(st => `<div class="row"><span class="name">${st.mode==="tram"?"🚋":"🚇"} ${st.name}</span><span class="meta"> ${st.lines.join(", ")} · ${Math.round(st.distance_km*1000)} μ.${st.wheelchair==="yes"?" · ♿":""}</span>
+      <div class="arr">${st.departures.length ? st.departures.slice(0,6).map(d=>`<span class="pill" title="${d.destination}"><b>${d.line}</b> ${d.minutes}′ <span class="muted">→ ${d.destination.split(" ")[0]}</span></span>`).join("") : `<span class="muted">Καμία προγραμματισμένη αναχώρηση τις επόμενες 3 ώρες</span>`}</div></div>`).join("")
+      + (r.feed.note ? `<div class="muted" style="margin-top:6px">${r.feed.note}</div>` : "");
+  } catch (e) { el.innerHTML = ""; }
 }
 
 // ---- buses -----------------------------------------------------------------------

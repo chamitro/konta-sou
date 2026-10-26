@@ -142,3 +142,51 @@ class PoiImport(Base):
     source_modified: Mapped[str] = mapped_column(String(40), default="")
     imported_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     count: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class RailFeed(Base):
+    __tablename__ = "rail_feeds"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source: Mapped[str] = mapped_column(String(300))
+    imported_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    first_date: Mapped[date] = mapped_column(Date)
+    last_date: Mapped[date] = mapped_column(Date)
+    stops: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class RailStation(Base):
+    """A metro/tram station: GTFS platform stops grouped by name."""
+
+    __tablename__ = "rail_stations"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(120), index=True)
+    lat: Mapped[float] = mapped_column(Float, index=True)
+    lng: Mapped[float] = mapped_column(Float, index=True)
+    stop_ids: Mapped[str] = mapped_column(String(200))  # comma-separated GTFS stop_ids
+    lines: Mapped[str] = mapped_column(String(80), default="")  # e.g. "M2,M3"
+    wheelchair: Mapped[str] = mapped_column(String(10), default="")
+
+
+class RailService(Base):
+    __tablename__ = "rail_services"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    service_id: Mapped[str] = mapped_column(String(20), index=True)
+    service_date: Mapped[date] = mapped_column(Date, index=True)
+
+
+class RailDepartures(Base):
+    """All scheduled departures at one station for one service day, one line and direction."""
+
+    __tablename__ = "rail_departures"
+    __table_args__ = (UniqueConstraint("station_id", "service_id", "line", "destination", name="uq_rail_dep"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    station_id: Mapped[int] = mapped_column(Integer, index=True)
+    service_id: Mapped[str] = mapped_column(String(20), index=True)
+    line: Mapped[str] = mapped_column(String(10))
+    destination: Mapped[str] = mapped_column(String(120))
+    route_type: Mapped[int] = mapped_column(Integer)  # 0 tram, 1 metro
+    times: Mapped[str] = mapped_column(String)  # JSON sorted list of departure seconds since service midnight
