@@ -18,7 +18,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
     if (url.pathname === "/probe") {
-      const out = { colo: request.cf && request.cf.colo };  // which Cloudflare data centre ran this request
+      const out = { colo: (request.cf colo: request.cf && request.cf.colo }colo: request.cf && request.cf.colo } request.cf.colo) || null };  // which Cloudflare data centre ran this request
       for (const [k, base] of Object.entries(UPSTREAMS)) {
         const target = k === "oasa" ? base + "/api/?act=webGetLines" : base + "/articles/citizen/efhmeries-nosokomeiwn/68-efhmeries-nosokomeiwn-attikhs";
         try { const r = await fetch(target, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(15000) }); out[k] = r.status; }

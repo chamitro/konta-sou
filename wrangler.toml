@@ -2,3 +2,7 @@
 name = "konta-sou"
 main = "worker/worker.js"
 compatibility_date = "2026-01-01"
+
+# Run near the Greek upstreams instead of near the caller (OASA and the ministry only answer from Greece).
+[placement]
+mode = "smart"
