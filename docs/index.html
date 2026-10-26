@@ -2,115 +2,246 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
-<meta name="description" content="Κοντά σου: ανοίγεις την εφαρμογή, βρίσκει πού είσαι και σου δείχνει ό,τι μετράει γύρω σου τώρα. Εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία live, τιμές καυσίμων και ό,τι υπάρχει κοντά.">
+<meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
+<meta name="theme-color" content="#0b1020">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#0b1020; --bg2:#121a33; --card:#161f3d; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#5b8cff; --accent2:#35c88a; --warn:#ffb84d; }
-  :root[data-theme="light"], :root:not([data-theme="dark"]) { }
-  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg:#f5f7ff; --bg2:#eef2ff; --card:#ffffff; --text:#101433; --muted:#58628a; --line:#dde3f5; --accent:#2f5fe0; --accent2:#179a63; } }
-  :root[data-theme="dark"] { --bg:#0b1020; --bg2:#121a33; --card:#161f3d; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#5b8cff; --accent2:#35c88a; }
+  :root { --bg:#f4f6fc; --bg2:#eaeefb; --card:#ffffff; --text:#10142e; --muted:#5d6788; --line:#e1e6f5; --accent:#2f5fe0; --accent-soft:rgba(47,95,224,.10); --ok:#179a63; --ok-soft:rgba(23,154,99,.12); --warn:#b7791f; --warn-soft:rgba(255,184,77,.18); --bad:#c53030; --bad-soft:rgba(197,48,48,.12); --shadow:0 10px 30px rgba(16,20,46,.06); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#0b1020; --bg2:#111831; --card:#151d3a; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#6d9bff; --accent-soft:rgba(109,155,255,.14); --ok:#3dd68c; --ok-soft:rgba(61,214,140,.14); --warn:#ffc26b; --warn-soft:rgba(255,194,107,.16); --bad:#ff7b7b; --bad-soft:rgba(255,123,123,.14); --shadow:0 10px 30px rgba(0,0,0,.35); } }
+  :root[data-theme="dark"] { --bg:#0b1020; --bg2:#111831; --card:#151d3a; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#6d9bff; --accent-soft:rgba(109,155,255,.14); --ok:#3dd68c; --ok-soft:rgba(61,214,140,.14); --warn:#ffc26b; --warn-soft:rgba(255,194,107,.16); --bad:#ff7b7b; --bad-soft:rgba(255,123,123,.14); --shadow:0 10px 30px rgba(0,0,0,.35); }
   * { box-sizing:border-box }
-  html { scroll-behavior:smooth }
-  body { margin:0; background:var(--bg); color:var(--text); font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5 }
-  .wrap { max-width:1040px; margin:0 auto; padding:0 16px }
-  nav { display:flex; justify-content:space-between; align-items:center; padding:18px 0 }
-  nav .logo { font-weight:800; font-size:20px; letter-spacing:-.02em } nav .logo span { color:var(--accent) }
-  nav a { color:var(--muted); text-decoration:none; margin-left:18px; font-weight:600; font-size:14px } nav a:hover { color:var(--text) }
-  .hero { padding:56px 0 40px; display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center }
-  h1 { font-size:clamp(36px,6vw,60px); line-height:1.05; letter-spacing:-.03em; margin:0 0 16px; font-weight:800 }
-  h1 em { font-style:normal; color:var(--accent) }
-  .lead { font-size:18px; color:var(--muted); margin:0 0 24px; max-width:520px }
-  .cta { display:inline-flex; gap:12px; flex-wrap:wrap }
-  .btn { display:inline-block; padding:12px 20px; border-radius:12px; font-weight:700; text-decoration:none; border:1px solid var(--line); color:var(--text); background:var(--card) }
-  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff }
-  .phone { background:linear-gradient(160deg,var(--bg2),var(--card)); border:1px solid var(--line); border-radius:28px; padding:18px; box-shadow:0 30px 80px rgba(0,0,0,.25); max-width:360px; margin:0 auto; width:100% }
-  .phone .bar { font-size:12px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:10px }
-  .phone h3 { margin:0 0 2px; font-size:22px; font-weight:800 } .phone .where { color:var(--muted); font-size:13px; margin-bottom:12px }
-  .mini { background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:10px }
-  .mini .t { font-weight:700; font-size:14px; display:flex; justify-content:space-between } .mini .t small { color:var(--muted); font-weight:600 }
-  .mini .l { font-size:13px; color:var(--muted); margin-top:4px }
-  .tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:rgba(53,200,138,.15); color:var(--accent2); font-weight:700; margin-left:6px }
-  .pills { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px } .pill { font-size:12px; border:1px solid var(--line); border-radius:999px; padding:2px 8px } .pill b { color:var(--accent) }
-  section { padding:40px 0 }
-  h2 { font-size:28px; letter-spacing:-.02em; margin:0 0 8px } .sub { color:var(--muted); margin:0 0 24px; max-width:640px }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px }
-  .card .ic { width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--bg2); margin-bottom:12px; font-size:20px }
-  .card h3 { margin:0 0 6px; font-size:17px } .card p { margin:0; color:var(--muted); font-size:14px }
-  .card .src { margin-top:10px; font-size:12px; color:var(--muted) } .card .src b { color:var(--text); font-weight:600 }
-  .status { font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; float:right }
-  .live { background:rgba(53,200,138,.15); color:var(--accent2) } .soon { background:rgba(255,184,77,.15); color:var(--warn) }
-  .chips { display:flex; flex-wrap:wrap; gap:8px } .chip { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:8px 14px; font-size:14px; font-weight:600 }
-  .principles { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px }
-  .principles .card h3 { color:var(--accent) }
-  footer { border-top:1px solid var(--line); padding:28px 0 40px; color:var(--muted); font-size:13px }
-  footer a { color:var(--muted) }
-  @media (max-width:760px) { .hero { grid-template-columns:1fr; padding-top:28px } nav a { margin-left:12px } }
+  html { -webkit-text-size-adjust:100% }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.45; font-size:16px }
+  a { color:var(--accent) }
+  .top { background:radial-gradient(1200px 300px at 20% -20%, var(--accent-soft), transparent), var(--bg2); border-bottom:1px solid var(--line) }
+  .top .in { max-width:760px; margin:0 auto; padding:22px 16px 18px }
+  .brand { font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent) }
+  h1 { margin:6px 0 2px; font-size:clamp(26px,6vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1.1 }
+  .where { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:15px; flex-wrap:wrap }
+  .where b { color:var(--text); font-weight:700 }
+  .link { background:none; border:0; padding:0; color:var(--accent); font:inherit; font-size:14px; font-weight:600; cursor:pointer }
+  .date { color:var(--muted); font-size:13px; margin-top:4px }
+  main { max-width:760px; margin:0 auto; padding:16px 16px 40px; display:grid; gap:14px }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:16px; box-shadow:var(--shadow) }
+  .card > h2 { margin:0 0 12px; font-size:17px; font-weight:800; display:flex; align-items:center; gap:10px }
+  .card > h2 .ic { width:34px; height:34px; border-radius:11px; display:grid; place-items:center; background:var(--accent-soft); font-size:18px; flex:none }
+  .card > h2 .right { margin-left:auto; display:flex; align-items:center; gap:8px; font-weight:600; font-size:13px; color:var(--muted) }
+  select { font:inherit; font-size:14px; font-weight:600; padding:7px 30px 7px 10px; border-radius:10px; border:1px solid var(--line); background:var(--bg2) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235d6788' stroke-width='1.8'/></svg>") no-repeat right 10px center; color:var(--text); appearance:none; max-width:60vw }
+  .row { padding:12px 0; border-top:1px solid var(--line); display:grid; gap:4px } .row:first-child { border-top:0; padding-top:4px } .row:last-child { padding-bottom:4px }
+  .row .name { font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap }
+  .row .meta { color:var(--muted); font-size:14px }
+  .row .acts { display:flex; gap:14px; flex-wrap:wrap; margin-top:2px }
+  .row .acts a { font-size:14px; font-weight:600; text-decoration:none }
+  .dist { color:var(--muted); font-weight:600; font-size:13px; white-space:nowrap }
+  .badge { font-size:12px; font-weight:700; padding:2px 9px; border-radius:999px; white-space:nowrap }
+  .badge.open { background:var(--ok-soft); color:var(--ok) } .badge.soon { background:var(--warn-soft); color:var(--warn) } .badge.closed { background:var(--bad-soft); color:var(--bad) } .badge.info { background:var(--accent-soft); color:var(--accent) }
+  .pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px }
+  .pill { background:var(--bg2); border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:14px; font-weight:600; white-space:nowrap } .pill b { color:var(--accent); font-weight:800 } .pill .to { color:var(--muted); font-weight:500 }
+  .muted { color:var(--muted); font-size:14px } .err { color:var(--bad); font-size:14px } .note { color:var(--muted); font-size:13px; margin-top:8px }
+  table { width:100%; border-collapse:collapse } td { padding:9px 0; border-top:1px solid var(--line); font-size:15px } tr:first-child td { border-top:0 }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; font-weight:700 }
+  .chg { font-size:13px; margin-left:8px; font-weight:600 } .up { color:var(--bad) } .down { color:var(--ok) } .flat { color:var(--muted) }
+  svg.spark { width:100%; height:52px; margin-top:10px; display:block }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px }
+  .chip { background:var(--bg2); border:1px solid var(--line); color:var(--text); border-radius:999px; padding:7px 13px; font:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:transform .08s }
+  .chip:active { transform:scale(.97) } .chip.on { background:var(--accent); color:#fff; border-color:var(--accent) }
+  .toggle { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px; margin:-2px 0 10px; cursor:pointer } .toggle input { width:18px; height:18px; accent-color:var(--accent) }
+  .skel { height:14px; border-radius:7px; background:linear-gradient(90deg,var(--bg2),var(--line),var(--bg2)); background-size:200% 100%; animation:sh 1.2s infinite; margin:10px 0 } @keyframes sh { to { background-position:-200% 0 } }
+  .banner { background:var(--warn-soft); color:var(--warn); border:1px solid var(--line); border-radius:14px; padding:10px 14px; font-size:14px; font-weight:600 }
+  footer { max-width:760px; margin:0 auto; padding:0 16px 32px; color:var(--muted); font-size:12px; line-height:1.6 } footer a { color:var(--muted) }
+  @media (max-width:420px) { .card { padding:14px; border-radius:16px } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav>
-    <div class="logo">Κοντά <span>σου</span></div>
-    <div><a href="#features">Τι δείχνει</a><a href="#around">Κοντά</a><a href="#principles">Αρχές</a><a href="https://github.com/charalambos-mitropoulos/konta-sou">GitHub</a></div>
-  </nav>
+<header class="top"><div class="in">
+  <div class="brand">Κοντά σου</div>
+  <h1 id="greet">Καλώς ήρθες</h1>
+  <div class="where"><span>📍</span><b id="place">Εντοπισμός θέσης…</b><button class="link" id="relocate" hidden>αλλαγή</button></div>
+  <div class="date" id="today"></div>
+</div></header>
+<main id="main">
+  <div id="offline" class="banner" hidden>Ο διακομιστής δεδομένων δεν απαντά. Η σελίδα χρειάζεται το API του «Κοντά σου».</div>
+  <section class="card" id="pharm"><h2><span class="ic">💊</span>Εφημερεύοντα φαρμακεία<span class="right">Αττική</span></h2><div id="pharm-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
+  <section class="card" id="transit"><h2><span class="ic">🚌</span>Λεωφορεία, μετρό, τραμ<span class="right">ΟΑΣΑ live · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
+  <section class="card" id="fuel"><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><table id="fuel-table"></table><svg class="spark" id="spark" viewBox="0 0 300 52" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
+  <section class="card" id="hosp"><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
+  <section class="card" id="around"><h2><span class="ic">🧭</span>Τι υπάρχει κοντά<span class="right">1 χλμ · OpenStreetMap</span></h2><div class="chips" id="chips"></div><label class="toggle"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label><div id="around-body"><div class="muted">Διάλεξε κατηγορία.</div></div></section>
+</main>
+<footer>Πηγές: Φαρμακευτικός Σύλλογος Αττικής · Υπουργείο Υγείας (εφημερίες νοσοκομείων Αττικής, συντεταγμένες προσεγγιστικές) · τηλεματική ΟΑΣΑ · δρομολόγια ΣΤΑΣΥ (GTFS) · Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές ανά νομό) · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL). Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά</a></footer>
+<script>window.KONTA_API = "";</script>
+<script>
+const API = (window.KONTA_API || "").replace(/\/$/, "");
+if (API) document.getElementById("about-link").hidden = false;
+const $ = s => document.querySelector(s);
+const FUELS = {unleaded_95:"Αμόλυβδη 95", unleaded_100:"Αμόλυβδη 100", diesel:"Diesel κίνησης", autogas:"Υγραέριο (Autogas)", heating_oil:"Πετρέλαιο θέρμανσης", super:"Super"};
+const CAT_ICONS = {atm:"🏧",charging:"🔌",pharmacy:"💊",supermarket:"🛒",bakery:"🥖",kiosk:"🏪",cafe:"☕",restaurant:"🍽",bar:"🍸",parking:"🅿",toilets:"🚻",water:"🚰",playground:"🛝",post:"📮",kep:"🏛",church:"⛪",hospital:"🏥",beach:"🏖",taxi:"🚕",bike:"🚲",wifi:"📶",metro:"🚇",bank:"🏦",fuel:"⛽"};
+const DEFAULT_POS = [37.9838, 23.7275]; // Omonoia
+let pos = null, latest = null, currentCat = null, stopsTimer = null;
+const now = new Date(), h = now.getHours();
+$("#greet").textContent = h < 5 ? "Καληνύχτα" : h < 12 ? "Καλημέρα" : h < 18 ? "Καλό μεσημέρι" : "Καλησπέρα";
+$("#today").textContent = now.toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long"}) + " · " + now.toLocaleTimeString("el-GR", {hour:"2-digit", minute:"2-digit"});
+(function orderCards(){ const order = h < 11 ? ["transit","fuel","pharm","hosp","around"] : h < 19 ? ["pharm","transit","around","fuel","hosp"] : ["pharm","hosp","transit","around","fuel"]; const m = $("#main"); for (const id of order) m.appendChild(document.getElementById(id)); })();
 
-  <section class="hero">
-    <div>
-      <h1>Ό,τι μετράει <em>γύρω σου</em>, τώρα.</h1>
-      <p class="lead">Ανοίγεις την εφαρμογή, βρίσκει πού είσαι και σου λέει: ποιο φαρμακείο εφημερεύει, ποιο νοσοκομείο δέχεται, πότε έρχεται το λεωφορείο, πόσο πάει η βενζίνη και τι υπάρχει στη γειτονιά. Χωρίς εγγραφή, χωρίς διαφημίσεις, με ανοιχτά δεδομένα.</p>
-      <div class="cta"><a class="btn primary" href="#features">Δες τι κάνει</a><a class="btn" href="https://github.com/charalambos-mitropoulos/konta-sou">Κώδικας στο GitHub</a></div>
-    </div>
-    <div class="phone" aria-hidden="true">
-      <div class="bar"><span>Κοντά σου</span><span>Κυψέλη, Αθήνα</span></div>
-      <h3>Καλησπέρα</h3>
-      <div class="where">Δευτέρα 26 Οκτωβρίου · 21:40</div>
-      <div class="mini"><div class="t">Εφημερεύον φαρμακείο <small>0.4 χλμ</small></div><div class="l">Κυψέλης 48 · 8 πρωί – 8 πρωί επομένης <span class="tag">ανοιχτό</span></div></div>
-      <div class="mini"><div class="t">Νοσοκομείο 24ωρης εφημερίας <small>2.0 χλμ</small></div><div class="l">Γ.Ν.Α. «Ο Ευαγγελισμός» · Παθολογική</div></div>
-      <div class="mini"><div class="t">ΠΛ. ΚΥΨΕΛΗΣ <small>120 μ.</small></div><div class="pills"><span class="pill"><b>054</b> 3′</span><span class="pill"><b>608</b> 7′</span><span class="pill"><b>622</b> 12′</span></div></div>
-      <div class="mini"><div class="t">Αμόλυβδη 95 · Αττική <small>2.135 €</small></div><div class="l">−4.6 λεπτά σε 7 ημέρες · 5 βενζινάδικα σε 1 χλμ</div></div>
-    </div>
-  </section>
+async function api(path) {
+  const r = await fetch(API + path);
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(j.detail || r.statusText); e.status = r.status; throw e; }
+  return j;
+}
+const m = km => km < 1 ? `${Math.round(km*1000)} μ.` : `${km.toFixed(1)} χλμ`;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-  <section id="features">
-    <h2>Τι δείχνει</h2>
-    <p class="sub">Κάρτες που αλλάζουν σειρά με την ώρα της ημέρας: το πρωί πρώτα τα λεωφορεία, το βράδυ πρώτα το φαρμακείο.</p>
-    <div class="grid">
-      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">💊</div><h3>Εφημερεύοντα φαρμακεία</h3><p>Τα κοντινότερα ανοιχτά τώρα, με ωράριο, τηλέφωνο και πλοήγηση. Ξέρει ότι η νυχτερινή εφημερία συνεχίζει μετά τα μεσάνυχτα.</p><div class="src">Πηγή: <b>Φαρμακευτικός Σύλλογος Αττικής</b></div></div>
-      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">🏥</div><h3>Εφημερεύοντα νοσοκομεία</h3><p>Ποιο νοσοκομείο εφημερεύει σήμερα για κάθε κλινική και βάρδια, με απόσταση από εσένα και τα Κέντρα Υγείας.</p><div class="src">Πηγή: <b>Υπουργείο Υγείας</b>, ημερήσιο πρόγραμμα Αττικής</div></div>
-      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">🚌</div><h3>Λεωφορεία live</h3><p>Οι πιο κοντινές στάσεις και οι επόμενες αφίξεις σε λεπτά, ανανέωση κάθε 30 δευτερόλεπτα.</p><div class="src">Πηγή: <b>Τηλεματική ΟΑΣΑ</b></div></div>
-      <div class="card"><span class="status soon">σύντομα</span><div class="ic">🚇</div><h3>Μετρό και τραμ</h3><p>Ο κοντινότερος σταθμός και οι επόμενες αναχωρήσεις.</p><div class="src">Πηγή: <b>ΣΤΑΣΥ</b>, ανοιχτά δρομολόγια GTFS</div></div>
-      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">⛽</div><h3>Καύσιμα</h3><p>Μέσες τιμές του νομού σου για 5 καύσιμα, μεταβολή εβδομάδας, ιστορικό από το 2018 και τα βενζινάδικα γύρω σου.</p><div class="src">Πηγή: <b>Παρατηρητήριο Τιμών Υγρών Καυσίμων</b></div></div>
-      <div class="card"><span class="status soon">σύντομα</span><div class="ic">⚡</div><h3>Ρεύμα του μήνα</h3><p>Τα τιμολόγια όλων των παρόχων κάθε 1η του μήνα και ειδοποίηση όταν αλλάζουν.</p><div class="src">Πηγή: <b>ΡΑΑΕΥ</b></div></div>
-      <div class="card"><span class="status soon">σύντομα</span><div class="ic">🥬</div><h3>Λαϊκή αγορά</h3><p>Ποια λαϊκή είναι σήμερα στη γειτονιά σου.</p><div class="src">Πηγή: αποφάσεις <b>Περιφέρειας Αττικής</b></div></div>
-      <div class="card"><span class="status soon">σύντομα</span><div class="ic">🎭</div><h3>Εκδηλώσεις κοντά</h3><p>Δωρεάν δημοτικές εκδηλώσεις και πανηγύρια της εβδομάδας.</p><div class="src">Πηγή: δημοτικοί <b>πολιτιστικοί οργανισμοί</b></div></div>
-    </div>
-  </section>
+// ---- location --------------------------------------------------------------
+function locate(force) {
+  let saved = null; try { saved = JSON.parse(localStorage.getItem("pos")); } catch(e) {}
+  if (saved && !force) start(saved[0], saved[1], false);
+  if (!navigator.geolocation) { if (!saved) start(...DEFAULT_POS, true); return; }
+  navigator.geolocation.getCurrentPosition(p => {
+    const np = [p.coords.latitude, p.coords.longitude];
+    try { localStorage.setItem("pos", JSON.stringify(np)); } catch(e) {}
+    if (!saved || force || Math.abs(saved[0]-np[0])+Math.abs(saved[1]-np[1]) > 0.002) start(np[0], np[1], false);
+  }, () => { if (!saved) start(...DEFAULT_POS, true); }, {timeout:8000, maximumAge:60000});
+}
+$("#relocate").onclick = () => locate(true);
+async function start(lat, lng, fallback) {
+  pos = [lat, lng];
+  $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
+  $("#relocate").hidden = false;
+  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat);
+  try {
+    const loc = await api(`/api/location?lat=${lat}&lng=${lng}`);
+    $("#offline").hidden = true;
+    if (!fallback) $("#place").textContent = loc.display || `${lat.toFixed(3)}, ${lng.toFixed(3)}`;
+    loadFuel(loc.prefecture);
+  } catch (e) { if (e.name === "TypeError") $("#offline").hidden = false; loadFuel("ΝΟΜΟΣ ΑΤΤΙΚΗΣ"); }
+}
 
-  <section id="around">
-    <h2>Τι υπάρχει κοντά</h2>
-    <p class="sub">Είκοσι και πλέον κατηγορίες από το OpenStreetMap για όλη την Ελλάδα, με απόσταση, ωράριο όπου υπάρχει και φίλτρο προσβασιμότητας ΑΜΕΑ.</p>
-    <div class="chips">
-      <span class="chip">⛽ Βενζινάδικα</span><span class="chip">🏧 ATM</span><span class="chip">🔌 Φορτιστές EV</span><span class="chip">🥖 Φούρνοι</span><span class="chip">☕ Καφέ</span><span class="chip">🍽 Εστιατόρια</span><span class="chip">🍸 Μπαρ</span><span class="chip">🛒 Σούπερ μάρκετ</span><span class="chip">🅿 Πάρκινγκ</span><span class="chip">🚻 Τουαλέτες</span><span class="chip">🚰 Βρύσες</span><span class="chip">🛝 Παιδικές χαρές</span><span class="chip">📮 Ταχυδρομεία</span><span class="chip">🏛 ΚΕΠ</span><span class="chip">⛪ Εκκλησίες</span><span class="chip">🏖 Παραλίες</span><span class="chip">🚕 Πιάτσες ταξί</span><span class="chip">🚲 Κοινόχρηστα ποδήλατα</span><span class="chip">📶 Δωρεάν WiFi</span><span class="chip">♿ Προσβάσιμα</span>
-    </div>
-  </section>
+// ---- fuel ------------------------------------------------------------------
+async function loadFuel(autoPref) {
+  try {
+    if (!latest) latest = await api("/api/fuel/latest");
+    const prefs = Object.keys(latest.prefectures).sort((a,b)=>a.localeCompare(b,"el"));
+    const sel = $("#pref"), pick = prefs.includes(autoPref) ? autoPref : "ΝΟΜΟΣ ΑΤΤΙΚΗΣ";
+    sel.innerHTML = prefs.map(p=>`<option value="${esc(p)}" ${p===pick?"selected":""}>${p==="ΕΛΛΑΔΑ"?"Ελλάδα (μέσος όρος)":esc(p.replace("ΝΟΜΟΣ ",""))}</option>`).join("");
+    sel.onchange = () => renderFuel(sel.value);
+    renderFuel(pick); loadFuelStations();
+  } catch (e) { $("#fuel-meta").innerHTML = `<span class="err">Δεν υπάρχουν δεδομένα καυσίμων (${esc(e.message)}).</span>`; }
+}
+function renderFuel(pref) {
+  const d = latest.prefectures[pref];
+  $("#fuel-meta").textContent = `Μέσες τιμές νομού, ${new Date(latest.date).toLocaleDateString("el-GR")} · €/λίτρο · μεταβολή 7 ημερών`;
+  $("#fuel-table").innerHTML = Object.entries(d).map(([f,v]) => {
+    const c = v.change_7d, cls = c==null?"flat":c>0.0005?"up":c<-0.0005?"down":"flat", txt = c==null?"":(c>0?"▲ +":"▼ ")+(c*100).toFixed(1)+" λ.";
+    return `<tr><td>${FUELS[f]||f}</td><td class="num">${v.price.toFixed(3)}<span class="chg ${cls}">${txt}</span></td></tr>`;
+  }).join("");
+  loadSpark(pref, "unleaded_95");
+}
+async function loadSpark(pref, fuel) {
+  try {
+    const r = await api(`/api/fuel/history?prefecture=${encodeURIComponent(pref)}&fuel=${fuel}&days=90`);
+    const pts = r.points, svg = $("#spark");
+    if (pts.length < 2) { svg.innerHTML = ""; $("#spark-label").textContent = ""; return; }
+    const ys = pts.map(p=>p.price), min = Math.min(...ys), max = Math.max(...ys), span = (max-min)||0.01;
+    const path = pts.map((p,i)=>`${i?"L":"M"}${(i/(pts.length-1)*300).toFixed(1)},${(46-(p.price-min)/span*40).toFixed(1)}`).join(" ");
+    svg.innerHTML = `<path d="${path} L300,52 L0,52 Z" fill="var(--accent-soft)"/><path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"/>`;
+    $("#spark-label").textContent = `${FUELS[fuel]}, τελευταίες ${pts.length} ημέρες: ${min.toFixed(3)} – ${max.toFixed(3)} €`;
+  } catch (e) {}
+}
+async function loadFuelStations() {
+  const el = $("#fuel-stations");
+  try {
+    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=fuel&radius=1500&limit=5`);
+    el.innerHTML = `<div class="note">Βενζινάδικα κοντά σου. Οι τιμές ανά πρατήριο δεν δημοσιεύονται ανοιχτά.</div>` + r.items.map(s=>place(s)).join("");
+  } catch (e) { el.innerHTML = ""; }
+}
 
-  <section id="principles">
-    <h2>Αρχές</h2>
-    <div class="principles">
-      <div class="card"><h3>Μόνο ανοιχτά δεδομένα</h3><p>Δημόσιες πηγές που δημοσιεύονται για τους πολίτες. Όταν μια πηγή προστατεύει τα δεδομένα της, όπως οι τιμές ανά πρατήριο, το σεβόμαστε και το λέμε.</p></div>
-      <div class="card"><h3>Λέμε τι ξέρουμε</h3><p>Αν δεν ξέρουμε το ωράριο, δεν δείχνουμε «ανοιχτό». Αν οι συντεταγμένες είναι προσεγγιστικές, το γράφουμε.</p></div>
-      <div class="card"><h3>Χωρίς λογαριασμό, χωρίς παρακολούθηση</h3><p>Η θέση σου μένει στη συσκευή και χρησιμοποιείται μόνο για να απαντήσει «τι είναι κοντά».</p></div>
-      <div class="card"><h3>Ανοιχτός κώδικας</h3><p>Python, FastAPI, SQLite ή PostgreSQL, μια σελίδα HTML. Διορθώνεις ένα μαγαζί στο OpenStreetMap και εμφανίζεται στην επόμενη εβδομαδιαία εισαγωγή.</p></div>
-    </div>
-  </section>
+// ---- shared place row ----------------------------------------------------------
+function badge(s) { return (s.open_now===true?`<span class="badge open">ανοιχτό</span>`:s.open_now===false?`<span class="badge closed">κλειστό</span>`:"") + (s.wheelchair==="yes"?`<span title="προσβάσιμο ΑΜΕΑ">♿</span>`:""); }
+function place(s) {
+  return `<div class="row"><div class="name">${esc(s.name)} ${badge(s)}<span class="dist">· ${m(s.distance_km)}</span></div>
+    <div class="meta">${[s.address, s.opening_hours, s.cuisine].filter(Boolean).map(esc).join(" · ")}</div>
+    <div class="acts">${s.phone?`<a href="tel:${esc(s.phone)}">Κλήση</a>`:""}<a href="${esc(s.maps_url)}" target="_blank" rel="noreferrer">Πλοήγηση</a>${s.website?`<a href="${esc(s.website)}" target="_blank" rel="noreferrer">Ιστότοπος</a>`:""}</div></div>`;
+}
 
-  <footer>
-    Πηγές: Φαρμακευτικός Σύλλογος Αττικής · Υπουργείο Υγείας · ΟΑΣΑ · Παρατηρητήριο Τιμών Υγρών Καυσίμων (Υπ. Ανάπτυξης) · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL). Attica first, Greece next.
-  </footer>
-</div>
+// ---- pharmacies -------------------------------------------------------------
+async function loadPharmacies() {
+  const body = $("#pharm-body");
+  try {
+    const r = await api(`/api/pharmacies/on-duty?lat=${pos[0]}&lng=${pos[1]}&limit=6`);
+    if (!r.pharmacies.length) { body.innerHTML = `<div class="muted">Δεν βρέθηκαν εφημερεύοντα φαρμακεία κοντά.</div>`; return; }
+    body.innerHTML = r.pharmacies.map(p => `<div class="row"><div class="name">${esc(p.name)} ${p.open_now?`<span class="badge open">ανοιχτό</span>`:`<span class="badge soon">ανοίγει σε ${Math.round(p.opens_in_min/60*10)/10} ώρ.</span>`}<span class="dist">· ${m(p.distance_km)}</span></div>
+      <div class="meta">${esc(p.address)}, ${esc(p.area)} · ${esc(p.hours.toLowerCase())}</div>
+      <div class="acts"><a href="tel:${esc(p.phone)}">Κλήση ${esc(p.phone)}</a><a href="${esc(p.maps_url)}" target="_blank" rel="noreferrer">Πλοήγηση</a></div></div>`).join("");
+  } catch (e) { body.innerHTML = `<div class="err">${esc(e.message)}</div>`; }
+}
+
+// ---- hospitals ------------------------------------------------------------------
+async function loadHospitals(spec) {
+  try {
+    const q = new URLSearchParams({specialty: spec || $("#spec").value || "Παθολογική", lat: pos[0], lng: pos[1]});
+    const r = await api(`/api/hospitals/on-duty?${q}`);
+    const sel = $("#spec");
+    if (sel.options.length <= 1) { sel.innerHTML = r.specialties.map(x=>`<option ${x===(spec||"Παθολογική")?"selected":""}>${esc(x)}</option>`).join(""); sel.onchange = () => loadHospitals(sel.value); }
+    $("#hosp-meta").textContent = `Αττική, ${new Date(r.date).toLocaleDateString("el-GR")}` + (r.health_centers.length ? ` · Κέντρα Υγείας: ${r.health_centers.map(x=>x.name.replace("Κ.Υ. ","")+" ("+x.hours+")").join(", ")}` : "");
+    const byShift = {}; for (const e of r.entries) (byShift[e.shift] ||= []).push(e);
+    $("#hosp-body").innerHTML = Object.entries(byShift).map(([shift, es]) => `<div class="row"><div class="meta"><span class="badge info">${esc(shift)}</span></div>` +
+      es.map(e => `<div class="name" style="font-weight:600">${esc(e.name || e.hospital)}${e.region?` <span class="muted">(${esc(e.region)})</span>`:""}${e.note?` <span class="muted">${esc(e.note)}</span>`:""}${e.distance_km!=null?`<span class="dist">· ${m(e.distance_km)}</span>`:""}${e.maps_url?` <a href="${esc(e.maps_url)}" target="_blank" rel="noreferrer" style="font-size:14px">χάρτης</a>`:""}</div>`).join("") + `</div>`).join("") || `<div class="muted">Καμία καταχώρηση.</div>`;
+  } catch (e) { $("#hosp-body").innerHTML = `<div class="muted">${e.status===404?"Δεν υπάρχει ακόμη πρόγραμμα για σήμερα.":esc(e.message)}</div>`; }
+}
+
+// ---- metro / tram -------------------------------------------------------------------
+async function loadRail() {
+  const el = $("#rail-body");
+  try {
+    const r = await api(`/api/transit/rail/near?lat=${pos[0]}&lng=${pos[1]}&limit=2`);
+    if (!r.feed || !r.stations.length) { el.innerHTML = ""; return; }
+    el.innerHTML = r.stations.map(st => `<div class="row"><div class="name">${st.lines.some(l=>l.startsWith("T"))&&!st.lines.some(l=>l.startsWith("M"))?"🚋":"🚇"} ${esc(st.name)}<span class="badge info">${esc(st.lines.join(" · "))}</span>${st.wheelchair==="yes"?"♿":""}<span class="dist">· ${m(st.distance_km)}</span></div>
+      <div class="pills">${st.departures.length ? st.departures.slice(0,6).map(d=>`<span class="pill" title="${esc(d.destination)}"><b>${esc(d.line)}</b> ${d.minutes===0?"τώρα":d.minutes+"′"} <span class="to">→ ${esc(d.destination.split(" ")[0])}</span></span>`).join("") : `<span class="muted">Καμία αναχώρηση τις επόμενες 3 ώρες</span>`}</div></div>`).join("")
+      + (r.feed.note ? `<div class="note">${esc(r.feed.note)}</div>` : "");
+  } catch (e) { el.innerHTML = ""; }
+}
+
+// ---- buses -----------------------------------------------------------------------
+async function loadStops() {
+  clearTimeout(stopsTimer);
+  const body = $("#transit-body");
+  try {
+    const stops = (await api(`/api/transit/stops/near?lat=${pos[0]}&lng=${pos[1]}`)).slice(0,5);
+    if (!stops.length) { body.innerHTML = `<div class="muted">Καμία στάση ΟΑΣΑ κοντά.</div>`; return; }
+    body.innerHTML = stops.map(s=>`<div class="row" data-code="${esc(s.code)}"><div class="name">🚏 ${esc(s.name)}<span class="dist">· ${m(s.distance_km)}</span></div><div class="pills"><span class="muted">…</span></div></div>`).join("");
+    for (const s of stops) {
+      const a = await api(`/api/transit/stops/${s.code}/arrivals`);
+      const el = body.querySelector(`[data-code="${s.code}"] .pills`); if (!el) continue;
+      el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill"><b>${esc(x.line||"?")}</b> ${x.minutes<=1?"τώρα":x.minutes+"′"}</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
+    }
+    stopsTimer = setTimeout(loadStops, 30000);
+  } catch (e) { body.innerHTML = `<div class="muted">${esc(e.message)}</div>`; }
+}
+
+// ---- what's around ---------------------------------------------------------------
+async function initChips() {
+  try {
+    const cats = await api("/api/nearby/categories");
+    $("#chips").innerHTML = cats.filter(c=>c.key!=="fuel").map(c=>`<button class="chip" data-k="${c.key}">${CAT_ICONS[c.key]||""} ${esc(c.label)}</button>`).join("");
+    $("#chips").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; currentCat = b.dataset.k; document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on", x===b)); loadAround(currentCat); };
+    $("#acc").onchange = () => loadAround(currentCat);
+  } catch (e) { $("#offline").hidden = false; }
+}
+async function loadAround(cat) {
+  if (!cat || !pos) return;
+  const body = $("#around-body"); body.innerHTML = `<div class="skel"></div><div class="skel" style="width:70%"></div>`;
+  try {
+    const acc = $("#acc").checked;
+    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=1000&limit=15${acc?"&accessible=true":""}`);
+    body.innerHTML = r.items.length ? r.items.map(place).join("") : `<div class="muted">Τίποτα σε ακτίνα 1 χλμ${acc?" με δηλωμένη προσβασιμότητα":""}.</div>`;
+  } catch (e) { body.innerHTML = `<div class="err">${esc(e.message)}</div>`; }
+}
+
+initChips();
+locate(false);
+</script>
 </body>
 </html>
