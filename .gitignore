@@ -7,3 +7,4 @@ data/osm/
 data/*.log
 .pytest_cache/
 .env
+data/shots/

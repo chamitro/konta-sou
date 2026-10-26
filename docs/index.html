@@ -12,7 +12,8 @@
   :root { --bg:#f4f6fc; --bg2:#eaeefb; --card:#ffffff; --text:#10142e; --muted:#5d6788; --line:#e1e6f5; --accent:#2f5fe0; --accent-soft:rgba(47,95,224,.10); --ok:#179a63; --ok-soft:rgba(23,154,99,.12); --warn:#b7791f; --warn-soft:rgba(255,184,77,.18); --bad:#c53030; --bad-soft:rgba(197,48,48,.12); --shadow:0 10px 30px rgba(16,20,46,.06); }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#0b1020; --bg2:#111831; --card:#151d3a; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#6d9bff; --accent-soft:rgba(109,155,255,.14); --ok:#3dd68c; --ok-soft:rgba(61,214,140,.14); --warn:#ffc26b; --warn-soft:rgba(255,194,107,.16); --bad:#ff7b7b; --bad-soft:rgba(255,123,123,.14); --shadow:0 10px 30px rgba(0,0,0,.35); } }
   :root[data-theme="dark"] { --bg:#0b1020; --bg2:#111831; --card:#151d3a; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#6d9bff; --accent-soft:rgba(109,155,255,.14); --ok:#3dd68c; --ok-soft:rgba(61,214,140,.14); --warn:#ffc26b; --warn-soft:rgba(255,194,107,.16); --bad:#ff7b7b; --bad-soft:rgba(255,123,123,.14); --shadow:0 10px 30px rgba(0,0,0,.35); }
-  * { box-sizing:border-box }
+  * { box-sizing:border-box; min-width:0 }
+  html, body { max-width:100%; overflow-x:hidden }
   html { -webkit-text-size-adjust:100% }
   body { margin:0; background:var(--bg); color:var(--text); font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.45; font-size:16px }
   a { color:var(--accent) }
@@ -26,9 +27,9 @@
   .date { color:var(--muted); font-size:13px; margin-top:4px }
   main { max-width:760px; margin:0 auto; padding:16px 16px 40px; display:grid; gap:14px }
   .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:16px; box-shadow:var(--shadow) }
-  .card > h2 { margin:0 0 12px; font-size:17px; font-weight:800; display:flex; align-items:center; gap:10px }
+  .card > h2 { margin:0 0 12px; font-size:17px; font-weight:800; display:flex; align-items:center; gap:10px; flex-wrap:wrap }
   .card > h2 .ic { width:34px; height:34px; border-radius:11px; display:grid; place-items:center; background:var(--accent-soft); font-size:18px; flex:none }
-  .card > h2 .right { margin-left:auto; display:flex; align-items:center; gap:8px; font-weight:600; font-size:13px; color:var(--muted) }
+  .card > h2 .right { margin-left:auto; display:flex; align-items:center; gap:8px; font-weight:600; font-size:13px; color:var(--muted); text-align:right; flex:0 1 auto }
   select { font:inherit; font-size:14px; font-weight:600; padding:7px 30px 7px 10px; border-radius:10px; border:1px solid var(--line); background:var(--bg2) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235d6788' stroke-width='1.8'/></svg>") no-repeat right 10px center; color:var(--text); appearance:none; max-width:60vw }
   .row { padding:12px 0; border-top:1px solid var(--line); display:grid; gap:4px } .row:first-child { border-top:0; padding-top:4px } .row:last-child { padding-bottom:4px }
   .row .name { font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap }
@@ -99,11 +100,14 @@ function locate(force) {
   let saved = null; try { saved = JSON.parse(localStorage.getItem("pos")); } catch(e) {}
   if (saved && !force) start(saved[0], saved[1], false);
   if (!navigator.geolocation) { if (!saved) start(...DEFAULT_POS, true); return; }
+  let answered = false;
+  const fallbackTimer = setTimeout(() => { if (!answered && !saved && !pos) start(...DEFAULT_POS, true); }, 6000);
   navigator.geolocation.getCurrentPosition(p => {
+    answered = true; clearTimeout(fallbackTimer);
     const np = [p.coords.latitude, p.coords.longitude];
     try { localStorage.setItem("pos", JSON.stringify(np)); } catch(e) {}
     if (!saved || force || Math.abs(saved[0]-np[0])+Math.abs(saved[1]-np[1]) > 0.002) start(np[0], np[1], false);
-  }, () => { if (!saved) start(...DEFAULT_POS, true); }, {timeout:8000, maximumAge:60000});
+  }, () => { answered = true; clearTimeout(fallbackTimer); if (!saved && !pos) start(...DEFAULT_POS, true); }, {timeout:8000, maximumAge:60000});
 }
 $("#relocate").onclick = () => locate(true);
 async function start(lat, lng, fallback) {
