@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException, Query
 from sqlalchemy import func, select
 
 from simera import oasa
+from simera.geo import haversine_km
 from simera.db import SessionLocal, init_db
 from simera.models import FuelPrice
 
@@ -93,9 +94,9 @@ def _oasa(fn, *args):
 def stops_near(lat: float, lng: float):
     stops = _oasa(oasa.closest_stops, lat, lng)
     return [
-        {"code": s["StopCode"], "name": s["StopDescr"], "street": s.get("StopStreet"), "lat": float(s["StopLat"]), "lng": float(s["StopLng"]), "distance_km": round(float(s["distance"]), 3)}
-        for s in stops
-    ]
+        {"code": s["StopCode"], "name": s["StopDescr"], "street": s.get("StopStreet"), "lat": float(s["StopLat"]), "lng": float(s["StopLng"]), "distance_km": round(haversine_km(lat, lng, float(s["StopLat"]), float(s["StopLng"])), 3)}
+        for s in sorted(stops, key=lambda s: haversine_km(lat, lng, float(s["StopLat"]), float(s["StopLng"])))
+    ]  # OASA's own "distance" is a Euclidean value in degrees, not km
 
 
 @app.get("/api/transit/stops/{stop_code}/arrivals")

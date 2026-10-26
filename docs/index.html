@@ -72,9 +72,10 @@
   <section class="card" id="around"><h2><span class="ic">🧭</span>Τι υπάρχει κοντά<span class="right">1 χλμ · OpenStreetMap</span></h2><div class="chips" id="chips"></div><label class="toggle"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label><div id="around-body"><div class="muted">Διάλεξε κατηγορία.</div></div></section>
 </main>
 <footer>Πηγές: Φαρμακευτικός Σύλλογος Αττικής · Υπουργείο Υγείας (εφημερίες νοσοκομείων Αττικής, συντεταγμένες προσεγγιστικές) · τηλεματική ΟΑΣΑ · δρομολόγια ΣΤΑΣΥ (GTFS) · Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές ανά νομό) · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL). Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά</a></footer>
-<script>window.KONTA_API = "https://konta-sou.onrender.com";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev";</script>
 <script>
 const API = (window.KONTA_API || "").replace(/\/$/, "");
+const RELAY = (window.KONTA_RELAY || "").replace(/\/$/, ""); // optional Cloudflare relay: the browser asks OASA itself (works from Greece)
 if (API) document.getElementById("about-link").hidden = false;
 const $ = s => document.querySelector(s);
 const FUELS = {unleaded_95:"Αμόλυβδη 95", unleaded_100:"Αμόλυβδη 100", diesel:"Diesel κίνησης", autogas:"Υγραέριο (Autogas)", heating_oil:"Πετρέλαιο θέρμανσης", super:"Super"};
@@ -209,15 +210,35 @@ async function loadRail() {
 }
 
 // ---- buses -----------------------------------------------------------------------
+const hav = (a,b,c,d) => { const r=Math.PI/180, x=(c-a)*r, y=(d-b)*r, h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2; return 2*6371*Math.asin(Math.sqrt(h)); };
+async function oasa(act, p) {
+  const u = new URL(RELAY + "/oasa/api/"); u.searchParams.set("act", act); for (const [k,v] of Object.entries(p)) u.searchParams.set(k, v);
+  const r = await fetch(u, {signal: AbortSignal.timeout(12000)}); if (!r.ok) throw new Error("relay " + r.status); return await r.json();
+}
+async function nearStops() {
+  if (RELAY) try {
+    const s = await oasa("getClosestStops", {p1: pos[0], p2: pos[1]});
+    return (s || []).map(x => ({code: x.StopCode, name: x.StopDescr, distance_km: hav(pos[0], pos[1], +x.StopLat, +x.StopLng)})).sort((a,b)=>a.distance_km-b.distance_km);
+  } catch (e) { console.warn("relay stops failed, trying the API", e); }
+  return api(`/api/transit/stops/near?lat=${pos[0]}&lng=${pos[1]}`);
+}
+async function stopArrivals(code) {
+  if (RELAY) try {
+    const [routes, arr] = await Promise.all([oasa("webRoutesForStop", {p1: code}), oasa("getStopArrivals", {p1: code})]);
+    const rm = {}; for (const r of routes || []) rm[r.RouteCode] = r;
+    return {arrivals: (arr || []).map(a => ({line: (rm[a.route_code] || {}).LineID, destination: (rm[a.route_code] || {}).RouteDescr, minutes: +a.btime2})).sort((a,b)=>a.minutes-b.minutes)};
+  } catch (e) { console.warn("relay arrivals failed, trying the API", e); }
+  return api(`/api/transit/stops/${code}/arrivals`);
+}
 async function loadStops() {
   clearTimeout(stopsTimer);
   const body = $("#transit-body");
   try {
-    const stops = (await api(`/api/transit/stops/near?lat=${pos[0]}&lng=${pos[1]}`)).slice(0,5);
+    const stops = (await nearStops()).slice(0,5);
     if (!stops.length) { body.innerHTML = `<div class="muted">Καμία στάση ΟΑΣΑ κοντά.</div>`; return; }
     body.innerHTML = stops.map(s=>`<div class="row" data-code="${esc(s.code)}"><div class="name">🚏 ${esc(s.name)}<span class="dist">· ${m(s.distance_km)}</span></div><div class="pills"><span class="muted">…</span></div></div>`).join("");
     for (const s of stops) {
-      const a = await api(`/api/transit/stops/${s.code}/arrivals`);
+      const a = await stopArrivals(s.code);
       const el = body.querySelector(`[data-code="${s.code}"] .pills`); if (!el) continue;
       el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill"><b>${esc(x.line||"?")}</b> ${x.minutes<=1?"τώρα":x.minutes+"′"}</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
     }
