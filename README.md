@@ -47,15 +47,13 @@ Set `DATABASE_URL` to use PostgreSQL instead of the default SQLite file in `data
 2. In Render: **New → Blueprint**, pick the repo; `render.yaml` defines a free Docker web service. Set the `SNAPSHOT_URL` env var to the release asset URL. First boot downloads the snapshot (~40 MB) and starts collecting the daily data (pharmacies, hospitals, fuel) in the background; from then on once a day at 04:30 UTC.
 3. Build the page against the API and publish it: `python scripts/build_docs.py https://konta-sou-api.onrender.com`, commit `docs/`, enable GitHub Pages from the `docs` folder. Set `ALLOWED_ORIGINS` on Render to your Pages origin.
 4. The snapshot rebuilds itself every Sunday on GitHub Actions (`.github/workflows/snapshot.yml`) and is uploaded to the `data` release. To have the server restart with it automatically, copy the service's **Deploy Hook** URL from Render (Settings → Deploy Hook) into a repository secret named `RENDER_DEPLOY_HOOK`.
-5. Sources that only answer from Greek networks (Ministry of Health hospital rota, OASA live buses) need the API, or a relay, on a Greek-hosted machine; see "Known limits".
+5. Two sources (Ministry of Health hospital rota, OASA live buses) only answer from Greek networks. `worker/` is a tiny Cloudflare Worker relay that runs in Cloudflare's Athens data centre; deploy it (see `worker/README.md`) and set `OASA_API_URL` and `MOH_BASE_URL` on Render to its address. The current deployment uses `https://konta-sou.charalambos-mitropoulos.workers.dev`.
 
 The free instance sleeps after 15 minutes without traffic; the first request afterwards takes about a minute.
 
 ## Known limits
 
-If a Greek server is not an option, `worker/` holds a small Cloudflare Worker relay that may let the API reach these two sources; see `worker/README.md`.
-
-- The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). Running the API on a server in Greece is the clean fix; until then the public page shows hospital rotas only via the relay file and no live buses.
+- The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). They do answer Cloudflare's Athens edge, so the API reaches them through the relay in `worker/`. If the relay is ever blocked, hospital rotas fall back to `HOSPITALS_URL` and bus endpoints return 503 with a notice.
 - About 1.5% of fuel bulletins since 2018 remain partially parsed (second-page column shifts in a few 2019–2020 files).
 
 ## Daily run

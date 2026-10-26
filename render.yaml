@@ -12,7 +12,11 @@ services:
         value: "1"
       - key: ALLOWED_ORIGINS         # the GitHub Pages origin, e.g. https://<user>.github.io
         value: "*"
-      - key: HOSPITALS_URL           # relay file published by scripts/daily.sh from a machine in Greece (see README)
+      - key: OASA_API_URL            # Cloudflare Worker relay (worker/): OASA only answers Greek networks
+        value: https://konta-sou.charalambos-mitropoulos.workers.dev/oasa/api/
+      - key: MOH_BASE_URL            # same relay for the Ministry of Health rota page
+        value: https://konta-sou.charalambos-mitropoulos.workers.dev/moh
+      - key: HOSPITALS_URL           # fallback rota file if the relay is down (built by scripts/daily.sh)
         value: https://github.com/chamitro/konta-sou/releases/download/data/hospitals-latest.json
       - key: DATABASE_URL
         value: sqlite:///data/simera.db

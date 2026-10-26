@@ -1,6 +1,6 @@
 # Relay worker
 
-Deploy on Cloudflare Workers (free plan is enough):
+Deploy on Cloudflare Workers (free plan is enough). Either connect this repository under **Workers & Pages → Create → Import a repository** (root directory `worker`, worker name `konta-sou`; every push then redeploys), or by hand:
 
 1. Create a free account at https://dash.cloudflare.com, open **Workers & Pages → Create → Create Worker**, name it `konta-sou`, click Deploy.
 2. Click **Edit code**, replace the contents with `worker.js` from this folder, click **Deploy**.
