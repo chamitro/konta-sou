@@ -67,6 +67,7 @@
   <section class="card" id="around">
     <h2><span>Τι υπάρχει κοντά</span><small>OpenStreetMap · 1 χλμ</small></h2>
     <div class="chips" id="chips"></div>
+    <label class="muted" style="display:block;margin:-4px 0 10px"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ (♿ όπου έχει δηλωθεί)</label>
     <div id="around-body"><div class="muted">Διάλεξε κατηγορία.</div></div>
   </section>
 </main>
@@ -201,20 +202,22 @@ async function loadStops() {
 
 // ---- what's around ---------------------------------------------------------------
 let currentCat = null;
-function badge(s) { return s.open_now===true?`<span class="badge open">ανοιχτό</span>`:s.open_now===false?`<span class="badge closed">κλειστό</span>`:""; }
+function badge(s) { return (s.open_now===true?`<span class="badge open">ανοιχτό</span>`:s.open_now===false?`<span class="badge closed">κλειστό</span>`:"") + (s.wheelchair==="yes"?` <span title="προσβάσιμο ΑΜΕΑ">♿</span>`:""); }
 async function initChips() {
   const cats = await (await fetch("/api/nearby/categories")).json();
   $("#chips").innerHTML = cats.filter(c=>c.key!=="fuel").map(c=>`<button class="chip" data-k="${c.key}">${c.label}</button>`).join("");
   $("#chips").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; currentCat = b.dataset.k; document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on", x===b)); loadAround(currentCat); };
+  $("#acc").onchange = () => loadAround(currentCat);
 }
 async function loadAround(cat) {
   if (!cat || !pos) return;
   const body = $("#around-body"); body.innerHTML = `<div class="muted">Αναζήτηση…</div>`;
   try {
-    const r = await (await fetch(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=1000&limit=15`)).json();
+    const acc = $("#acc").checked ? "&accessible=true" : "";
+    const r = await (await fetch(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=1000&limit=15${acc}`)).json();
     if (!r.items) throw new Error(r.detail || "σφάλμα");
     body.innerHTML = r.items.length ? r.items.map(s=>`<div class="row"><span class="name">${s.name}</span>${badge(s)}<div class="meta">${s.address?s.address+" · ":""}${Math.round(s.distance_km*1000)} μ.${s.opening_hours?" · "+s.opening_hours:""}${s.cuisine?" · "+s.cuisine:""}</div><div>${s.phone?`<a href="tel:${s.phone}">Κλήση</a>`:""}<a href="${s.maps_url}" target="_blank" rel="noreferrer">Πλοήγηση</a>${s.website?`<a href="${s.website}" target="_blank" rel="noreferrer">site</a>`:""}</div></div>`).join("")
-                                   : `<div class="muted">Τίποτα σε ακτίνα 1 χλμ.</div>`;
+                                   : `<div class="muted">Τίποτα σε ακτίνα 1 χλμ${acc?" με δηλωμένη προσβασιμότητα":""}.</div>`;
   } catch (e) { body.innerHTML = `<div class="err">${e.message}</div>`; }
 }
 

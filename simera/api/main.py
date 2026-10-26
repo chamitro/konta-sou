@@ -201,15 +201,18 @@ def nearby_categories():
 
 
 @app.get("/api/nearby")
-def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1000, ge=100, le=5000), limit: int = Query(20, le=100)):
-    """Places of one category around a point, nearest first, from OpenStreetMap (cached)."""
+def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1000, ge=100, le=5000), limit: int = Query(20, le=100), accessible: bool = False):
+    """Places of one category around a point, nearest first, from OpenStreetMap.
+    accessible=true keeps only places tagged wheelchair=yes (or limited)."""
     if category not in osm.CATEGORIES:
         raise HTTPException(404, f"unknown category; see /api/nearby/categories")
     try:
         items = osm.nearby(category, lat, lng, radius)
     except RuntimeError as e:
         raise HTTPException(503, str(e))
-    return {"category": category, "label": osm.CATEGORIES[category]["label"], "radius_m": radius, "count": len(items), "items": items[:limit],
+    if accessible:
+        items = [i for i in items if i.get("wheelchair") in ("yes", "limited")]
+    return {"category": category, "label": osm.CATEGORIES[category]["label"], "radius_m": radius, "accessible_only": accessible, "count": len(items), "items": items[:limit],
             "attribution": "© OpenStreetMap contributors (ODbL)"}
 
 

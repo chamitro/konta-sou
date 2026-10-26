@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Κοντά σου</title>
+<meta name="description" content="Κοντά σου: ανοίγεις την εφαρμογή, βρίσκει πού είσαι και σου δείχνει ό,τι μετράει γύρω σου τώρα. Εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία live, τιμές καυσίμων και ό,τι υπάρχει κοντά.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b1020; --bg2:#121a33; --card:#161f3d; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#5b8cff; --accent2:#35c88a; --warn:#ffb84d; }
+  :root[data-theme="light"], :root:not([data-theme="dark"]) { }
+  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg:#f5f7ff; --bg2:#eef2ff; --card:#ffffff; --text:#101433; --muted:#58628a; --line:#dde3f5; --accent:#2f5fe0; --accent2:#179a63; } }
+  :root[data-theme="dark"] { --bg:#0b1020; --bg2:#121a33; --card:#161f3d; --text:#eef1ff; --muted:#9aa4c7; --line:#243055; --accent:#5b8cff; --accent2:#35c88a; }
+  * { box-sizing:border-box }
+  html { scroll-behavior:smooth }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5 }
+  .wrap { max-width:1040px; margin:0 auto; padding:0 16px }
+  nav { display:flex; justify-content:space-between; align-items:center; padding:18px 0 }
+  nav .logo { font-weight:800; font-size:20px; letter-spacing:-.02em } nav .logo span { color:var(--accent) }
+  nav a { color:var(--muted); text-decoration:none; margin-left:18px; font-weight:600; font-size:14px } nav a:hover { color:var(--text) }
+  .hero { padding:56px 0 40px; display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center }
+  h1 { font-size:clamp(36px,6vw,60px); line-height:1.05; letter-spacing:-.03em; margin:0 0 16px; font-weight:800 }
+  h1 em { font-style:normal; color:var(--accent) }
+  .lead { font-size:18px; color:var(--muted); margin:0 0 24px; max-width:520px }
+  .cta { display:inline-flex; gap:12px; flex-wrap:wrap }
+  .btn { display:inline-block; padding:12px 20px; border-radius:12px; font-weight:700; text-decoration:none; border:1px solid var(--line); color:var(--text); background:var(--card) }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff }
+  .phone { background:linear-gradient(160deg,var(--bg2),var(--card)); border:1px solid var(--line); border-radius:28px; padding:18px; box-shadow:0 30px 80px rgba(0,0,0,.25); max-width:360px; margin:0 auto; width:100% }
+  .phone .bar { font-size:12px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:10px }
+  .phone h3 { margin:0 0 2px; font-size:22px; font-weight:800 } .phone .where { color:var(--muted); font-size:13px; margin-bottom:12px }
+  .mini { background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:10px }
+  .mini .t { font-weight:700; font-size:14px; display:flex; justify-content:space-between } .mini .t small { color:var(--muted); font-weight:600 }
+  .mini .l { font-size:13px; color:var(--muted); margin-top:4px }
+  .tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; background:rgba(53,200,138,.15); color:var(--accent2); font-weight:700; margin-left:6px }
+  .pills { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px } .pill { font-size:12px; border:1px solid var(--line); border-radius:999px; padding:2px 8px } .pill b { color:var(--accent) }
+  section { padding:40px 0 }
+  h2 { font-size:28px; letter-spacing:-.02em; margin:0 0 8px } .sub { color:var(--muted); margin:0 0 24px; max-width:640px }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px }
+  .card .ic { width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:var(--bg2); margin-bottom:12px; font-size:20px }
+  .card h3 { margin:0 0 6px; font-size:17px } .card p { margin:0; color:var(--muted); font-size:14px }
+  .card .src { margin-top:10px; font-size:12px; color:var(--muted) } .card .src b { color:var(--text); font-weight:600 }
+  .status { font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; float:right }
+  .live { background:rgba(53,200,138,.15); color:var(--accent2) } .soon { background:rgba(255,184,77,.15); color:var(--warn) }
+  .chips { display:flex; flex-wrap:wrap; gap:8px } .chip { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:8px 14px; font-size:14px; font-weight:600 }
+  .principles { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px }
+  .principles .card h3 { color:var(--accent) }
+  footer { border-top:1px solid var(--line); padding:28px 0 40px; color:var(--muted); font-size:13px }
+  footer a { color:var(--muted) }
+  @media (max-width:760px) { .hero { grid-template-columns:1fr; padding-top:28px } nav a { margin-left:12px } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">Κοντά <span>σου</span></div>
+    <div><a href="#features">Τι δείχνει</a><a href="#around">Κοντά</a><a href="#principles">Αρχές</a><a href="https://github.com/charalambos-mitropoulos/konta-sou">GitHub</a></div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1>Ό,τι μετράει <em>γύρω σου</em>, τώρα.</h1>
+      <p class="lead">Ανοίγεις την εφαρμογή, βρίσκει πού είσαι και σου λέει: ποιο φαρμακείο εφημερεύει, ποιο νοσοκομείο δέχεται, πότε έρχεται το λεωφορείο, πόσο πάει η βενζίνη και τι υπάρχει στη γειτονιά. Χωρίς εγγραφή, χωρίς διαφημίσεις, με ανοιχτά δεδομένα.</p>
+      <div class="cta"><a class="btn primary" href="#features">Δες τι κάνει</a><a class="btn" href="https://github.com/charalambos-mitropoulos/konta-sou">Κώδικας στο GitHub</a></div>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="bar"><span>Κοντά σου</span><span>Κυψέλη, Αθήνα</span></div>
+      <h3>Καλησπέρα</h3>
+      <div class="where">Δευτέρα 26 Οκτωβρίου · 21:40</div>
+      <div class="mini"><div class="t">Εφημερεύον φαρμακείο <small>0.4 χλμ</small></div><div class="l">Κυψέλης 48 · 8 πρωί – 8 πρωί επομένης <span class="tag">ανοιχτό</span></div></div>
+      <div class="mini"><div class="t">Νοσοκομείο 24ωρης εφημερίας <small>2.0 χλμ</small></div><div class="l">Γ.Ν.Α. «Ο Ευαγγελισμός» · Παθολογική</div></div>
+      <div class="mini"><div class="t">ΠΛ. ΚΥΨΕΛΗΣ <small>120 μ.</small></div><div class="pills"><span class="pill"><b>054</b> 3′</span><span class="pill"><b>608</b> 7′</span><span class="pill"><b>622</b> 12′</span></div></div>
+      <div class="mini"><div class="t">Αμόλυβδη 95 · Αττική <small>2.135 €</small></div><div class="l">−4.6 λεπτά σε 7 ημέρες · 5 βενζινάδικα σε 1 χλμ</div></div>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Τι δείχνει</h2>
+    <p class="sub">Κάρτες που αλλάζουν σειρά με την ώρα της ημέρας: το πρωί πρώτα τα λεωφορεία, το βράδυ πρώτα το φαρμακείο.</p>
+    <div class="grid">
+      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">💊</div><h3>Εφημερεύοντα φαρμακεία</h3><p>Τα κοντινότερα ανοιχτά τώρα, με ωράριο, τηλέφωνο και πλοήγηση. Ξέρει ότι η νυχτερινή εφημερία συνεχίζει μετά τα μεσάνυχτα.</p><div class="src">Πηγή: <b>Φαρμακευτικός Σύλλογος Αττικής</b></div></div>
+      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">🏥</div><h3>Εφημερεύοντα νοσοκομεία</h3><p>Ποιο νοσοκομείο εφημερεύει σήμερα για κάθε κλινική και βάρδια, με απόσταση από εσένα και τα Κέντρα Υγείας.</p><div class="src">Πηγή: <b>Υπουργείο Υγείας</b>, ημερήσιο πρόγραμμα Αττικής</div></div>
+      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">🚌</div><h3>Λεωφορεία live</h3><p>Οι πιο κοντινές στάσεις και οι επόμενες αφίξεις σε λεπτά, ανανέωση κάθε 30 δευτερόλεπτα.</p><div class="src">Πηγή: <b>Τηλεματική ΟΑΣΑ</b></div></div>
+      <div class="card"><span class="status soon">σύντομα</span><div class="ic">🚇</div><h3>Μετρό και τραμ</h3><p>Ο κοντινότερος σταθμός και οι επόμενες αναχωρήσεις.</p><div class="src">Πηγή: <b>ΣΤΑΣΥ</b>, ανοιχτά δρομολόγια GTFS</div></div>
+      <div class="card"><span class="status live">λειτουργεί</span><div class="ic">⛽</div><h3>Καύσιμα</h3><p>Μέσες τιμές του νομού σου για 5 καύσιμα, μεταβολή εβδομάδας, ιστορικό από το 2018 και τα βενζινάδικα γύρω σου.</p><div class="src">Πηγή: <b>Παρατηρητήριο Τιμών Υγρών Καυσίμων</b></div></div>
+      <div class="card"><span class="status soon">σύντομα</span><div class="ic">⚡</div><h3>Ρεύμα του μήνα</h3><p>Τα τιμολόγια όλων των παρόχων κάθε 1η του μήνα και ειδοποίηση όταν αλλάζουν.</p><div class="src">Πηγή: <b>ΡΑΑΕΥ</b></div></div>
+      <div class="card"><span class="status soon">σύντομα</span><div class="ic">🥬</div><h3>Λαϊκή αγορά</h3><p>Ποια λαϊκή είναι σήμερα στη γειτονιά σου.</p><div class="src">Πηγή: αποφάσεις <b>Περιφέρειας Αττικής</b></div></div>
+      <div class="card"><span class="status soon">σύντομα</span><div class="ic">🎭</div><h3>Εκδηλώσεις κοντά</h3><p>Δωρεάν δημοτικές εκδηλώσεις και πανηγύρια της εβδομάδας.</p><div class="src">Πηγή: δημοτικοί <b>πολιτιστικοί οργανισμοί</b></div></div>
+    </div>
+  </section>
+
+  <section id="around">
+    <h2>Τι υπάρχει κοντά</h2>
+    <p class="sub">Είκοσι και πλέον κατηγορίες από το OpenStreetMap για όλη την Ελλάδα, με απόσταση, ωράριο όπου υπάρχει και φίλτρο προσβασιμότητας ΑΜΕΑ.</p>
+    <div class="chips">
+      <span class="chip">⛽ Βενζινάδικα</span><span class="chip">🏧 ATM</span><span class="chip">🔌 Φορτιστές EV</span><span class="chip">🥖 Φούρνοι</span><span class="chip">☕ Καφέ</span><span class="chip">🍽 Εστιατόρια</span><span class="chip">🍸 Μπαρ</span><span class="chip">🛒 Σούπερ μάρκετ</span><span class="chip">🅿 Πάρκινγκ</span><span class="chip">🚻 Τουαλέτες</span><span class="chip">🚰 Βρύσες</span><span class="chip">🛝 Παιδικές χαρές</span><span class="chip">📮 Ταχυδρομεία</span><span class="chip">🏛 ΚΕΠ</span><span class="chip">⛪ Εκκλησίες</span><span class="chip">🏖 Παραλίες</span><span class="chip">🚕 Πιάτσες ταξί</span><span class="chip">🚲 Κοινόχρηστα ποδήλατα</span><span class="chip">📶 Δωρεάν WiFi</span><span class="chip">♿ Προσβάσιμα</span>
+    </div>
+  </section>
+
+  <section id="principles">
+    <h2>Αρχές</h2>
+    <div class="principles">
+      <div class="card"><h3>Μόνο ανοιχτά δεδομένα</h3><p>Δημόσιες πηγές που δημοσιεύονται για τους πολίτες. Όταν μια πηγή προστατεύει τα δεδομένα της, όπως οι τιμές ανά πρατήριο, το σεβόμαστε και το λέμε.</p></div>
+      <div class="card"><h3>Λέμε τι ξέρουμε</h3><p>Αν δεν ξέρουμε το ωράριο, δεν δείχνουμε «ανοιχτό». Αν οι συντεταγμένες είναι προσεγγιστικές, το γράφουμε.</p></div>
+      <div class="card"><h3>Χωρίς λογαριασμό, χωρίς παρακολούθηση</h3><p>Η θέση σου μένει στη συσκευή και χρησιμοποιείται μόνο για να απαντήσει «τι είναι κοντά».</p></div>
+      <div class="card"><h3>Ανοιχτός κώδικας</h3><p>Python, FastAPI, SQLite ή PostgreSQL, μια σελίδα HTML. Διορθώνεις ένα μαγαζί στο OpenStreetMap και εμφανίζεται στην επόμενη εβδομαδιαία εισαγωγή.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    Πηγές: Φαρμακευτικός Σύλλογος Αττικής · Υπουργείο Υγείας · ΟΑΣΑ · Παρατηρητήριο Τιμών Υγρών Καυσίμων (Υπ. Ανάπτυξης) · © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL). Attica first, Greece next.
+  </footer>
+</div>
+</body>
+</html>
