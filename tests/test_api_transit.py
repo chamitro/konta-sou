@@ -13,4 +13,4 @@ def test_bus_endpoints_fail_gracefully_when_oasa_unreachable(monkeypatch):
     r = c.get("/api/transit/stops/near?lat=37.98&lng=23.72")
     assert r.status_code == 503 and "ΟΑΣΑ" in r.json()["detail"]
     assert c.get("/api/transit/stops/60134/arrivals").status_code == 503
-    assert c.get("/healthz").json() == {"ok": True}
+    assert c.get("/healthz").json()["ok"] is True

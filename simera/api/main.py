@@ -9,6 +9,7 @@ from simera import oasa
 from simera.db import SessionLocal, init_db
 from simera.models import FuelPrice
 
+import logging  # noqa: E402
 import os  # noqa: E402
 
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
@@ -28,7 +29,9 @@ def _startup() -> None:
 
 @app.get("/healthz", include_in_schema=False)
 def healthz():
-    return {"ok": True}
+    from urllib.parse import urlsplit
+    from simera.collectors import hospitals as _h
+    return {"ok": True, "oasa_via": urlsplit(oasa.API_URL).netloc, "moh_via": urlsplit(_h.MOH_BASE_URL).netloc}
 
 
 # ---- fuel -----------------------------------------------------------------
@@ -82,6 +85,7 @@ def _oasa(fn, *args):
     try:
         return fn(*args)
     except Exception as e:  # network blocked or OASA down: tell the client instead of a bare 500
+        logging.getLogger("simera.api").warning("OASA %s via %s failed: %s", getattr(fn, "__name__", fn), oasa.API_URL, e)
         raise HTTPException(503, LIVE_UNAVAILABLE) from e
 
 
