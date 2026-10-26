@@ -279,9 +279,27 @@ def _greek_date(m) -> date | None:
 
 # ---- fetching -------------------------------------------------------------------
 
+def _get_page(client: httpx.Client, url: str, params: dict | None = None) -> httpx.Response:
+    """Retry on a fresh connection, then over plain http (which redirects to https): the
+    ministry's front end has answered 421 Misdirected Request from some hosting networks."""
+    last: Exception | None = None
+    for attempt, u in enumerate([url, url, url.replace("https://", "http://", 1)]):
+        try:
+            with httpx.Client(headers={"User-Agent": USER_AGENT, "Accept-Language": "el"}, timeout=60, follow_redirects=True) as fresh:
+                r = fresh.get(u, params=params)
+            if r.status_code == 200:
+                return r
+            last = httpx.HTTPStatusError(f"HTTP {r.status_code} for {u}", request=r.request, response=r)
+            log.warning("moh.gov.gr attempt %d: HTTP %s", attempt + 1, r.status_code)
+        except httpx.HTTPError as e:
+            last = e
+            log.warning("moh.gov.gr attempt %d: %s", attempt + 1, e)
+        time.sleep(2)
+    raise last  # type: ignore[misc]
+
+
 def list_documents(client: httpx.Client) -> dict[date, str]:
-    r = client.get(PAGE_URL)
-    r.raise_for_status()
+    r = _get_page(client, PAGE_URL)
     out = {}
     for fid, ymd in FILE_RE.findall(r.text):
         out[datetime.strptime(ymd, "%Y%m%d").date()] = fid
@@ -330,8 +348,8 @@ def collect(days_back: int = 1, refresh_today: bool = True, force: bool = False)
                 continue
             if not force and have.get(day) == docs[day] and not (refresh_today and day >= today):
                 continue
-            r = client.get(PAGE_URL, params={"fdl": docs[day]})
-            if r.status_code != 200 or "msword" not in r.headers.get("content-type", ""):
+            r = _get_page(client, PAGE_URL, params={"fdl": docs[day]})
+            if "msword" not in r.headers.get("content-type", ""):
                 log.warning("%s: unexpected response %s %s", day, r.status_code, r.headers.get("content-type"))
                 continue
             parsed = parse_rota_html(doc_to_html(r.content))

@@ -1,0 +1,10 @@
+name: Probe data sources
+on: [workflow_dispatch]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in "https://www.moh.gov.gr/articles/citizen/efhmeries-nosokomeiwn/68-efhmeries-nosokomeiwn-attikhs" "https://fsa-efimeries.gr/" "https://www.fuelprices.gr/deltia_dn.view" "https://telematics.oasa.gr/api/?act=webGetLines"; do
+            echo "$u -> $(curl -s -o /dev/null -w '%{http_code}' -m 30 -A 'simera-probe/0.1 (+contact: project owner)' "$u")"
+          done
