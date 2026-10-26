@@ -9,3 +9,5 @@ data/export/
 .pytest_cache/
 .env
 data/shots/
+data/snapshot/
+data/gtfs/
