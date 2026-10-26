@@ -269,3 +269,21 @@ WEB_DIR = Path(__file__).resolve().parent.parent / "web"
 @app.get("/", include_in_schema=False)
 def index():
     return FileResponse(WEB_DIR / "index.html")
+
+
+@app.get("/manifest.webmanifest", include_in_schema=False)
+def manifest():
+    return FileResponse(WEB_DIR / "manifest.webmanifest", media_type="application/manifest+json")
+
+
+@app.get("/sw.js", include_in_schema=False)
+def service_worker():
+    return FileResponse(WEB_DIR / "sw.js", media_type="application/javascript")
+
+
+@app.get("/icons/{name}", include_in_schema=False)
+def icon(name: str):
+    path = (WEB_DIR / "icons" / name).resolve()
+    if path.parent != (WEB_DIR / "icons").resolve() or not path.is_file():
+        raise HTTPException(404)
+    return FileResponse(path)

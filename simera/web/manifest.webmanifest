@@ -1,0 +1,17 @@
+{
+  "name": "Κοντά σου",
+  "short_name": "Κοντά σου",
+  "description": "Ό,τι μετράει γύρω σου, τώρα: φαρμακεία και νοσοκομεία που εφημερεύουν, λεωφορεία και μετρό, καύσιμα και τι υπάρχει κοντά.",
+  "lang": "el",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1b2a6b",
+  "theme_color": "#1b2a6b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
