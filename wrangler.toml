@@ -1,0 +1,4 @@
+# Cloudflare Workers build config (repo root). The relay source lives in worker/.
+name = "konta-sou"
+main = "worker/worker.js"
+compatibility_date = "2026-01-01"
