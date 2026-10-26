@@ -271,6 +271,7 @@ async function start(lat, lng, fallback) {
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
   loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat);
+  if (RELAY && !window.__warmed) { window.__warmed = true; fetch(RELAY + "/warm").catch(() => {}); } // visitors in Greece refresh the relay's ministry copy
   try {
     const loc = await api(`/api/location?lat=${lat}&lng=${lng}`);
     $("#offline").hidden = true;

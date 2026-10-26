@@ -1,8 +1,10 @@
-# Cloudflare Workers build config (repo root). The relay source lives in worker/.
+# Cloudflare Workers config (repo root; the source lives in worker/).
 name = "konta-sou"
 main = "worker/worker.js"
+account_id = "dc22f30429eca410d7e5d097960120ae"
 compatibility_date = "2026-01-01"
 
-# Run near the Greek upstreams instead of near the caller (OASA and the ministry only answer from Greece).
-[placement]
-mode = "smart"
+# Ministry copies for callers outside Greece (the Worker itself runs near its caller; see worker.js).
+[[kv_namespaces]]
+binding = "CACHE"
+id = "198726964edd41038b2d1bef5978b968"
