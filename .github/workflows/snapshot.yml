@@ -1,0 +1,44 @@
+name: Weekly data snapshot
+# Rebuilds the server's data snapshot on GitHub's servers: places from the OpenStreetMap
+# extract, metro/tram timetable, recent fuel prices on top of the previous snapshot's history.
+# Then uploads it to the "data" release and asks Render to redeploy, so the server restarts
+# with the fresh data. No computer of ours is involved.
+on:
+  schedule:
+    - cron: "0 3 * * 0"   # Sundays 03:00 UTC
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PY: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10" }
+      - run: pip install -r requirements.txt
+      - name: Start from the previous snapshot (keeps the fuel price history)
+        run: |
+          mkdir -p data
+          curl -fsSL https://github.com/${{ github.repository }}/releases/download/data/simera-latest.db.gz | gunzip -c > data/simera.db || echo "no previous snapshot; starting empty"
+      - name: Fuel prices, last 45 days
+        run: python -m simera.collectors.fuel --days 45 --discard-raw
+      - name: Metro and tram timetable
+        continue-on-error: true
+        run: python -m simera.collectors.gtfs
+      - name: Places from the OpenStreetMap Greece extract
+        run: python -m simera.collectors.osm_pois
+      - name: Pharmacies on duty (next 7 days)
+        continue-on-error: true
+        run: python -m simera.collectors.pharmacies --days-ahead 7
+      - name: Build and upload the snapshot
+        run: scripts/snapshot.sh --release
+      - name: Ask Render to redeploy with the new snapshot
+        if: ${{ env.RENDER_DEPLOY_HOOK != '' }}
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$RENDER_DEPLOY_HOOK" && echo "redeploy requested"

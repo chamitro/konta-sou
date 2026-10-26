@@ -46,9 +46,15 @@ Set `DATABASE_URL` to use PostgreSQL instead of the default SQLite file in `data
 1. Push the repo to GitHub. Build a data snapshot here and attach it to a release: `scripts/snapshot.sh --release` (prints the `SNAPSHOT_URL`).
 2. In Render: **New → Blueprint**, pick the repo; `render.yaml` defines a free Docker web service. Set the `SNAPSHOT_URL` env var to the release asset URL. First boot downloads the snapshot (~40 MB) and starts collecting the daily data (pharmacies, hospitals, fuel) in the background; from then on once a day at 04:30 UTC.
 3. Build the page against the API and publish it: `python scripts/build_docs.py https://konta-sou-api.onrender.com`, commit `docs/`, enable GitHub Pages from the `docs` folder. Set `ALLOWED_ORIGINS` on Render to your Pages origin.
-4. Refresh the snapshot occasionally (new OpenStreetMap extract, new timetable): rerun the importers here, then `scripts/snapshot.sh --release` and redeploy.
+4. The snapshot rebuilds itself every Sunday on GitHub Actions (`.github/workflows/snapshot.yml`) and is uploaded to the `data` release. To have the server restart with it automatically, copy the service's **Deploy Hook** URL from Render (Settings → Deploy Hook) into a repository secret named `RENDER_DEPLOY_HOOK`.
+5. Sources that only answer from Greek networks (Ministry of Health hospital rota, OASA live buses) need the API, or a relay, on a Greek-hosted machine; see "Known limits".
 
 The free instance sleeps after 15 minutes without traffic; the first request afterwards takes about a minute.
+
+## Known limits
+
+- The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). Running the API on a server in Greece is the clean fix; until then the public page shows hospital rotas only via the relay file and no live buses.
+- About 1.5% of fuel bulletins since 2018 remain partially parsed (second-page column shifts in a few 2019–2020 files).
 
 ## Daily run
 

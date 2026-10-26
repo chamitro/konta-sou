@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 mkdir -p data/snapshot
 OUT=data/snapshot/simera-$(date +%Y%m%d).db
 rm -f "$OUT" "$OUT.gz"
-.venv/bin/python - "$OUT" <<'PY'
+${PY:-.venv/bin/python} - "$OUT" <<'PY'
 import sqlite3, sys
 src = sqlite3.connect("data/simera.db")
 src.execute("DELETE FROM osm_cache")
@@ -18,8 +18,8 @@ PY
 gzip -9 "$OUT"
 ls -la "$OUT.gz"
 if [ "${1:-}" = "--release" ]; then
-  gh release view data >/dev/null 2>&1 || gh release create data --title "Data snapshots" --notes "Prebuilt SQLite snapshots for the server (places, timetables, fuel history)."
-  gh release upload data "$OUT.gz" --clobber
-  cp "$OUT.gz" data/snapshot/simera-latest.db.gz && gh release upload data data/snapshot/simera-latest.db.gz --clobber
-  echo "SNAPSHOT_URL: https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/download/data/simera-latest.db.gz"
+  gh release view data -R "${GH_REPO:-chamitro/konta-sou}" >/dev/null 2>&1 || gh release create data -R "${GH_REPO:-chamitro/konta-sou}" --title "Data snapshots" --notes "Prebuilt SQLite snapshots for the server (places, timetables, fuel history)."
+  gh release upload data "$OUT.gz" -R "${GH_REPO:-chamitro/konta-sou}" --clobber
+  cp "$OUT.gz" data/snapshot/simera-latest.db.gz && gh release upload data data/snapshot/simera-latest.db.gz -R "${GH_REPO:-chamitro/konta-sou}" --clobber
+  echo "SNAPSHOT_URL: https://github.com/${GH_REPO:-chamitro/konta-sou}/releases/download/data/simera-latest.db.gz"
 fi
