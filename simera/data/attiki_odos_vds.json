@@ -1,0 +1,4725 @@
+{
+"source": "Attiki Odos VDS metadata, data.nap.gov.gr (ODbL); coordinates converted from EGSA87",
+"sensors": [
+{
+"id": "3001",
+"name": "VDS E-15-2",
+"lanes": "1",
+"road": "E-15A-2",
+"lat": 38.00927,
+"lng": 23.86872
+},
+{
+"id": "3002",
+"name": "VDS E 35.80",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.00779,
+"lng": 23.86901
+},
+{
+"id": "3003",
+"name": "VDS E 36.30",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.00335,
+"lng": 23.87053
+},
+{
+"id": "3004",
+"name": "VDS E-15-1",
+"lanes": "1",
+"road": "E-15-1",
+"lat": 38.0034,
+"lng": 23.87071
+},
+{
+"id": "3005",
+"name": "VDS E 36.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.99954,
+"lng": 23.87163
+},
+{
+"id": "3006",
+"name": "VDS A 35.80",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.00769,
+"lng": 23.86871
+},
+{
+"id": "3007",
+"name": "VDS A-15-1",
+"lanes": "1",
+"road": "A-15-1",
+"lat": 38.00763,
+"lng": 23.86846
+},
+{
+"id": "3008",
+"name": "VDS A 36.30",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.00352,
+"lng": 23.87017
+},
+{
+"id": "3009",
+"name": "VDS A-15-2",
+"lanes": "1",
+"road": "A-15-2",
+"lat": 38.00337,
+"lng": 23.87008
+},
+{
+"id": "3010",
+"name": "VDS E 37.20",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 37.99555,
+"lng": 23.8728
+},
+{
+"id": "3011",
+"name": "VDS X-16-E",
+"lanes": "1",
+"road": "X-16-E",
+"lat": 37.99562,
+"lng": 23.87295
+},
+{
+"id": "3012",
+"name": "VDS E 37.60",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.99205,
+"lng": 23.87267
+},
+{
+"id": "3013",
+"name": "VDS E-16-X",
+"lanes": "1",
+"road": "E-16-X",
+"lat": 37.99204,
+"lng": 23.87286
+},
+{
+"id": "3014",
+"name": "VDS E 37.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.98901,
+"lng": 23.87169
+},
+{
+"id": "3015",
+"name": "VDS E 38.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.98459,
+"lng": 23.87024
+},
+{
+"id": "3016",
+"name": "VDS E-17-2",
+"lanes": "1",
+"road": "E-17-2",
+"lat": 37.98459,
+"lng": 23.87039
+},
+{
+"id": "3017",
+"name": "VDS A 36.90",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 37.99747,
+"lng": 23.87189
+},
+{
+"id": "3018",
+"name": "VDS A-16-P",
+"lanes": "1",
+"road": "A-16-P",
+"lat": 37.99743,
+"lng": 23.87172
+},
+{
+"id": "3019",
+"name": "VDS A 37.40",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 37.99339,
+"lng": 23.87252
+},
+{
+"id": "3020",
+"name": "VDS P-16-A",
+"lanes": "1",
+"road": "P-16-A",
+"lat": 37.99336,
+"lng": 23.8724
+},
+{
+"id": "3021",
+"name": "VDS A 38.10",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.98783,
+"lng": 23.87091
+},
+{
+"id": "3022",
+"name": "VDS A 38.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.98294,
+"lng": 23.86954
+},
+{
+"id": "3023",
+"name": "VDS A-17-1",
+"lanes": "1",
+"road": "A-17-1",
+"lat": 37.9829,
+"lng": 23.86934
+},
+{
+"id": "3024",
+"name": "VDS E 38.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.98013,
+"lng": 23.8707
+},
+{
+"id": "3025",
+"name": "VDS E-17-1",
+"lanes": "1",
+"road": "E-17-1",
+"lat": 37.98006,
+"lng": 23.87092
+},
+{
+"id": "3026",
+"name": "VDS E 39.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.97537,
+"lng": 23.87497
+},
+{
+"id": "3027",
+"name": "VDS E 40.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.97228,
+"lng": 23.87818
+},
+{
+"id": "3028",
+"name": "VDS E-SEA40-2",
+"lanes": "1",
+"road": "E-SEA40-2",
+"lat": 37.97243,
+"lng": 23.87822
+},
+{
+"id": "3029",
+"name": "VDS E 40.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.96992,
+"lng": 23.88064
+},
+{
+"id": "3030",
+"name": "VDS E-SEA40-1",
+"lanes": "1",
+"road": "E-SEA40-1",
+"lat": 37.96999,
+"lng": 23.88075
+},
+{
+"id": "3031",
+"name": "VDS E 40.80",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.96699,
+"lng": 23.88343
+},
+{
+"id": "3032",
+"name": "VDS E 41.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.9635,
+"lng": 23.88547
+},
+{
+"id": "3033",
+"name": "VDS E 41.80",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.95826,
+"lng": 23.88649
+},
+{
+"id": "3034",
+"name": "VDS E-18-2",
+"lanes": "1",
+"road": "E-18-2",
+"lat": 37.95839,
+"lng": 23.88663
+},
+{
+"id": "3035",
+"name": "VDS A 39.10",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.97896,
+"lng": 23.87087
+},
+{
+"id": "3036",
+"name": "VDS A-17-2",
+"lanes": "1",
+"road": "A-17-2",
+"lat": 37.97884,
+"lng": 23.87077
+},
+{
+"id": "3037",
+"name": "VDS A 39.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.97569,
+"lng": 23.87411
+},
+{
+"id": "3038",
+"name": "VDS A 40.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.97246,
+"lng": 23.87751
+},
+{
+"id": "3039",
+"name": "VDS A-SEA40-1",
+"lanes": "1",
+"road": "A-SEA40-1",
+"lat": 37.97236,
+"lng": 23.8774
+},
+{
+"id": "3040",
+"name": "VDS A 40.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.97003,
+"lng": 23.88004
+},
+{
+"id": "3041",
+"name": "VDS A-SEA40-2",
+"lanes": "1",
+"road": "A-SEA40-2",
+"lat": 37.96989,
+"lng": 23.88
+},
+{
+"id": "3042",
+"name": "VDS A 40.80",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.96622,
+"lng": 23.88356
+},
+{
+"id": "3043",
+"name": "VDS A 41.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.96177,
+"lng": 23.88567
+},
+{
+"id": "3044",
+"name": "VDS A 41.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.95717,
+"lng": 23.88613
+},
+{
+"id": "3045",
+"name": "VDS A-18-1",
+"lanes": "1",
+"road": "A-18-1",
+"lat": 37.9572,
+"lng": 23.88597
+},
+{
+"id": "3046",
+"name": "VDS E 42.30",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.9537,
+"lng": 23.88648
+},
+{
+"id": "3047",
+"name": "VDS E-18-1",
+"lanes": "1",
+"road": "E-18-1",
+"lat": 37.95377,
+"lng": 23.88663
+},
+{
+"id": "3048",
+"name": "VDS E 42.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.94971,
+"lng": 23.88647
+},
+{
+"id": "3049",
+"name": "VDS E 43.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.94501,
+"lng": 23.88647
+},
+{
+"id": "3050",
+"name": "VDS A 42.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.95164,
+"lng": 23.8861
+},
+{
+"id": "3051",
+"name": "VDS A-18-2",
+"lanes": "1",
+"road": "A-18-2",
+"lat": 37.95163,
+"lng": 23.88593
+},
+{
+"id": "3052",
+"name": "VDS A 43.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.94716,
+"lng": 23.8861
+},
+{
+"id": "3053",
+"name": "VDS A 43.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.94319,
+"lng": 23.88609
+},
+{
+"id": "3054",
+"name": "VDS E 44.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.93163,
+"lng": 23.88684
+},
+{
+"id": "3055",
+"name": "VDS E 45.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.92767,
+"lng": 23.88785
+},
+{
+"id": "3056",
+"name": "VDS E 45.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.92376,
+"lng": 23.88951
+},
+{
+"id": "3057",
+"name": "VDS E 46.20",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 37.91975,
+"lng": 23.89186
+},
+{
+"id": "3058",
+"name": "VDS E 46.70",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 37.91574,
+"lng": 23.89427
+},
+{
+"id": "3059",
+"name": "VDS E 47.20",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 37.91173,
+"lng": 23.89712
+},
+{
+"id": "3060",
+"name": "VDS E 48.30",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 37.90983,
+"lng": 23.90518
+},
+{
+"id": "3062",
+"name": "VDS E 48.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.91268,
+"lng": 23.91146
+},
+{
+"id": "3063",
+"name": "VDS E-21-2",
+"lanes": "1",
+"road": "E-21-2",
+"lat": 37.91413,
+"lng": 23.91698
+},
+{
+"id": "3064",
+"name": "VDS E 49.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 37.91428,
+"lng": 23.91845
+},
+{
+"id": "3065",
+"name": "VDS E-21-1",
+"lanes": "1",
+"road": "E-21-1",
+"lat": 37.91444,
+"lng": 23.9184
+},
+{
+"id": "3066",
+"name": "VDS E 50.10",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 37.91604,
+"lng": 23.92386
+},
+{
+"id": "3067",
+"name": "VDS A 44.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.93851,
+"lng": 23.88609
+},
+{
+"id": "3068",
+"name": "VDS A 44.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.9344,
+"lng": 23.88614
+},
+{
+"id": "3069",
+"name": "VDS A 44.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.92991,
+"lng": 23.88682
+},
+{
+"id": "3070",
+"name": "VDS A 45.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.92565,
+"lng": 23.88823
+},
+{
+"id": "3071",
+"name": "VDS A 45.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.92206,
+"lng": 23.89006
+},
+{
+"id": "3072",
+"name": "VDS A 46.30",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 37.91854,
+"lng": 23.89215
+},
+{
+"id": "3073",
+"name": "VDS A 46.70",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 37.91557,
+"lng": 23.89392
+},
+{
+"id": "3074",
+"name": "VDS A 47.50",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 37.90835,
+"lng": 23.89832
+},
+{
+"id": "3075",
+"name": "VDS A-20-1",
+"lanes": "1",
+"road": "A-20-1",
+"lat": 37.90835,
+"lng": 23.89819
+},
+{
+"id": "3076",
+"name": "VDS A 47.80",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 37.90612,
+"lng": 23.90167
+},
+{
+"id": "3077",
+"name": "VDS A 48.20",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 37.90879,
+"lng": 23.90412
+},
+{
+"id": "3078",
+"name": "VDS A 48.70",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.91122,
+"lng": 23.90888
+},
+{
+"id": "3079",
+"name": "VDS A 49.10",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.91294,
+"lng": 23.91334
+},
+{
+"id": "3080",
+"name": "VDS A 49.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 37.91395,
+"lng": 23.91822
+},
+{
+"id": "3081",
+"name": "VDS A-21-1",
+"lanes": "1",
+"road": "A-21-1",
+"lat": 37.91381,
+"lng": 23.91825
+},
+{
+"id": "3082",
+"name": "VDS A 50.00",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 37.91538,
+"lng": 23.92352
+},
+{
+"id": "3083",
+"name": "VDS A-20A-1",
+"lanes": "3",
+"road": "A-20A-1",
+"lat": 37.91212,
+"lng": 23.89614
+},
+{
+"id": "3084",
+"name": "VDS A 47.10",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 37.91201,
+"lng": 23.89603
+},
+{
+"id": "3085",
+"name": "VDS E-20A-2",
+"lanes": "2",
+"road": "E-20A-2",
+"lat": 37.90478,
+"lng": 23.90261
+},
+{
+"id": "3086",
+"name": "VDS A-20A-2",
+"lanes": "1",
+"road": "A-20A-2",
+"lat": 37.9049,
+"lng": 23.9027
+},
+{
+"id": "3087",
+"name": "VDS A-20-2",
+"lanes": "2",
+"road": "A-20-2",
+"lat": 37.90747,
+"lng": 23.90103
+},
+{
+"id": "3088",
+"name": "VDS E-20-2",
+"lanes": "1",
+"road": "E-20-2",
+"lat": 37.90737,
+"lng": 23.90111
+},
+{
+"id": "3089",
+"name": "VDS E-20A-1",
+"lanes": "1",
+"road": "E-20A-1",
+"lat": 37.90578,
+"lng": 23.90486
+},
+{
+"id": "3090",
+"name": "VDS A-21-2",
+"lanes": "1",
+"road": "A-21-2",
+"lat": 37.9142,
+"lng": 23.92012
+},
+{
+"id": "3100",
+"name": "VDS E-1A-1 (5)",
+"lanes": "2",
+"road": "E-1A-1",
+"lat": 38.05219,
+"lng": 23.50688
+},
+{
+"id": "3101",
+"name": "VDS E-1A-1 (4)",
+"lanes": "2",
+"road": "E-1A-1",
+"lat": 38.05534,
+"lng": 23.51077
+},
+{
+"id": "3102",
+"name": "VDS E-1A-1 (3)",
+"lanes": "2",
+"road": "E-1A-1",
+"lat": 38.05577,
+"lng": 23.51116
+},
+{
+"id": "3103",
+"name": "VDS E-1A-1 (2)",
+"lanes": "2",
+"road": "E-1A-1",
+"lat": 38.05623,
+"lng": 23.51151
+},
+{
+"id": "3104",
+"name": "VDS E-1A-1 (1)",
+"lanes": "2",
+"road": "E-1A-1",
+"lat": 38.05669,
+"lng": 23.51186
+},
+{
+"id": "3105",
+"name": "VDS A-1A-2 (1)",
+"lanes": "2",
+"road": "A-1A-2",
+"lat": 38.05214,
+"lng": 23.50721
+},
+{
+"id": "3106",
+"name": "VDS A-1A-2 (2)",
+"lanes": "2",
+"road": "A-1A-2",
+"lat": 38.05449,
+"lng": 23.51043
+},
+{
+"id": "3107",
+"name": "VDS A-1A-2 (3)",
+"lanes": "2",
+"road": "A-1A-2",
+"lat": 38.05486,
+"lng": 23.51086
+},
+{
+"id": "3108",
+"name": "VDS A-1A-2 (4)",
+"lanes": "2",
+"road": "A-1A-2",
+"lat": 38.05524,
+"lng": 23.51127
+},
+{
+"id": "3109",
+"name": "VDS A-1A-2 (5)",
+"lanes": "2",
+"road": "A-1A-2",
+"lat": 38.05564,
+"lng": 23.51165
+},
+{
+"id": "3110",
+"name": "VDS E 0.10",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.05838,
+"lng": 23.51393
+},
+{
+"id": "3111",
+"name": "VDS E 0.60",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.06066,
+"lng": 23.51851
+},
+{
+"id": "3112",
+"name": "VDS E-1-1",
+"lanes": "1",
+"road": "E-1-1",
+"lat": 38.06076,
+"lng": 23.51831
+},
+{
+"id": "3113",
+"name": "VDS E 1.10",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.06427,
+"lng": 23.52172
+},
+{
+"id": "3114",
+"name": "VDS E 1.60",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.06822,
+"lng": 23.52451
+},
+{
+"id": "3115",
+"name": "VDS E 2.20",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.07257,
+"lng": 23.5284
+},
+{
+"id": "3116",
+"name": "VDS E-2-2",
+"lanes": "1",
+"road": "E-2-2",
+"lat": 38.07261,
+"lng": 23.52817
+},
+{
+"id": "3117",
+"name": "VDS E 2.40",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.07487,
+"lng": 23.52994
+},
+{
+"id": "3118",
+"name": "VDS E-2-1",
+"lanes": "1",
+"road": "E-2-1",
+"lat": 38.07473,
+"lng": 23.52969
+},
+{
+"id": "3119",
+"name": "VDS E 3.00",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.07887,
+"lng": 23.53344
+},
+{
+"id": "3120",
+"name": "VDS E 3.50",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.08194,
+"lng": 23.53761
+},
+{
+"id": "3121",
+"name": "VDS E 4.00",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.08532,
+"lng": 23.5422
+},
+{
+"id": "3122",
+"name": "VDS E 4.50",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.08788,
+"lng": 23.5462
+},
+{
+"id": "3123",
+"name": "VDS E 5.00",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.09044,
+"lng": 23.55132
+},
+{
+"id": "3124",
+"name": "VDS E 5.50",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.09221,
+"lng": 23.55605
+},
+{
+"id": "3125",
+"name": "VDS E 6.00",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.09364,
+"lng": 23.56163
+},
+{
+"id": "3126",
+"name": "VDS E 6.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.0946,
+"lng": 23.56774
+},
+{
+"id": "3127",
+"name": "VDS E 7.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09486,
+"lng": 23.57328
+},
+{
+"id": "3128",
+"name": "VDS E 7.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09474,
+"lng": 23.57899
+},
+{
+"id": "3129",
+"name": "VDS A 0.20",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.0584,
+"lng": 23.51502
+},
+{
+"id": "3130",
+"name": "VDS A 0.60",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.0609,
+"lng": 23.51932
+},
+{
+"id": "3131",
+"name": "VDS A-1-2",
+"lanes": "1",
+"road": "A-1-2",
+"lat": 38.0608,
+"lng": 23.51947
+},
+{
+"id": "3132",
+"name": "VDS A 1.20",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.0652,
+"lng": 23.52289
+},
+{
+"id": "3133",
+"name": "VDS A 1.70",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.06891,
+"lng": 23.52584
+},
+{
+"id": "3134",
+"name": "VDS A 2.20",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.07218,
+"lng": 23.52877
+},
+{
+"id": "3135",
+"name": "VDS A-2-1",
+"lanes": "1",
+"road": "A-2-1",
+"lat": 38.07224,
+"lng": 23.52901
+},
+{
+"id": "3136",
+"name": "VDS A 2.50",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.07526,
+"lng": 23.53085
+},
+{
+"id": "3137",
+"name": "VDS A-2-2",
+"lanes": "1",
+"road": "A-2-2",
+"lat": 38.07514,
+"lng": 23.53095
+},
+{
+"id": "3138",
+"name": "VDS A 3.10",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.07889,
+"lng": 23.53446
+},
+{
+"id": "3139",
+"name": "VDS A 3.60",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.08198,
+"lng": 23.5386
+},
+{
+"id": "3140",
+"name": "VDS A 4.10",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.08505,
+"lng": 23.54277
+},
+{
+"id": "3141",
+"name": "VDS E 8.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09468,
+"lng": 23.58471
+},
+{
+"id": "3142",
+"name": "VDS E 8.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09453,
+"lng": 23.59092
+},
+{
+"id": "3143",
+"name": "VDS E 9.10",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.0941,
+"lng": 23.59711
+},
+{
+"id": "3144",
+"name": "VDS E 9.60",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09339,
+"lng": 23.60236
+},
+{
+"id": "3145",
+"name": "VDS E-SEA10-2",
+"lanes": "1",
+"road": "E-SEA10-2",
+"lat": 38.09346,
+"lng": 23.60253
+},
+{
+"id": "3146",
+"name": "VDS E 10.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09255,
+"lng": 23.60754
+},
+{
+"id": "3147",
+"name": "VDS E-SEA10-1",
+"lanes": "2",
+"road": "E-SEA10-1",
+"lat": 38.09266,
+"lng": 23.60743
+},
+{
+"id": "3148",
+"name": "VDS E 10.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09167,
+"lng": 23.61279
+},
+{
+"id": "3149",
+"name": "VDS E 11.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.09046,
+"lng": 23.61799
+},
+{
+"id": "3150",
+"name": "VDS E-4-2",
+"lanes": "1",
+"road": "ESS_Westbound",
+"lat": 38.09061,
+"lng": 23.61802
+},
+{
+"id": "3151",
+"name": "VDS E 11.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08943,
+"lng": 23.62286
+},
+{
+"id": "3152",
+"name": "VDS E-4-1",
+"lanes": "1",
+"road": "E-4-1",
+"lat": 38.0896,
+"lng": 23.62289
+},
+{
+"id": "3153",
+"name": "VDS E 11.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08847,
+"lng": 23.6284
+},
+{
+"id": "3154",
+"name": "VDS E 12.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08751,
+"lng": 23.63398
+},
+{
+"id": "3155",
+"name": "VDS E 12.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08695,
+"lng": 23.63997
+},
+{
+"id": "3156",
+"name": "VDS E 13.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08681,
+"lng": 23.64566
+},
+{
+"id": "3157",
+"name": "VDS E 13.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08671,
+"lng": 23.65136
+},
+{
+"id": "3158",
+"name": "VDS E 14.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.0863,
+"lng": 23.65791
+},
+{
+"id": "3159",
+"name": "VDS E 14.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08508,
+"lng": 23.66233
+},
+{
+"id": "3160",
+"name": "VDS E 15.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08328,
+"lng": 23.66759
+},
+{
+"id": "3161",
+"name": "VDS A 4.60",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.08785,
+"lng": 23.54721
+},
+{
+"id": "3162",
+"name": "VDS A 5.20",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.09069,
+"lng": 23.55331
+},
+{
+"id": "3163",
+"name": "VDS A 5.60",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.09211,
+"lng": 23.55755
+},
+{
+"id": "3164",
+"name": "VDS A 6.20",
+"lanes": "2",
+"road": "ESS_Eastbound",
+"lat": 38.09354,
+"lng": 23.56377
+},
+{
+"id": "3165",
+"name": "VDS A 6.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09414,
+"lng": 23.56882
+},
+{
+"id": "3166",
+"name": "VDS A 7.10",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09402,
+"lng": 23.57422
+},
+{
+"id": "3167",
+"name": "VDS A 7.70",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09433,
+"lng": 23.58127
+},
+{
+"id": "3168",
+"name": "VDS A 8.20",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09432,
+"lng": 23.58673
+},
+{
+"id": "3169",
+"name": "VDS E 15.59",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08264,
+"lng": 23.66932
+},
+{
+"id": "3170",
+"name": "VDS E 15.65",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08243,
+"lng": 23.66995
+},
+{
+"id": "3171",
+"name": "VDS E 15.71",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08221,
+"lng": 23.67058
+},
+{
+"id": "3172",
+"name": "VDS E 15.77",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08201,
+"lng": 23.6712
+},
+{
+"id": "3173",
+"name": "VDS E 15.83",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08178,
+"lng": 23.67183
+},
+{
+"id": "3174",
+"name": "VDS E 15.89",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08156,
+"lng": 23.67246
+},
+{
+"id": "3175",
+"name": "VDS E 15.95",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.08131,
+"lng": 23.67304
+},
+{
+"id": "3176",
+"name": "VDS A 9.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09382,
+"lng": 23.59673
+},
+{
+"id": "3177",
+"name": "VDS A 9.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09321,
+"lng": 23.60258
+},
+{
+"id": "3178",
+"name": "VDS A-SEA10-1",
+"lanes": "1",
+"road": "A-SEA10-1",
+"lat": 38.09312,
+"lng": 23.60263
+},
+{
+"id": "3179",
+"name": "VDS A 10.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09243,
+"lng": 23.60762
+},
+{
+"id": "3180",
+"name": "VDS A-SEA10-2",
+"lanes": "2",
+"road": "A-SEA10-2",
+"lat": 38.09236,
+"lng": 23.6075
+},
+{
+"id": "3181",
+"name": "VDS A 10.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09144,
+"lng": 23.61225
+},
+{
+"id": "3182",
+"name": "VDS A 11.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.09019,
+"lng": 23.61839
+},
+{
+"id": "3183",
+"name": "VDS A-4-1",
+"lanes": "1",
+"road": "A-4-1",
+"lat": 38.09006,
+"lng": 23.61843
+},
+{
+"id": "3184",
+"name": "VDS A 11.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08914,
+"lng": 23.62332
+},
+{
+"id": "3185",
+"name": "VDS A-4-2",
+"lanes": "2",
+"road": "A-4-2",
+"lat": 38.08905,
+"lng": 23.62341
+},
+{
+"id": "3186",
+"name": "VDS A 12.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08801,
+"lng": 23.62895
+},
+{
+"id": "3187",
+"name": "VDS A 12.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08709,
+"lng": 23.6346
+},
+{
+"id": "3188",
+"name": "VDS A 12.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08663,
+"lng": 23.63994
+},
+{
+"id": "3189",
+"name": "VDS A 13.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08646,
+"lng": 23.64596
+},
+{
+"id": "3190",
+"name": "VDS A 14.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08636,
+"lng": 23.65164
+},
+{
+"id": "3191",
+"name": "VDS A 14.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08614,
+"lng": 23.65681
+},
+{
+"id": "3192",
+"name": "VDS A 14.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08476,
+"lng": 23.66216
+},
+{
+"id": "3193",
+"name": "VDS A 15.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08338,
+"lng": 23.6661
+},
+{
+"id": "3194",
+"name": "VDS A 15.59",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08231,
+"lng": 23.66909
+},
+{
+"id": "3195",
+"name": "VDS A 15.65",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08208,
+"lng": 23.6697
+},
+{
+"id": "3196",
+"name": "VDS A 15.71",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08187,
+"lng": 23.67033
+},
+{
+"id": "3197",
+"name": "VDS A 15.77",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08164,
+"lng": 23.67095
+},
+{
+"id": "3198",
+"name": "VDS A 15.83",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08143,
+"lng": 23.67158
+},
+{
+"id": "3199",
+"name": "VDS A 15.89",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08119,
+"lng": 23.67223
+},
+{
+"id": "3200",
+"name": "VDS A 15.95",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.08097,
+"lng": 23.67277
+},
+{
+"id": "3300",
+"name": "VDS E 16.30",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07954,
+"lng": 23.67644
+},
+{
+"id": "3301",
+"name": "VDS E-5-2",
+"lanes": "1",
+"road": "E-5-2",
+"lat": 38.07959,
+"lng": 23.67645
+},
+{
+"id": "3302",
+"name": "VDS E 16.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07761,
+"lng": 23.68037
+},
+{
+"id": "3303",
+"name": "VDS E-5-1",
+"lanes": "2",
+"road": "ESS_Westbound",
+"lat": 38.07765,
+"lng": 23.68039
+},
+{
+"id": "3304",
+"name": "VDS E 17.30",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07523,
+"lng": 23.68607
+},
+{
+"id": "3305",
+"name": "VDS E 17.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07382,
+"lng": 23.69091
+},
+{
+"id": "3306",
+"name": "VDS E 18.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07285,
+"lng": 23.69586
+},
+{
+"id": "3307",
+"name": "VDS E 18.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07219,
+"lng": 23.70137
+},
+{
+"id": "3308",
+"name": "VDS E 19.10",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07143,
+"lng": 23.7064
+},
+{
+"id": "3309",
+"name": "VDS E-6-2",
+"lanes": "1",
+"road": "ESS_Westbound",
+"lat": 38.07152,
+"lng": 23.7066
+},
+{
+"id": "3310",
+"name": "VDS E 19.60",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07089,
+"lng": 23.71144
+},
+{
+"id": "3311",
+"name": "VDS E-6-1",
+"lanes": "1",
+"road": "ESS_Westbound",
+"lat": 38.07091,
+"lng": 23.71151
+},
+{
+"id": "3312",
+"name": "VDS A 16.20",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07961,
+"lng": 23.67541
+},
+{
+"id": "3313",
+"name": "VDS A-5-1",
+"lanes": "1",
+"road": "A-5-1",
+"lat": 38.07956,
+"lng": 23.67524
+},
+{
+"id": "3314",
+"name": "VDS A 16.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07763,
+"lng": 23.67951
+},
+{
+"id": "3315",
+"name": "VDS A-5-2",
+"lanes": "1",
+"road": "A-5-2",
+"lat": 38.07756,
+"lng": 23.67957
+},
+{
+"id": "3316",
+"name": "VDS A 17.20",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07527,
+"lng": 23.68503
+},
+{
+"id": "3317",
+"name": "VDS A 17.80",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07342,
+"lng": 23.69111
+},
+{
+"id": "3318",
+"name": "VDS A 18.20",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07242,
+"lng": 23.69642
+},
+{
+"id": "3319",
+"name": "VDS E 19.84",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07048,
+"lng": 23.71453
+},
+{
+"id": "3320",
+"name": "VDS E 19.90",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.0704,
+"lng": 23.71521
+},
+{
+"id": "3321",
+"name": "VDS E 19.96",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07032,
+"lng": 23.71589
+},
+{
+"id": "3322",
+"name": "VDS E 20.02",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07023,
+"lng": 23.71656
+},
+{
+"id": "3323",
+"name": "VDS E 20.08",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07014,
+"lng": 23.71724
+},
+{
+"id": "3324",
+"name": "VDS E 20.14",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.07005,
+"lng": 23.71791
+},
+{
+"id": "3325",
+"name": "VDS E 20.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06995,
+"lng": 23.71859
+},
+{
+"id": "3326",
+"name": "VDS A 18.48",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07202,
+"lng": 23.69918
+},
+{
+"id": "3327",
+"name": "VDS A 18.55",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07191,
+"lng": 23.69995
+},
+{
+"id": "3328",
+"name": "VDS A 18.62",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07179,
+"lng": 23.70071
+},
+{
+"id": "3329",
+"name": "VDS E 20.78",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.06872,
+"lng": 23.72502
+},
+{
+"id": "3330",
+"name": "VDS E 21.24",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06751,
+"lng": 23.72993
+},
+{
+"id": "3331",
+"name": "VDS E-7-2",
+"lanes": "1",
+"road": "E-7-2",
+"lat": 38.06765,
+"lng": 23.72991
+},
+{
+"id": "3332",
+"name": "VDS E 21.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06646,
+"lng": 23.73479
+},
+{
+"id": "3333",
+"name": "VDS E-7-1",
+"lanes": "1",
+"road": "E-7-1",
+"lat": 38.06659,
+"lng": 23.73485
+},
+{
+"id": "3334",
+"name": "VDS E 22.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06523,
+"lng": 23.74013
+},
+{
+"id": "3335",
+"name": "VDS A 19.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07077,
+"lng": 23.70798
+},
+{
+"id": "3336",
+"name": "VDS A-6-1",
+"lanes": "1",
+"road": "A-6-1",
+"lat": 38.07067,
+"lng": 23.70791
+},
+{
+"id": "3337",
+"name": "VDS A 19.70",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.07016,
+"lng": 23.71288
+},
+{
+"id": "3338",
+"name": "VDS A-6-2",
+"lanes": "1",
+"road": "A-6-2",
+"lat": 38.07013,
+"lng": 23.71293
+},
+{
+"id": "3339",
+"name": "VDS A 19.84",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06992,
+"lng": 23.71444
+},
+{
+"id": "3340",
+"name": "VDS A 19.90",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06983,
+"lng": 23.7151
+},
+{
+"id": "3341",
+"name": "VDS A 19.96",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06974,
+"lng": 23.71572
+},
+{
+"id": "3342",
+"name": "VDS A 20.02",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06963,
+"lng": 23.71646
+},
+{
+"id": "3343",
+"name": "VDS A 20.09",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06954,
+"lng": 23.71726
+},
+{
+"id": "3344",
+"name": "VDS A 20.15",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06946,
+"lng": 23.71793
+},
+{
+"id": "3345",
+"name": "VDS A 20.21",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06938,
+"lng": 23.71861
+},
+{
+"id": "3346",
+"name": "VDS A 20.80",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06824,
+"lng": 23.72457
+},
+{
+"id": "3347",
+"name": "VDS A 21.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06705,
+"lng": 23.73072
+},
+{
+"id": "3348",
+"name": "VDS A-7-1",
+"lanes": "1",
+"road": "A-7-1",
+"lat": 38.06702,
+"lng": 23.73054
+},
+{
+"id": "3349",
+"name": "VDS A 21.80",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06598,
+"lng": 23.73566
+},
+{
+"id": "3350",
+"name": "VDS A-7-2",
+"lanes": "1",
+"road": "A-7-2",
+"lat": 38.0659,
+"lng": 23.73595
+},
+{
+"id": "3351",
+"name": "VDS A 22.07",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06505,
+"lng": 23.73909
+},
+{
+"id": "3352",
+"name": "VDS A 22.13",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06486,
+"lng": 23.73974
+},
+{
+"id": "3353",
+"name": "VDS A 22.19",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.06468,
+"lng": 23.74038
+},
+{
+"id": "3355",
+"name": "VDS N-5-2",
+"lanes": "2",
+"road": "N-5-2",
+"lat": 38.08002,
+"lng": 23.67869
+},
+{
+"id": "3356",
+"name": "VDS N 16.70",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.07663,
+"lng": 23.67635
+},
+{
+"id": "3357",
+"name": "VDS E-5-N",
+"lanes": "1",
+"road": "E-5-N",
+"lat": 38.07661,
+"lng": 23.6763
+},
+{
+"id": "3358",
+"name": "VDS N 17.20",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.07247,
+"lng": 23.67407
+},
+{
+"id": "3359",
+"name": "VDS N 17.90",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.06741,
+"lng": 23.67104
+},
+{
+"id": "3360",
+"name": "VDS N 18.50",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.06265,
+"lng": 23.66679
+},
+{
+"id": "3361",
+"name": "VDS N-5A-1 (1)",
+"lanes": "2",
+"road": "N-5A-1",
+"lat": 38.05794,
+"lng": 23.6604
+},
+{
+"id": "3362",
+"name": "VDS N 19.30",
+"lanes": "1",
+"road": "EWPM_Southbound",
+"lat": 38.05797,
+"lng": 23.66038
+},
+{
+"id": "3363",
+"name": "VDS N-5A-1 (2)",
+"lanes": "2",
+"road": "N-5A-1",
+"lat": 38.05578,
+"lng": 23.65746
+},
+{
+"id": "3364",
+"name": "VDS Z-5A-1",
+"lanes": "1",
+"road": "Z-5A-1",
+"lat": 38.05581,
+"lng": 23.65744
+},
+{
+"id": "3365",
+"name": "VDS Z-5-1",
+"lanes": "2",
+"road": "Z-5-1",
+"lat": 38.07957,
+"lng": 23.67877
+},
+{
+"id": "3366",
+"name": "VDS Z 16.80",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.06747,
+"lng": 23.6716
+},
+{
+"id": "3367",
+"name": "VDS Z 17.30",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.07153,
+"lng": 23.67412
+},
+{
+"id": "3368",
+"name": "VDS Z 17.80",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.06743,
+"lng": 23.67152
+},
+{
+"id": "3369",
+"name": "VDS Z 18.50",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.06301,
+"lng": 23.66738
+},
+{
+"id": "3370",
+"name": "VDS Z 19.10",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.05861,
+"lng": 23.66197
+},
+{
+"id": "3371",
+"name": "VDS Z-5A-2 (2)",
+"lanes": "2",
+"road": "Z-5A-2",
+"lat": 38.05507,
+"lng": 23.657
+},
+{
+"id": "3372",
+"name": "VDS Z-5A-2 (1)",
+"lanes": "1",
+"road": "Z-5A-2",
+"lat": 38.05506,
+"lng": 23.65704
+},
+{
+"id": "3373",
+"name": "VDS N-5A-2",
+"lanes": "1",
+"road": "N-5A-2",
+"lat": 38.05379,
+"lng": 23.65538
+},
+{
+"id": "3374",
+"name": "VDS Z 20.00",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.05963,
+"lng": 23.65639
+},
+{
+"id": "3375",
+"name": "VDS Z 20.50",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.06021,
+"lng": 23.65095
+},
+{
+"id": "3376",
+"name": "VDS Z 21.00",
+"lanes": "2",
+"road": "EWPM_Northbound",
+"lat": 38.06299,
+"lng": 23.64639
+},
+{
+"id": "3377",
+"name": "VDS N 20.90",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.06261,
+"lng": 23.64783
+},
+{
+"id": "3378",
+"name": "VDS N 20.40",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.0603,
+"lng": 23.65246
+},
+{
+"id": "3379",
+"name": "VDS N 19.90",
+"lanes": "2",
+"road": "EWPM_Southbound",
+"lat": 38.05893,
+"lng": 23.65774
+},
+{
+"id": "3500",
+"name": "VDS E 22.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06361,
+"lng": 23.74527
+},
+{
+"id": "3501",
+"name": "VDS E-8-2",
+"lanes": "1",
+"road": "E-8-2",
+"lat": 38.06363,
+"lng": 23.74529
+},
+{
+"id": "3502",
+"name": "VDS E 23.10",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06211,
+"lng": 23.75002
+},
+{
+"id": "3503",
+"name": "VDS E 23.40",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.06094,
+"lng": 23.75363
+},
+{
+"id": "3504",
+"name": "VDS E-8-1",
+"lanes": "2",
+"road": "E-8-1",
+"lat": 38.06096,
+"lng": 23.75365
+},
+{
+"id": "3505",
+"name": "VDS A 22.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.064,
+"lng": 23.74275
+},
+{
+"id": "3506",
+"name": "VDS A-8A-1",
+"lanes": "1",
+"road": "A-8A-1",
+"lat": 38.06397,
+"lng": 23.74276
+},
+{
+"id": "3507",
+"name": "VDS A 22.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06225,
+"lng": 23.74804
+},
+{
+"id": "3508",
+"name": "VDS A-8B-1",
+"lanes": "1",
+"road": "A-8B-1",
+"lat": 38.06224,
+"lng": 23.74804
+},
+{
+"id": "3509",
+"name": "VDS A 23.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.06087,
+"lng": 23.75236
+},
+{
+"id": "3510",
+"name": "VDS A-8-2",
+"lanes": "2",
+"road": "A-8-2",
+"lat": 38.06084,
+"lng": 23.75235
+},
+{
+"id": "3511",
+"name": "VDS E 23.70",
+"lanes": "5",
+"road": "ESS_Westbound",
+"lat": 38.0604,
+"lng": 23.75646
+},
+{
+"id": "3512",
+"name": "VDS E 23.76",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.06038,
+"lng": 23.75714
+},
+{
+"id": "3513",
+"name": "VDS E 23.82",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.06032,
+"lng": 23.75782
+},
+{
+"id": "3514",
+"name": "VDS E 23.88",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.06029,
+"lng": 23.75849
+},
+{
+"id": "3515",
+"name": "VDS A 23.69",
+"lanes": "5",
+"road": "ESS_Eastbound",
+"lat": 38.05989,
+"lng": 23.7562
+},
+{
+"id": "3516",
+"name": "VDS A 23.75",
+"lanes": "5",
+"road": "ESS_Eastbound",
+"lat": 38.05985,
+"lng": 23.75689
+},
+{
+"id": "3517",
+"name": "VDS A 23.81",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05986,
+"lng": 23.75759
+},
+{
+"id": "3518",
+"name": "VDS A 23.87",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05986,
+"lng": 23.75827
+},
+{
+"id": "3519",
+"name": "VDS E 24.20",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.06015,
+"lng": 23.7626
+},
+{
+"id": "3520",
+"name": "VDS E 24.60",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.05932,
+"lng": 23.76666
+},
+{
+"id": "3521",
+"name": "VDS E-9-2",
+"lanes": "1",
+"road": "E-9-2",
+"lat": 38.05937,
+"lng": 23.76657
+},
+{
+"id": "3522",
+"name": "VDS E 25.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.05677,
+"lng": 23.7729
+},
+{
+"id": "3523",
+"name": "VDS E-9-1",
+"lanes": "1",
+"road": "E-9-1",
+"lat": 38.05679,
+"lng": 23.77291
+},
+{
+"id": "3524",
+"name": "VDS A 24.40",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05944,
+"lng": 23.76458
+},
+{
+"id": "3525",
+"name": "VDS A 24.80",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.05815,
+"lng": 23.76845
+},
+{
+"id": "3526",
+"name": "VDS A-9-1",
+"lanes": "1",
+"road": "A-9-1",
+"lat": 38.05814,
+"lng": 23.76845
+},
+{
+"id": "3527",
+"name": "VDS A 25.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.05597,
+"lng": 23.77356
+},
+{
+"id": "3528",
+"name": "VDS A-9-2",
+"lanes": "1",
+"road": "A-9-2",
+"lat": 38.05595,
+"lng": 23.77354
+},
+{
+"id": "3529",
+"name": "VDS E 25.59",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.05491,
+"lng": 23.77647
+},
+{
+"id": "3530",
+"name": "VDS E 25.65",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.05458,
+"lng": 23.77702
+},
+{
+"id": "3531",
+"name": "VDS E 25.71",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.05425,
+"lng": 23.77757
+},
+{
+"id": "3532",
+"name": "VDS E 25.77",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.05392,
+"lng": 23.77811
+},
+{
+"id": "3533",
+"name": "VDS E 25.83",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.05358,
+"lng": 23.77866
+},
+{
+"id": "3534",
+"name": "VDS E 26.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.05259,
+"lng": 23.78004
+},
+{
+"id": "3535",
+"name": "VDS E-10-2",
+"lanes": "1",
+"road": "E-10-2",
+"lat": 38.05269,
+"lng": 23.78011
+},
+{
+"id": "3536",
+"name": "VDS E-10B-1",
+"lanes": "1",
+"road": "E-10B-1",
+"lat": 38.05117,
+"lng": 23.78244
+},
+{
+"id": "3537",
+"name": "VDS A 25.59",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05456,
+"lng": 23.77617
+},
+{
+"id": "3538",
+"name": "VDS A 25.65",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05423,
+"lng": 23.77672
+},
+{
+"id": "3539",
+"name": "VDS A 25.71",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05391,
+"lng": 23.77725
+},
+{
+"id": "3540",
+"name": "VDS A 25.77",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05358,
+"lng": 23.77779
+},
+{
+"id": "3541",
+"name": "VDS A 25.83",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.05324,
+"lng": 23.77831
+},
+{
+"id": "3542",
+"name": "VDS E 26.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.0487,
+"lng": 23.78611
+},
+{
+"id": "3543",
+"name": "VDS E-10A-1",
+"lanes": "1",
+"road": "E-10A-1",
+"lat": 38.04872,
+"lng": 23.78632
+},
+{
+"id": "3544",
+"name": "VDS E 27.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.046,
+"lng": 23.79092
+},
+{
+"id": "3545",
+"name": "VDS E 27.80",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.04418,
+"lng": 23.79704
+},
+{
+"id": "3546",
+"name": "VDS E-11-2",
+"lanes": "1",
+"road": "E-11-2",
+"lat": 38.04424,
+"lng": 23.79704
+},
+{
+"id": "3547",
+"name": "VDS E 28.30",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.04274,
+"lng": 23.80214
+},
+{
+"id": "3548",
+"name": "VDS E 28.70",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.04125,
+"lng": 23.80716
+},
+{
+"id": "3549",
+"name": "VDS E-11-1",
+"lanes": "2",
+"road": "E-11-1",
+"lat": 38.04125,
+"lng": 23.8073
+},
+{
+"id": "3550",
+"name": "VDS A 26.20",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.05142,
+"lng": 23.78128
+},
+{
+"id": "3551",
+"name": "VDS A-10-1",
+"lanes": "1",
+"road": "A-10-1",
+"lat": 38.05133,
+"lng": 23.78112
+},
+{
+"id": "3552",
+"name": "VDS A 26.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.04721,
+"lng": 23.78783
+},
+{
+"id": "3553",
+"name": "VDS A-10B-2",
+"lanes": "1",
+"road": "A-10B-2",
+"lat": 38.04714,
+"lng": 23.78771
+},
+{
+"id": "3554",
+"name": "VDS A 27.40",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.04509,
+"lng": 23.79266
+},
+{
+"id": "3555",
+"name": "VDS A 28.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.04329,
+"lng": 23.79893
+},
+{
+"id": "3556",
+"name": "VDS A-11-1",
+"lanes": "1",
+"road": "A-11-1",
+"lat": 38.04318,
+"lng": 23.79888
+},
+{
+"id": "3557",
+"name": "VDS A 28.70",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.04095,
+"lng": 23.80701
+},
+{
+"id": "3558",
+"name": "VDS A-11-2",
+"lanes": "1",
+"road": "A-11-2",
+"lat": 38.04084,
+"lng": 23.80697
+},
+{
+"id": "3559",
+"name": "VDS E-8B-1",
+"lanes": "2",
+"road": "E-8B-1",
+"lat": 38.0619,
+"lng": 23.75117
+},
+{
+"id": "3560",
+"name": "VDS E-8A-1",
+"lanes": "1",
+"road": "E-8A-1",
+"lat": 38.06203,
+"lng": 23.75123
+},
+{
+"id": "3600",
+"name": "VDS E 29.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.03975,
+"lng": 23.81192
+},
+{
+"id": "3601",
+"name": "VDS E 29.60",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.0382,
+"lng": 23.8161
+},
+{
+"id": "3602",
+"name": "VDS E 30.10",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.03491,
+"lng": 23.82065
+},
+{
+"id": "3603",
+"name": "VDS E-12-2",
+"lanes": "1",
+"road": "E-12-2",
+"lat": 38.03488,
+"lng": 23.82071
+},
+{
+"id": "3604",
+"name": "VDS A 29.30",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.03887,
+"lng": 23.81332
+},
+{
+"id": "3605",
+"name": "VDS A 29.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.03763,
+"lng": 23.81631
+},
+{
+"id": "3606",
+"name": "VDS A 30.10",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.03439,
+"lng": 23.82057
+},
+{
+"id": "3607",
+"name": "VDS A-12-1",
+"lanes": "1",
+"road": "A-12-1",
+"lat": 38.03444,
+"lng": 23.82049
+},
+{
+"id": "3608",
+"name": "VDS E 30.48",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.0325,
+"lng": 23.82339
+},
+{
+"id": "3609",
+"name": "VDS E 30.54",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.03209,
+"lng": 23.82384
+},
+{
+"id": "3610",
+"name": "VDS E 30.60",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.03168,
+"lng": 23.82429
+},
+{
+"id": "3611",
+"name": "VDS E 30.66",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.03127,
+"lng": 23.82473
+},
+{
+"id": "3612",
+"name": "VDS E 30.72",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.03086,
+"lng": 23.82517
+},
+{
+"id": "3613",
+"name": "VDS E 30.78",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.03044,
+"lng": 23.82561
+},
+{
+"id": "3614",
+"name": "VDS E 30.84",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.03004,
+"lng": 23.82607
+},
+{
+"id": "3615",
+"name": "VDS E 30.90",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.02963,
+"lng": 23.82652
+},
+{
+"id": "3616",
+"name": "VDS A 30.46",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.03228,
+"lng": 23.82306
+},
+{
+"id": "3617",
+"name": "VDS A 30.52",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.03187,
+"lng": 23.82351
+},
+{
+"id": "3618",
+"name": "VDS A 30.58",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.03145,
+"lng": 23.82395
+},
+{
+"id": "3619",
+"name": "VDS A 30.64",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.03106,
+"lng": 23.82442
+},
+{
+"id": "3620",
+"name": "VDS A 30.70",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.03067,
+"lng": 23.82487
+},
+{
+"id": "3621",
+"name": "VDS A 30.76",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.03024,
+"lng": 23.82532
+},
+{
+"id": "3622",
+"name": "VDS A 30.82",
+"lanes": "4",
+"road": "ESS_Eastbound",
+"lat": 38.02984,
+"lng": 23.82576
+},
+{
+"id": "3623",
+"name": "VDS E 30.96",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.02923,
+"lng": 23.82697
+},
+{
+"id": "3624",
+"name": "VDS E 31.02",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.02882,
+"lng": 23.82742
+},
+{
+"id": "3625",
+"name": "VDS E 31.08",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.02843,
+"lng": 23.8279
+},
+{
+"id": "3626",
+"name": "VDS E 31.13",
+"lanes": "4",
+"road": "ESS_Westbound",
+"lat": 38.02808,
+"lng": 23.82833
+},
+{
+"id": "3627",
+"name": "VDS A 30.88",
+"lanes": "5",
+"road": "ESS_Eastbound",
+"lat": 38.02943,
+"lng": 23.82623
+},
+{
+"id": "3628",
+"name": "VDS A 30.94",
+"lanes": "5",
+"road": "ESS_Eastbound",
+"lat": 38.02902,
+"lng": 23.82664
+},
+{
+"id": "3629",
+"name": "VDS A 31.00",
+"lanes": "5",
+"road": "ESS_Eastbound",
+"lat": 38.02862,
+"lng": 23.82712
+},
+{
+"id": "3630",
+"name": "VDS A 31.07",
+"lanes": "5",
+"road": "ESS_Eastbound",
+"lat": 38.0281,
+"lng": 23.82749
+},
+{
+"id": "3631",
+"name": "VDS A-13-Y (1)",
+"lanes": "2",
+"road": "A-13-Y",
+"lat": 38.02773,
+"lng": 23.828
+},
+{
+"id": "3632",
+"name": "VDS A-13-Y (2)",
+"lanes": "2",
+"road": "A-13-Y",
+"lat": 38.02734,
+"lng": 23.82847
+},
+{
+"id": "3633",
+"name": "VDS A 31.13",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02782,
+"lng": 23.82813
+},
+{
+"id": "3634",
+"name": "VDS A 31.19",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02743,
+"lng": 23.82861
+},
+{
+"id": "3635",
+"name": "VDS A 31.25",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02708,
+"lng": 23.82911
+},
+{
+"id": "3636",
+"name": "VDS A 31.31",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02672,
+"lng": 23.82963
+},
+{
+"id": "3637",
+"name": "VDS A 31.37",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02638,
+"lng": 23.83015
+},
+{
+"id": "3638",
+"name": "VDS B 7.53",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.02088,
+"lng": 23.83636
+},
+{
+"id": "3639",
+"name": "VDS B 7.47",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.02047,
+"lng": 23.83681
+},
+{
+"id": "3640",
+"name": "VDS B 7.41",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.02007,
+"lng": 23.8375
+},
+{
+"id": "3641",
+"name": "VDS B 7.26",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.019,
+"lng": 23.83833
+},
+{
+"id": "3642",
+"name": "VDS B-13-1",
+"lanes": "1",
+"road": "B-13-1",
+"lat": 38.01901,
+"lng": 23.83848
+},
+{
+"id": "3643",
+"name": "VDS A-13-Y (3)",
+"lanes": "2",
+"road": "A-13-Y",
+"lat": 38.02561,
+"lng": 23.83096
+},
+{
+"id": "3644",
+"name": "VDS A-13-1",
+"lanes": "1",
+"road": "A-13-1",
+"lat": 38.02557,
+"lng": 23.83084
+},
+{
+"id": "3645",
+"name": "VDS A-12-2 (1)",
+"lanes": "1",
+"road": "A-12-2",
+"lat": 38.02561,
+"lng": 23.83125
+},
+{
+"id": "3646",
+"name": "VDS A-13-Y",
+"lanes": "1",
+"road": "A-13-Y",
+"lat": 38.02558,
+"lng": 23.83116
+},
+{
+"id": "3647",
+"name": "VDS Y 7.68",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.0218,
+"lng": 23.83512
+},
+{
+"id": "3648",
+"name": "VDS Y 7.54",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.0209,
+"lng": 23.83614
+},
+{
+"id": "3649",
+"name": "VDS Y 7.48",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.0205,
+"lng": 23.8366
+},
+{
+"id": "3650",
+"name": "VDS Y 7.42",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.02009,
+"lng": 23.83705
+},
+{
+"id": "3651",
+"name": "VDS Y 7.20",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01871,
+"lng": 23.83849
+},
+{
+"id": "3652",
+"name": "VDS Y-13-2",
+"lanes": "1",
+"road": "Y-13-2",
+"lat": 38.01863,
+"lng": 23.83842
+},
+{
+"id": "3653",
+"name": "VDS B-13-E",
+"lanes": "1",
+"road": "B-13-E",
+"lat": 38.02652,
+"lng": 23.83098
+},
+{
+"id": "3654",
+"name": "VDS E-13-2",
+"lanes": "1",
+"road": "E-13-2",
+"lat": 38.02647,
+"lng": 23.83093
+},
+{
+"id": "3655",
+"name": "VDS E 31.60",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.02537,
+"lng": 23.83279
+},
+{
+"id": "3656",
+"name": "VDS E-12-1",
+"lanes": "1",
+"road": "E-12-1",
+"lat": 38.0254,
+"lng": 23.83303
+},
+{
+"id": "3657",
+"name": "VDS E 32.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.02397,
+"lng": 23.83682
+},
+{
+"id": "3658",
+"name": "VDS E-13-1",
+"lanes": "1",
+"road": "E-13-1",
+"lat": 38.024,
+"lng": 23.83718
+},
+{
+"id": "3659",
+"name": "VDS E 32.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.02312,
+"lng": 23.84192
+},
+{
+"id": "3660",
+"name": "VDS E 33.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.02236,
+"lng": 23.84754
+},
+{
+"id": "3661",
+"name": "VDS E 33.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.02159,
+"lng": 23.85316
+},
+{
+"id": "3662",
+"name": "VDS E 34.00",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.02071,
+"lng": 23.85898
+},
+{
+"id": "3663",
+"name": "VDS E 34.50",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.01827,
+"lng": 23.86432
+},
+{
+"id": "3664",
+"name": "VDS E-14-2",
+"lanes": "1",
+"road": "E-14-2",
+"lat": 38.01828,
+"lng": 23.86434
+},
+{
+"id": "3665",
+"name": "VDS E 35.20",
+"lanes": "3",
+"road": "ESS_Westbound",
+"lat": 38.01344,
+"lng": 23.86791
+},
+{
+"id": "3666",
+"name": "VDS A 31.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02509,
+"lng": 23.83262
+},
+{
+"id": "3667",
+"name": "VDS A-12-2 (2)",
+"lanes": "1",
+"road": "A-12-2",
+"lat": 38.02503,
+"lng": 23.83249
+},
+{
+"id": "3668",
+"name": "VDS A 31.90",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02392,
+"lng": 23.83588
+},
+{
+"id": "3669",
+"name": "VDS A-13-2",
+"lanes": "1",
+"road": "A-13-2",
+"lat": 38.02368,
+"lng": 23.83652
+},
+{
+"id": "3670",
+"name": "VDS A 32.50",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02256,
+"lng": 23.8422
+},
+{
+"id": "3671",
+"name": "VDS A 33.00",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02175,
+"lng": 23.8478
+},
+{
+"id": "3672",
+"name": "VDS A 33.60",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.02099,
+"lng": 23.85473
+},
+{
+"id": "3673",
+"name": "VDS A 34.10",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.01995,
+"lng": 23.86001
+},
+{
+"id": "3674",
+"name": "VDS A 34.70",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.01677,
+"lng": 23.86528
+},
+{
+"id": "3675",
+"name": "VDS A -14-1",
+"lanes": "1",
+"road": "A-14-1",
+"lat": 38.01676,
+"lng": 23.86527
+},
+{
+"id": "3676",
+"name": "VDS A 35.20",
+"lanes": "3",
+"road": "ESS_Eastbound",
+"lat": 38.01282,
+"lng": 23.86753
+},
+{
+"id": "3677",
+"name": "VDS B-12-1",
+"lanes": "1",
+"road": "B-12-1",
+"lat": 38.02508,
+"lng": 23.83319
+},
+{
+"id": "3678",
+"name": "VDS A-13-Y",
+"lanes": "2",
+"road": "A-13-Y",
+"lat": 38.02504,
+"lng": 23.83218
+},
+{
+"id": "3679",
+"name": "VDS A-13-1",
+"lanes": "2",
+"road": "A-13-1",
+"lat": 38.02497,
+"lng": 23.83213
+},
+{
+"id": "3800",
+"name": "VDS X 10.30",
+"lanes": "3",
+"road": "IWPM_E_Stavros",
+"lat": 37.99486,
+"lng": 23.87386
+},
+{
+"id": "3801",
+"name": "VDS X-16-E (1)",
+"lanes": "1",
+"road": "X-16-E",
+"lat": 37.995,
+"lng": 23.87391
+},
+{
+"id": "3802",
+"name": "VDS X 9.70",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 37.99595,
+"lng": 23.86897
+},
+{
+"id": "3803",
+"name": "VDS E-16-X (2)",
+"lanes": "1",
+"road": "E-16-X",
+"lat": 37.99603,
+"lng": 23.86904
+},
+{
+"id": "3804",
+"name": "VDS X 9.20",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 37.99667,
+"lng": 23.86287
+},
+{
+"id": "3805",
+"name": "VDS X 8.70",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 37.99727,
+"lng": 23.85775
+},
+{
+"id": "3806",
+"name": "VDS X 8.20",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 37.99765,
+"lng": 23.85206
+},
+{
+"id": "3807",
+"name": "VDS X-6-1",
+"lanes": "1",
+"road": "X-6-1",
+"lat": 37.99776,
+"lng": 23.8521
+},
+{
+"id": "3808",
+"name": "VDS P 10.40",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.99463,
+"lng": 23.87617
+},
+{
+"id": "3809",
+"name": "VDS A-16-P (2)",
+"lanes": "1",
+"road": "A-16-P",
+"lat": 37.99455,
+"lng": 23.87621
+},
+{
+"id": "3810",
+"name": "VDS P 10.00",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.99499,
+"lng": 23.87136
+},
+{
+"id": "3811",
+"name": "VDS P-16-A (1)",
+"lanes": "1",
+"road": "P-16-A",
+"lat": 37.99485,
+"lng": 23.8713
+},
+{
+"id": "3812",
+"name": "VDS P 9.20",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.99656,
+"lng": 23.86286
+},
+{
+"id": "3813",
+"name": "VDS P 8.70",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.9972,
+"lng": 23.8575
+},
+{
+"id": "3814",
+"name": "VDS P 8.40",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.99758,
+"lng": 23.8536
+},
+{
+"id": "3815",
+"name": "VDS P-6-2",
+"lanes": "1",
+"road": "P-6-2",
+"lat": 37.99747,
+"lng": 23.8536
+},
+{
+"id": "3816",
+"name": "VDS X 7.90",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 37.99831,
+"lng": 23.84392
+},
+{
+"id": "3817",
+"name": "VDS X-6-2",
+"lanes": "1",
+"road": "X-6-2",
+"lat": 38.00231,
+"lng": 23.8463
+},
+{
+"id": "3818",
+"name": "VDS X 7.40",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 38.00668,
+"lng": 23.84388
+},
+{
+"id": "3819",
+"name": "VDS P 7.87",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.99681,
+"lng": 23.84812
+},
+{
+"id": "3820",
+"name": "VDS P-6-1",
+"lanes": "1",
+"road": "P-6-1",
+"lat": 37.99679,
+"lng": 23.84811
+},
+{
+"id": "3821",
+"name": "VDS P 7.37",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 37.99845,
+"lng": 23.84362
+},
+{
+"id": "3822",
+"name": "VDS X 6.89",
+"lanes": "3",
+"road": "IWPM_E_Stavros",
+"lat": 38.00231,
+"lng": 23.8463
+},
+{
+"id": "3823",
+"name": "VDS X 6.35",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 38.00668,
+"lng": 23.84388
+},
+{
+"id": "3824",
+"name": "VDS X-4-1",
+"lanes": "1",
+"road": "X-4-1",
+"lat": 38.00665,
+"lng": 23.84392
+},
+{
+"id": "3825",
+"name": "VDS X 5.69",
+"lanes": "2",
+"road": "IWPM_E_Stavros",
+"lat": 38.00923,
+"lng": 23.83852
+},
+{
+"id": "3826",
+"name": "VDS Y 5.66",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.00926,
+"lng": 23.83849
+},
+{
+"id": "3827",
+"name": "VDS K 5.34",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 38.00668,
+"lng": 23.83668
+},
+{
+"id": "3828",
+"name": "VDS K-4-2",
+"lanes": "1",
+"road": "K-4-2",
+"lat": 38.00673,
+"lng": 23.83665
+},
+{
+"id": "3829",
+"name": "VDS P 7.06",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00092,
+"lng": 23.84518
+},
+{
+"id": "3830",
+"name": "VDS P 7.00",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00135,
+"lng": 23.84557
+},
+{
+"id": "3831",
+"name": "VDS P 6.94",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00182,
+"lng": 23.84585
+},
+{
+"id": "3832",
+"name": "VDS P 6.36",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00656,
+"lng": 23.84364
+},
+{
+"id": "3833",
+"name": "VDS P-4-2",
+"lanes": "1",
+"road": "P-4-2",
+"lat": 38.00658,
+"lng": 23.84362
+},
+{
+"id": "3834",
+"name": "VDS K 5.21",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00546,
+"lng": 23.83672
+},
+{
+"id": "3835",
+"name": "VDS K 5.15",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00499,
+"lng": 23.83665
+},
+{
+"id": "3836",
+"name": "VDS K 5.09",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00446,
+"lng": 23.8365
+},
+{
+"id": "3837",
+"name": "VDS K 5.03",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00398,
+"lng": 23.83623
+},
+{
+"id": "3838",
+"name": "VDS K 4.97",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00353,
+"lng": 23.83589
+},
+{
+"id": "3839",
+"name": "VDS K 4.91",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00313,
+"lng": 23.83546
+},
+{
+"id": "3840",
+"name": "VDS K 4.85",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00279,
+"lng": 23.83498
+},
+{
+"id": "3841",
+"name": "VDS K 4.79",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00251,
+"lng": 23.83443
+},
+{
+"id": "3842",
+"name": "VDS K 4.73",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00224,
+"lng": 23.83386
+},
+{
+"id": "3843",
+"name": "VDS K 4.67",
+"lanes": "4",
+"road": "IWPM_Katehaki",
+"lat": 38.00197,
+"lng": 23.83324
+},
+{
+"id": "3844",
+"name": "VDS P 5.70",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.0087,
+"lng": 23.83818
+},
+{
+"id": "3845",
+"name": "VDS P 5.64",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00839,
+"lng": 23.83769
+},
+{
+"id": "3846",
+"name": "VDS P 5.58",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00793,
+"lng": 23.83733
+},
+{
+"id": "3847",
+"name": "VDS P 5.52",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00743,
+"lng": 23.83716
+},
+{
+"id": "3848",
+"name": "VDS P 5.46",
+"lanes": "2",
+"road": "IWPM_E_Rafina",
+"lat": 38.00691,
+"lng": 23.83716
+},
+{
+"id": "3849",
+"name": "VDS M-4-1 (3)",
+"lanes": "1",
+"road": "M-4-1",
+"lat": 38.00736,
+"lng": 23.8373
+},
+{
+"id": "3850",
+"name": "VDS M-4-1 (2)",
+"lanes": "1",
+"road": "M-4-1",
+"lat": 38.00682,
+"lng": 23.8374
+},
+{
+"id": "3851",
+"name": "VDS M-4-1 (1)",
+"lanes": "1",
+"road": "M-4-1",
+"lat": 38.00628,
+"lng": 23.83738
+},
+{
+"id": "3852",
+"name": "VDS M 5.19",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00522,
+"lng": 23.83735
+},
+{
+"id": "3853",
+"name": "VDS M 5.13",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00466,
+"lng": 23.83729
+},
+{
+"id": "3854",
+"name": "VDS M 5.07",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00412,
+"lng": 23.83712
+},
+{
+"id": "3855",
+"name": "VDS M 5.01",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00361,
+"lng": 23.83685
+},
+{
+"id": "3856",
+"name": "VDS M 4.95",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00311,
+"lng": 23.83646
+},
+{
+"id": "3857",
+"name": "VDS M 4.89",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.0027,
+"lng": 23.836
+},
+{
+"id": "3858",
+"name": "VDS M 4.83",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00234,
+"lng": 23.83545
+},
+{
+"id": "3859",
+"name": "VDS M 4.77",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00206,
+"lng": 23.83485
+},
+{
+"id": "3860",
+"name": "VDS M 4.71",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00183,
+"lng": 23.83423
+},
+{
+"id": "3861",
+"name": "VDS M 4.65",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00159,
+"lng": 23.8336
+},
+{
+"id": "3862",
+"name": "VDS M 4.59",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 38.00137,
+"lng": 23.83298
+},
+{
+"id": "3863",
+"name": "VDS K 4.53",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 38.00132,
+"lng": 23.83187
+},
+{
+"id": "3864",
+"name": "VDS K 4.47",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 38.00102,
+"lng": 23.83129
+},
+{
+"id": "3865",
+"name": "VDS K 4.41",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 38.00072,
+"lng": 23.83072
+},
+{
+"id": "3866",
+"name": "VDS K 4.35",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 38.00042,
+"lng": 23.83014
+},
+{
+"id": "3867",
+"name": "VDS K 4.29",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 38.00009,
+"lng": 23.8296
+},
+{
+"id": "3868",
+"name": "VDS K 4.23",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99977,
+"lng": 23.82905
+},
+{
+"id": "3869",
+"name": "VDS K 4.17",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99942,
+"lng": 23.82851
+},
+{
+"id": "3870",
+"name": "VDS M 4.45",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 38.00081,
+"lng": 23.83163
+},
+{
+"id": "3871",
+"name": "VDS M 4.40",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 38.00053,
+"lng": 23.83106
+},
+{
+"id": "3872",
+"name": "VDS M 4.34",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 38.00026,
+"lng": 23.83051
+},
+{
+"id": "3873",
+"name": "VDS M 4.28",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99993,
+"lng": 23.82996
+},
+{
+"id": "3874",
+"name": "VDS M 4.22",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99961,
+"lng": 23.82942
+},
+{
+"id": "3875",
+"name": "VDS M 4.16",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99926,
+"lng": 23.82891
+},
+{
+"id": "3876",
+"name": "VDS M 4.10",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99893,
+"lng": 23.82841
+},
+{
+"id": "3877",
+"name": "VDS K-3-1 (1)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 38.0014,
+"lng": 23.83181
+},
+{
+"id": "3878",
+"name": "VDS K-3-1 (2)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 38.00117,
+"lng": 23.8312
+},
+{
+"id": "3879",
+"name": "VDS K-3-1 (3)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 38.00089,
+"lng": 23.8306
+},
+{
+"id": "3880",
+"name": "VDS K-3-1 (4)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 38.00057,
+"lng": 23.83005
+},
+{
+"id": "3881",
+"name": "VDS K-3-1 (5)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 38.00025,
+"lng": 23.82949
+},
+{
+"id": "3882",
+"name": "VDS K-3-1 (6)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 37.99996,
+"lng": 23.82892
+},
+{
+"id": "3883",
+"name": "VDS K-3-1 (7)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 37.99968,
+"lng": 23.82834
+},
+{
+"id": "3884",
+"name": "VDS K-3-1 (8)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 37.99949,
+"lng": 23.82771
+},
+{
+"id": "3885",
+"name": "VDS M-3-2 (9)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 38.00054,
+"lng": 23.83152
+},
+{
+"id": "3886",
+"name": "VDS M-3-2 (8)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 38.00017,
+"lng": 23.83103
+},
+{
+"id": "3887",
+"name": "VDS M-3-2 (7)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.9998,
+"lng": 23.83053
+},
+{
+"id": "3888",
+"name": "VDS M-3-2 (6)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.99943,
+"lng": 23.83001
+},
+{
+"id": "3889",
+"name": "VDS M-3-2 (5)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.99915,
+"lng": 23.82942
+},
+{
+"id": "3890",
+"name": "VDS M-3-2 (4)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.99898,
+"lng": 23.82875
+},
+{
+"id": "3891",
+"name": "VDS M-3-2 (3)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.99895,
+"lng": 23.82807
+},
+{
+"id": "3892",
+"name": "VDS M-3-2 (2)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.99903,
+"lng": 23.82738
+},
+{
+"id": "3893",
+"name": "VDS K-3-1- (9)",
+"lanes": "1",
+"road": "K-3-1",
+"lat": 37.99946,
+"lng": 23.8222
+},
+{
+"id": "3894",
+"name": "VDS M-3-2 (1)",
+"lanes": "1",
+"road": "M-3-2",
+"lat": 37.99928,
+"lng": 23.82319
+},
+{
+"id": "3895",
+"name": "VDS K 3.84",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99745,
+"lng": 23.82589
+},
+{
+"id": "3896",
+"name": "VDS K 3.78",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99707,
+"lng": 23.8254
+},
+{
+"id": "3897",
+"name": "VDS K 3.72",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99669,
+"lng": 23.82493
+},
+{
+"id": "3898",
+"name": "VDS K 3.66",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99629,
+"lng": 23.82445
+},
+{
+"id": "3899",
+"name": "VDS K 3.60",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99591,
+"lng": 23.82398
+},
+{
+"id": "3900",
+"name": "VDS M 3.81",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.997,
+"lng": 23.82598
+},
+{
+"id": "3901",
+"name": "VDS M 3.75",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99661,
+"lng": 23.8255
+},
+{
+"id": "3902",
+"name": "VDS M 3.69",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99622,
+"lng": 23.82502
+},
+{
+"id": "3903",
+"name": "VDS M 3.63",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99585,
+"lng": 23.82457
+},
+{
+"id": "3904",
+"name": "VDS M 3.57",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99545,
+"lng": 23.82406
+},
+{
+"id": "3905",
+"name": "VDS M 3.43",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99458,
+"lng": 23.8229
+},
+{
+"id": "3906",
+"name": "VDS M 3.37",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99421,
+"lng": 23.8224
+},
+{
+"id": "3907",
+"name": "VDS M 3.31",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99384,
+"lng": 23.82191
+},
+{
+"id": "3908",
+"name": "VDS M 3.25",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99346,
+"lng": 23.82143
+},
+{
+"id": "3909",
+"name": "VDS M 3.18",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99308,
+"lng": 23.82094
+},
+{
+"id": "3910",
+"name": "VDS M 3.13",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99272,
+"lng": 23.82042
+},
+{
+"id": "3911",
+"name": "VDS K 3.30",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99391,
+"lng": 23.82143
+},
+{
+"id": "3912",
+"name": "VDS K 2.90",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99205,
+"lng": 23.81746
+},
+{
+"id": "3913",
+"name": "VDS K 2.64",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99142,
+"lng": 23.81508
+},
+{
+"id": "3914",
+"name": "VDS K 2.58",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.99106,
+"lng": 23.81455
+},
+{
+"id": "3915",
+"name": "VDS M 2.92",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99186,
+"lng": 23.81821
+},
+{
+"id": "3916",
+"name": "VDS M 2.69",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99138,
+"lng": 23.81572
+},
+{
+"id": "3917",
+"name": "VDS M 2.63",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99111,
+"lng": 23.81516
+},
+{
+"id": "3918",
+"name": "VDS M 2.57",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99077,
+"lng": 23.81469
+},
+{
+"id": "3919",
+"name": "VDS M 2.51",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.99036,
+"lng": 23.81433
+},
+{
+"id": "3920",
+"name": "VDS K 2.36",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.98913,
+"lng": 23.81351
+},
+{
+"id": "3921",
+"name": "VDS K-2-1",
+"lanes": "1",
+"road": "K-2-1",
+"lat": 37.98677,
+"lng": 23.81264
+},
+{
+"id": "3922",
+"name": "VDS K 1.88",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.98556,
+"lng": 23.81103
+},
+{
+"id": "3923",
+"name": "VDS K-2-2",
+"lanes": "1",
+"road": "K-2-2",
+"lat": 37.98558,
+"lng": 23.81101
+},
+{
+"id": "3924",
+"name": "VDS K 1.36",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.98281,
+"lng": 23.8065
+},
+{
+"id": "3925",
+"name": "VDS M 2.31",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 37.98865,
+"lng": 23.81386
+},
+{
+"id": "3926",
+"name": "VDS M-2-2",
+"lanes": "1",
+"road": "M-2-2",
+"lat": 37.98677,
+"lng": 23.8132
+},
+{
+"id": "3927",
+"name": "VDS M 1.89",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.9854,
+"lng": 23.81145
+},
+{
+"id": "3928",
+"name": "VDS M-2-1",
+"lanes": "1",
+"road": "M-2-1",
+"lat": 37.98529,
+"lng": 23.81141
+},
+{
+"id": "3929",
+"name": "VDS M 1.46",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.98348,
+"lng": 23.80735
+},
+{
+"id": "3930",
+"name": "VDS K 0.77",
+"lanes": "3",
+"road": "IWPM_Katehaki",
+"lat": 37.97863,
+"lng": 23.8035
+},
+{
+"id": "3931",
+"name": "VDS K 0.25",
+"lanes": "2",
+"road": "IWPM_Katehaki",
+"lat": 37.97674,
+"lng": 23.79787
+},
+{
+"id": "3932",
+"name": "VDS K-1-1 (1)",
+"lanes": "2",
+"road": "K-1-1",
+"lat": 37.97678,
+"lng": 23.79788
+},
+{
+"id": "3933",
+"name": "VDS K-1A-1",
+"lanes": "2",
+"road": "K-1A-1",
+"lat": 37.97396,
+"lng": 23.79408
+},
+{
+"id": "3934",
+"name": "VDS K-1-1 (2)",
+"lanes": "2",
+"road": "K-1-1",
+"lat": 37.97471,
+"lng": 23.79523
+},
+{
+"id": "3935",
+"name": "VDS K-1-1 (3)",
+"lanes": "2",
+"road": "K-1-1",
+"lat": 37.97445,
+"lng": 23.79467
+},
+{
+"id": "3936",
+"name": "VDS K-1-1 (4)",
+"lanes": "2",
+"road": "K-1-1",
+"lat": 37.97433,
+"lng": 23.79404
+},
+{
+"id": "3937",
+"name": "VDS K-1-1 (5)",
+"lanes": "2",
+"road": "K-1-1",
+"lat": 37.97437,
+"lng": 23.79336
+},
+{
+"id": "3938",
+"name": "VDS M 1.02",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.97983,
+"lng": 23.80565
+},
+{
+"id": "3939",
+"name": "VDS M 0.97",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.97945,
+"lng": 23.80529
+},
+{
+"id": "3940",
+"name": "VDS M 0.92",
+"lanes": "3",
+"road": "IWPM_Mesogion",
+"lat": 37.97907,
+"lng": 23.80487
+},
+{
+"id": "3941",
+"name": "VDS M 0.16",
+"lanes": "4",
+"road": "IWPM_Mesogion",
+"lat": 37.97601,
+"lng": 23.79728
+},
+{
+"id": "3942",
+"name": "VDS M-1-2",
+"lanes": "2",
+"road": "M-1-2",
+"lat": 37.97314,
+"lng": 23.79302
+},
+{
+"id": "3943",
+"name": "VDS Y 7.00",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01708,
+"lng": 23.83997
+},
+{
+"id": "3944",
+"name": "VDS Y 6.94",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01667,
+"lng": 23.84044
+},
+{
+"id": "3945",
+"name": "VDS Y 6.88",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01627,
+"lng": 23.8409
+},
+{
+"id": "3946",
+"name": "VDS Y 6.82",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01588,
+"lng": 23.84137
+},
+{
+"id": "3947",
+"name": "VDS Y 6.76",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01548,
+"lng": 23.84185
+},
+{
+"id": "3948",
+"name": "VDS Y 6.70",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.0151,
+"lng": 23.8423
+},
+{
+"id": "3949",
+"name": "VDS Y 6.64",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.0147,
+"lng": 23.84277
+},
+{
+"id": "3950",
+"name": "VDS Y 6.58",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01427,
+"lng": 23.84312
+},
+{
+"id": "3951",
+"name": "VDS Y 6.52",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.01378,
+"lng": 23.84329
+},
+{
+"id": "3952",
+"name": "VDS Y 5.94",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.00942,
+"lng": 23.84165
+},
+{
+"id": "3953",
+"name": "VDS Y 5.88",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.00937,
+"lng": 23.841
+},
+{
+"id": "3954",
+"name": "VDS Y 5.82",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.00935,
+"lng": 23.84031
+},
+{
+"id": "3955",
+"name": "VDS Y 5.76",
+"lanes": "2",
+"road": "IWPM_W_Imittos",
+"lat": 38.00934,
+"lng": 23.83962
+},
+{
+"id": "3956",
+"name": "VDS B 7.00",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.0172,
+"lng": 23.84017
+},
+{
+"id": "3957",
+"name": "VDS B 6.94",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.0168,
+"lng": 23.84062
+},
+{
+"id": "3958",
+"name": "VDS B 6.88",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.01639,
+"lng": 23.84106
+},
+{
+"id": "3959",
+"name": "VDS B 6.82",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.016,
+"lng": 23.84153
+},
+{
+"id": "3960",
+"name": "VDS B 6.76",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.0156,
+"lng": 23.84201
+},
+{
+"id": "3961",
+"name": "VDS B 6.70",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.01522,
+"lng": 23.84248
+},
+{
+"id": "3962",
+"name": "VDS B 6.64",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.01481,
+"lng": 23.84294
+},
+{
+"id": "3963",
+"name": "VDS B 6.58",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.01433,
+"lng": 23.84333
+},
+{
+"id": "3964",
+"name": "VDS B 6.52",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.0138,
+"lng": 23.84352
+},
+{
+"id": "3965",
+"name": "VDS B 5.95",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.0092,
+"lng": 23.84186
+},
+{
+"id": "3966",
+"name": "VDS B 5.89",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.00913,
+"lng": 23.84114
+},
+{
+"id": "3967",
+"name": "VDS B 5.83",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.00913,
+"lng": 23.84047
+},
+{
+"id": "3968",
+"name": "VDS B 5.77",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.00913,
+"lng": 23.83975
+},
+{
+"id": "3969",
+"name": "VDS B 5.71",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.0091,
+"lng": 23.83906
+},
+{
+"id": "3970",
+"name": "VDS B 5.52",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.00825,
+"lng": 23.83738
+},
+{
+"id": "3971",
+"name": "VDS B 5.45",
+"lanes": "2",
+"road": "IWPM_W_Vrilissia",
+"lat": 38.00778,
+"lng": 23.83711
+},
+{
+"id": "3972",
+"name": "VDS M-1-2",
+"lanes": "2",
+"road": "M-1-2",
+"lat": 37.9742,
+"lng": 23.79511
+},
+{
+"id": "3973",
+"name": "VDS M-1A-2",
+"lanes": "2",
+"road": "M-1A-2",
+"lat": 37.97413,
+"lng": 23.79523
+},
+{
+"id": "3980",
+"name": "VDS X 10.70",
+"lanes": "3",
+"road": "IWPM_E_Stavros",
+"lat": 37.99546,
+"lng": 23.87952
+},
+{
+"id": "3981",
+"name": "VDS X 11.10",
+"lanes": "3",
+"road": "IWPM_E_Stavros",
+"lat": 37.99484,
+"lng": 23.88386
+},
+{
+"id": "3990",
+"name": "VDS P 10.90",
+"lanes": "3",
+"road": "IWPM_E_Rafina",
+"lat": 37.99485,
+"lng": 23.88322
+},
+{
+"id": "3991",
+"name": "VDS P-8A-1 (11.60)",
+"lanes": "1",
+"road": "IWPM_E_Rafina",
+"lat": 37.99319,
+"lng": 23.88827
+},
+{
+"id": "3992",
+"name": "VDS P-Y8-1",
+"lanes": "3",
+"road": "IWPM_E_Rafina",
+"lat": 37.99306,
+"lng": 23.88821
+},
+{
+"id": "3993",
+"name": "VDS C P 11.30",
+"lanes": "3",
+"road": "IWPM_E_Rafina",
+"lat": 0.00223,
+"lng": 19.51249
+}
+]
+}

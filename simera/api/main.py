@@ -237,6 +237,39 @@ def location(lat: float, lng: float):
     return {"prefecture": nearest_prefecture(lat, lng), **reverse_geocode(lat, lng)}
 
 
+# ---- your day: weather warnings, Attiki Odos, planned power cuts ------------------------------
+
+from simera import alerts as _alerts, traffic as _traffic  # noqa: E402
+from simera.collectors import outages as _outages  # noqa: E402
+
+
+@app.get("/api/alerts")
+def weather_alerts(lat: float, lng: float):
+    """ΕΜΥ warnings (via MeteoAlarm) for the region around the point, active now or within 24 h."""
+    return _alerts.active_for(lat, lng)
+
+
+@app.get("/api/traffic/near")
+def traffic_near(lat: float, lng: float, max_km: float = Query(4.0, ge=0.5, le=15)):
+    """Attiki Odos sensors near the point with live speed, plus the motorway-wide picture (ODbL, data.nap.gov.gr)."""
+    return _traffic.near(lat, lng, max_km=max_km)
+
+
+@app.get("/api/outages")
+def power_outages(lat: float, lng: float, municipality_id: int | None = None, days: int = Query(3, ge=1, le=14)):
+    """Planned ΔΕΔΔΗΕ power cuts for the municipality around the point (or a chosen one), next few days."""
+    now = datetime.now(ATHENS).replace(tzinfo=None)
+    if municipality_id:
+        matched = [m for m in _outages.MUNICIPALITIES if m["id"] == municipality_id]
+    else:
+        loc = reverse_geocode(lat, lng)
+        names = [loc.get(k) for k in ("municipality", "place") if loc.get(k)]
+        matched = _outages.match_municipalities(*names) if names else []
+    ids = [m["id"] for m in matched]
+    return {"municipalities": [{"id": m["id"], "name": m["name"]} for m in matched], "outages": _outages.upcoming(ids, now, days) if ids else [],
+            "all_municipalities": [{"id": m["id"], "name": m["name"]} for m in _outages.MUNICIPALITIES]}
+
+
 @app.get("/api/today")
 def today(d: date | None = None):
     """Name days today and tomorrow (indicative list of common names, Orthodox calendar)."""

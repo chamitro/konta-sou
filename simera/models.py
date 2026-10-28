@@ -190,3 +190,20 @@ class RailDepartures(Base):
     destination: Mapped[str] = mapped_column(String(120))
     route_type: Mapped[int] = mapped_column(Integer)  # 0 tram, 1 metro
     times: Mapped[str] = mapped_column(String)  # JSON sorted list of departure seconds since service midnight
+
+
+class PowerOutage(Base):
+    """A planned power cut announced by ΔΕΔΔΗΕ (siteapps.deddie.gr/outages2public), one row per notice."""
+
+    __tablename__ = "power_outages"
+    __table_args__ = (UniqueConstraint("municipality_id", "note_no", "starts_at", name="uq_outage"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    municipality_id: Mapped[int] = mapped_column(Integer, index=True)   # ΔΕΔΔΗΕ id
+    municipality: Mapped[str] = mapped_column(String(80))
+    area: Mapped[str] = mapped_column(String)                           # streets affected, as announced
+    note_no: Mapped[str] = mapped_column(String(20))
+    purpose: Mapped[str] = mapped_column(String(80))
+    starts_at: Mapped[datetime] = mapped_column(DateTime, index=True)   # Athens local time, naive
+    ends_at: Mapped[datetime] = mapped_column(DateTime)
+    fetched_at: Mapped[datetime] = mapped_column(DateTime)

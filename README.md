@@ -51,6 +51,12 @@ Set `DATABASE_URL` to use PostgreSQL instead of the default SQLite file in `data
 
 The free instance sleeps after 15 minutes without traffic; the first request afterwards takes about a minute.
 
+## "Η μέρα σου" card
+
+- **Weather warnings:** ΕΜΥ warnings through the MeteoAlarm CAP feed (`simera/alerts.py`), matched to the visitor's region (prefecture → MeteoAlarm area), cached 15 min in memory.
+- **Attiki Odos live:** the 600 vehicle-detection sensors published every minute on data.nap.gov.gr (ODbL), `simera/traffic.py`; sensor coordinates converted from the Greek grid in `simera/data/attiki_odos_vds.json`. Sensors reporting 0 km/h are ignored as unreliable.
+- **Planned power cuts:** ΔΕΔΔΗΕ's public lookup, one request per Attica municipality per day with a pause (`simera/collectors/outages.py`), stored in `power_outages`; the visitor's municipality comes from the reverse geocoder and is matched by name, with a manual selector as fallback.
+
 ## Known limits
 
 - The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). They do answer Cloudflare's Athens edge, which serves callers located in Greece: the page asks OASA through the relay in `worker/` straight from the visitor's phone, and visitors in Greece also refresh the relay's stored copy of the ministry rota pages, which the API server reads (see `worker/README.md`). If nobody in Greece opens the app for two weeks the copy expires; hospital rotas then fall back to `HOSPITALS_URL`, and bus endpoints on the server return 503 with a notice.

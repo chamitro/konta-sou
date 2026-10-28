@@ -31,12 +31,13 @@ def _hospitals():
 
 
 def _run_all() -> None:
-    from simera.collectors import fuel, hospitals, pharmacies
+    from simera.collectors import fuel, hospitals, outages, pharmacies
 
     # the quick, most time-sensitive sources first: the disk is ephemeral on free hosts, so after a
     # restart the rota must be back within a minute
     for name, fn in (("hospitals", _hospitals),
                      ("pharmacies", lambda: pharmacies.collect(7)),
+                     ("outages", lambda: outages.collect(delay=0.7)),
                      ("fuel", lambda: fuel.collect(since=datetime.now(timezone.utc).date() - timedelta(days=14), keep_raw=False))):
         _run_one(name, fn)
 
