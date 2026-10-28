@@ -1,16 +1,21 @@
-name: Keep the API awake
+name: API health check
 on:
   schedule:
-    - cron: "*/10 * * * *"   # every 10 minutes; Render free sleeps after 15 idle
+    - cron: "17 * * * *"   # hourly (GitHub runs free schedules late and rarely); the Cloudflare relay does the 10-minute keep-alive
   workflow_dispatch:
 jobs:
-  ping:
+  check:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping health and warm the main endpoints
+      - name: The API answers, with retries that outlast a cold start
         run: |
-          for p in /healthz "/api/fuel/latest" "/api/pharmacies/on-duty?lat=37.98&lng=23.73&limit=1"; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' -m 90 "https://konta-sou.onrender.com$p")
-            echo "$p -> $code"
-            [ "$code" = "200" ] || exit 1
+          for p in /healthz "/api/fuel/latest" "/api/pharmacies/on-duty?lat=37.98&lng=23.73&limit=1" "/api/hospitals/on-duty?lat=37.98&lng=23.73"; do
+            ok=0
+            for attempt in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' -m 150 "https://konta-sou.onrender.com$p")
+              echo "$p -> $code (attempt $attempt)"
+              [ "$code" = "200" ] && { ok=1; break; }
+              sleep 30
+            done
+            [ "$ok" = "1" ] || exit 1
           done
