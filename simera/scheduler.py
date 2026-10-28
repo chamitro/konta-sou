@@ -1,7 +1,8 @@
 """In-process daily scheduler for hosts without cron (e.g. a single free web service).
 
-Enabled with SCHEDULER=1. Runs the light daily collectors (fuel: last 14 days, pharmacies,
-hospitals) shortly after startup and then once a day at SCHEDULE_HOUR_UTC (default 04:30 UTC).
+Enabled with SCHEDULER=1. Runs the light daily collectors (hospitals, pharmacies, fuel: last 14 days)
+right after startup and then once a day at SCHEDULE_HOUR_UTC (default 04:30 UTC); the hospital rota is
+also refreshed every HOSPITALS_EVERY_HOURS (default 6) because the ministry posts it during the day.
 Heavy imports (OpenStreetMap places, GTFS) are shipped in the data snapshot instead.
 """
 from __future__ import annotations
@@ -32,31 +33,47 @@ def _hospitals():
 def _run_all() -> None:
     from simera.collectors import fuel, hospitals, pharmacies
 
-    for name, fn in (("fuel", lambda: fuel.collect(since=datetime.now(timezone.utc).date() - timedelta(days=14), keep_raw=False)),
+    # the quick, most time-sensitive sources first: the disk is ephemeral on free hosts, so after a
+    # restart the rota must be back within a minute
+    for name, fn in (("hospitals", _hospitals),
                      ("pharmacies", lambda: pharmacies.collect(7)),
-                     ("hospitals", _hospitals)):
-        t0 = time.time()
-        try:
-            result = fn()
-            log.info("scheduler: %s done in %.0fs (%s)", name, time.time() - t0, result)
-            STATUS[name] = {"ok": True, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "seconds": round(time.time() - t0), "result": str(result)[:200]}
-        except Exception as e:  # noqa: BLE001
-            log.exception("scheduler: %s failed", name)
-            STATUS[name] = {"ok": False, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "error": str(e)[:200]}
+                     ("fuel", lambda: fuel.collect(since=datetime.now(timezone.utc).date() - timedelta(days=14), keep_raw=False))):
+        _run_one(name, fn)
+
+
+def _run_one(name: str, fn) -> None:
+    t0 = time.time()
+    try:
+        result = fn()
+        log.info("scheduler: %s done in %.0fs (%s)", name, time.time() - t0, result)
+        STATUS[name] = {"ok": True, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "seconds": round(time.time() - t0), "result": str(result)[:200]}
+    except Exception as e:  # noqa: BLE001
+        log.exception("scheduler: %s failed", name)
+        STATUS[name] = {"ok": False, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "error": str(e)[:200]}
 
 
 def _loop() -> None:
     hour = int(os.environ.get("SCHEDULE_HOUR_UTC", "4"))
     minute = int(os.environ.get("SCHEDULE_MINUTE_UTC", "30"))
-    time.sleep(20)  # let the server come up and pass its health check first
+    every = int(os.environ.get("HOSPITALS_EVERY_HOURS", "6"))
+    time.sleep(5)  # let the server come up and pass its health check first
     _run_all()
+    last_hosp = time.time()
     while True:
         now = datetime.now(timezone.utc)
         nxt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
         if nxt <= now:
             nxt += timedelta(days=1)
-        time.sleep((nxt - now).total_seconds())
+        wait = (nxt - now).total_seconds()
+        hosp_due = max(0.0, last_hosp + every * 3600 - time.time())
+        if hosp_due < wait:   # the rota is posted during the day: refresh it a few times, cheaply
+            time.sleep(hosp_due)
+            _run_one("hospitals", _hospitals)
+            last_hosp = time.time()
+            continue
+        time.sleep(wait)
         _run_all()
+        last_hosp = time.time()
 
 
 def start_if_enabled() -> None:
