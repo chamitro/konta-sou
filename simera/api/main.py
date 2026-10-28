@@ -237,6 +237,14 @@ def location(lat: float, lng: float):
     return {"prefecture": nearest_prefecture(lat, lng), **reverse_geocode(lat, lng)}
 
 
+@app.get("/api/today")
+def today(d: date | None = None):
+    """Name days today and tomorrow (indicative list of common names, Orthodox calendar)."""
+    from simera.namedays import names_for
+    day = d or datetime.now(ATHENS).date()
+    return {"date": day.isoformat(), "namedays": names_for(day), "tomorrow": names_for(day + timedelta(days=1))}
+
+
 @app.get("/api/geocode")
 def geocode_endpoint(q: str = Query(..., min_length=2, max_length=120)):
     """Address or area search (Greece only), for browsers that cannot share the device location."""

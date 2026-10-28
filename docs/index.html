@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261026-1823";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261028-1542";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
 <meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
@@ -113,6 +113,18 @@
   .chg { font-size:12.5px; font-weight:700 } .up { color:var(--bad) } .down { color:var(--ok) } .flat { color:var(--muted) }
   svg.spark { width:100%; height:56px; margin-top:10px; display:block }
 
+  /* today: weather + name days */
+  #today-card { --c:#0ea5a4 }
+  .wx { display:grid; grid-template-columns:auto 1fr; gap:6px 14px; align-items:center }
+  .wx .big { font-size:48px; line-height:1 } .wx .t { font-size:34px; font-weight:800; letter-spacing:-.03em; line-height:1 } .wx .t small { font-size:15px; font-weight:600; color:var(--muted); margin-left:6px }
+  .wx .d { color:var(--muted); font-size:14px; font-weight:600 }
+  .wx-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px } .wx-chips .pill { padding:5px 10px }
+  .hours { display:flex; gap:6px; overflow-x:auto; margin:12px -2px 0; padding:2px 2px 6px; scrollbar-width:none } .hours::-webkit-scrollbar { display:none }
+  .hour { flex:none; width:58px; text-align:center; background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:8px 4px; font-size:12.5px; font-weight:700 }
+  .hour .i { font-size:20px; line-height:1.2 } .hour .r { color:var(--accent); font-weight:700; font-size:11.5px } .hour .h { color:var(--muted); font-weight:600 }
+  .names { margin-top:14px; padding-top:12px; border-top:1px solid var(--line) }
+  .names .n { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:6px } .names .n .lbl { color:var(--muted); font-size:13px; font-weight:700; width:52px }
+  .names .name { background:var(--accent-soft); color:var(--accent); border-radius:999px; padding:4px 11px; font-size:14px; font-weight:700 }
   /* category menu */
   .menu-btn { margin-left:auto; flex:none; background:var(--accent); color:#fff; border:0; border-radius:999px; padding:7px 14px; font-size:13px; font-weight:800; display:inline-flex; align-items:center; gap:6px; cursor:pointer; box-shadow:0 4px 14px rgba(42,91,215,.3) }
   .menu-btn:active { transform:scale(.97) }
@@ -147,10 +159,11 @@
   <div class="date" id="today"></div>
 </div></header>
 <nav class="nav" aria-label="Ενότητες"><div class="in" id="nav">
-  <a href="#pharm" data-for="pharm">💊 Φαρμακεία</a><a href="#transit" data-for="transit">🚌 Συγκοινωνίες</a><a href="#fuel" data-for="fuel">⛽ Καύσιμα</a><a href="#hosp" data-for="hosp">🏥 Νοσοκομεία</a><a href="#around" data-for="around">🧭 Κοντά</a>
+  <a href="#today-card" data-for="today-card">🌤 Σήμερα</a><a href="#pharm" data-for="pharm">💊 Φαρμακεία</a><a href="#transit" data-for="transit">🚌 Συγκοινωνίες</a><a href="#fuel" data-for="fuel">⛽ Καύσιμα</a><a href="#hosp" data-for="hosp">🏥 Νοσοκομεία</a><a href="#around" data-for="around">🧭 Κοντά</a>
   <button class="menu-btn" id="menu-btn" type="button">🔎 Τι ψάχνεις; ▾</button>
 </div></nav>
 <main id="main">
+  <section class="card" id="today-card" style="grid-column:1/-1"><h2><span class="ic">🌤</span>Σήμερα<span class="right" id="today-src">Open-Meteo</span></h2><div id="wx"><div class="skel"></div><div class="skel" style="width:60%"></div></div><div class="names" id="names" hidden></div></section>
   <div class="col" id="col1"></div><div class="col" id="col2"></div>
   <div id="inapp" class="inapp" hidden>Ανοίγεις τη σελίδα μέσα από εφαρμογή μηνυμάτων, που συχνά μπλοκάρει την τοποθεσία και την εγκατάσταση. <a id="inapp-link" href="#">Άνοιξέ τη στον browser</a> (ή πάτα το μενού <b>⋯</b> και «Άνοιγμα σε Chrome / Safari»). Μέχρι τότε γράψε την περιοχή σου πιο πάνω.</div>
   <div id="stale" class="banner" hidden></div>
@@ -162,7 +175,7 @@
   <section class="card" id="around"><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right"><button class="link-btn" id="around-change" hidden>αλλαγή</button><span id="around-src">1 χλμ · OpenStreetMap</span></span></h2><div id="around-body"><button class="cta" id="around-cta" type="button">🔎 Διάλεξε τι ψάχνεις κοντά σου</button></div></section>
 </main>
 <footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a> <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
-  <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span></div>
+  <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
 </footer>
 <div id="sheet-bg" class="sheet-bg" hidden></div>
 <div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Σε ακτίνα 1 χλμ από τη θέση σου, από το OpenStreetMap.</p><div class="grid" id="menu-grid"><div class="skel"></div></div><label class="toggle"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label></div>
@@ -201,6 +214,7 @@ $("#today").textContent = now.toLocaleDateString("el-GR", {weekday:"long", day:"
 (function orderCards(){
   const order = h < 11 ? ["transit","fuel","pharm","hosp","around"] : h < 19 ? ["pharm","transit","around","fuel","hosp"] : ["pharm","hosp","transit","around","fuel"];
   const cols = [$("#col1"), $("#col2")], nav = $("#nav");
+  nav.appendChild(nav.querySelector('[data-for="today-card"]'));
   order.forEach((id, i) => { const c = document.getElementById(id); c.style.order = i + 1; cols[i % 2].appendChild(c); nav.appendChild(nav.querySelector(`[data-for="${id}"]`)); });
 })();
 (function navHighlight(){
@@ -273,7 +287,7 @@ async function start(lat, lng, fallback) {
   pos = [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4];
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
-  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat);
+  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat); loadWeather(); loadNamedays();
   if (RELAY && !window.__warmed) { window.__warmed = true; fetch(RELAY + "/warm").catch(() => {}); } // visitors in Greece refresh the relay's ministry copy
   try {
     const loc = await api(`/api/location?lat=${lat}&lng=${lng}`);
@@ -281,6 +295,37 @@ async function start(lat, lng, fallback) {
     if (!fallback) $("#place").textContent = loc.display || `${lat.toFixed(3)}, ${lng.toFixed(3)}`;
     loadFuel(loc.prefecture);
   } catch (e) { if (e.name === "TypeError") $("#offline").hidden = false; loadFuel("ΝΟΜΟΣ ΑΤΤΙΚΗΣ"); }
+}
+
+// ---- today: weather (Open-Meteo, fetched by the browser) and name days ------------------
+const WX = {0:["☀️","Αίθριος"],1:["🌤","Κυρίως αίθριος"],2:["⛅","Λίγα σύννεφα"],3:["☁️","Συννεφιά"],45:["🌫","Ομίχλη"],48:["🌫","Ομίχλη"],51:["🌦","Ψιχάλες"],53:["🌦","Ψιχάλες"],55:["🌧","Ψιχάλες"],56:["🌧","Παγωμένες ψιχάλες"],57:["🌧","Παγωμένες ψιχάλες"],61:["🌧","Ασθενής βροχή"],63:["🌧","Βροχή"],65:["🌧","Δυνατή βροχή"],66:["🌧","Παγωμένη βροχή"],67:["🌧","Παγωμένη βροχή"],71:["🌨","Ασθενής χιονόπτωση"],73:["🌨","Χιόνι"],75:["❄️","Πυκνό χιόνι"],77:["🌨","Χιονόνερο"],80:["🌦","Μπόρες"],81:["🌧","Μπόρες"],82:["⛈","Ισχυρές μπόρες"],85:["🌨","Χιονόπτωση"],86:["🌨","Χιονόπτωση"],95:["⛈","Καταιγίδα"],96:["⛈","Καταιγίδα με χαλάζι"],99:["⛈","Καταιγίδα με χαλάζι"]};
+const wx = (code, night) => { const w = WX[code] || ["🌡", "—"]; return [night && (code === 0 || code === 1) ? "🌙" : w[0], w[1]]; };
+const aqi = v => v == null ? null : v <= 20 ? ["Καθαρός αέρας", "open"] : v <= 40 ? ["Καλός αέρας", "open"] : v <= 60 ? ["Μέτριος αέρας", "soon"] : v <= 80 ? ["Κακός αέρας", "closed"] : ["Πολύ κακός αέρας", "closed"];
+async function loadWeather() {
+  const el = $("#wx");
+  try {
+    const q = `latitude=${pos[0]}&longitude=${pos[1]}&timezone=Europe%2FAthens`;
+    const [f, a] = await Promise.all([
+      fetch(`https://api.open-meteo.com/v1/forecast?${q}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,is_day,relative_humidity_2m&hourly=temperature_2m,precipitation_probability,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,precipitation_probability_max&forecast_days=2`).then(r => r.json()),
+      fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?${q}&current=european_aqi`).then(r => r.json()).catch(() => null)
+    ]);
+    const c = f.current, d = f.daily, [ico, desc] = wx(c.weather_code, !c.is_day);
+    const nowIdx = Math.max(0, f.hourly.time.findIndex(t => new Date(t) > Date.now()) - 1);
+    const hours = f.hourly.time.slice(nowIdx, nowIdx + 12).map((t, i) => { const k = nowIdx + i; const [hi] = wx(f.hourly.weather_code[k], !f.hourly.is_day[k]); const p = f.hourly.precipitation_probability[k]; return `<div class="hour"><div class="h">${i === 0 ? "τώρα" : new Date(t).getHours() + ":00"}</div><div class="i">${hi}</div><div>${Math.round(f.hourly.temperature_2m[k])}°</div><div class="r">${p >= 10 ? "💧" + p + "%" : "&nbsp;"}</div></div>`; }).join("");
+    const uv = d.uv_index_max[0], rain = d.precipitation_probability_max[0], air = a && a.current ? aqi(a.current.european_aqi) : null;
+    const sr = new Date(d.sunrise[0]), ss = new Date(d.sunset[0]), hm = x => x.toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit"});
+    el.innerHTML = `<div class="wx"><div class="big">${ico}</div><div><div class="t">${Math.round(c.temperature_2m)}°<small>αίσθηση ${Math.round(c.apparent_temperature)}°</small></div><div class="d">${desc} · ${Math.round(d.temperature_2m_min[0])}° / ${Math.round(d.temperature_2m_max[0])}°</div></div></div>
+      <div class="wx-chips"><span class="pill">💨 ${Math.round(c.wind_speed_10m)} km/h</span><span class="pill">💧 ${c.relative_humidity_2m}%</span>${rain >= 20 ? `<span class="pill">🌧 βροχή ${rain}%</span>` : ""}${uv >= 3 ? `<span class="pill">☀️ UV ${Math.round(uv)}${uv >= 6 ? " · αντηλιακό" : ""}</span>` : ""}${air ? `<span class="badge ${air[1]}" style="align-self:center">${air[0]}</span>` : ""}<span class="pill">🌅 ${hm(sr)} · 🌇 ${hm(ss)}</span></div>
+      <div class="hours">${hours}</div>`;
+  } catch (e) { el.innerHTML = `<div class="muted">Ο καιρός δεν είναι διαθέσιμος αυτή τη στιγμή.</div>`; }
+}
+async function loadNamedays() {
+  try {
+    const r = await api("/api/today");
+    const box = $("#names"); box.hidden = false;
+    const row = (lbl, ns) => `<div class="n"><span class="lbl">${lbl}</span>${ns.length ? ns.map(n => `<span class="name">${esc(n)}</span>`).join("") : `<span class="muted">κανένα γνωστό όνομα</span>`}</div>`;
+    box.innerHTML = `<div class="sub">🎉 Γιορτάζουν</div>` + row("σήμερα", r.namedays) + row("αύριο", r.tomorrow);
+  } catch (e) { $("#names").hidden = true; }
 }
 
 // ---- fuel ------------------------------------------------------------------
