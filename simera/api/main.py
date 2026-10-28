@@ -240,9 +240,11 @@ def location(lat: float, lng: float):
 @app.get("/api/today")
 def today(d: date | None = None):
     """Name days today and tomorrow (indicative list of common names, Orthodox calendar)."""
-    from simera.namedays import names_for
+    from simera.namedays import holiday, names_for, next_nameday
     day = d or datetime.now(ATHENS).date()
-    return {"date": day.isoformat(), "namedays": names_for(day), "tomorrow": names_for(day + timedelta(days=1))}
+    nxt = next_nameday(day + timedelta(days=1))
+    return {"date": day.isoformat(), "namedays": names_for(day), "tomorrow": names_for(day + timedelta(days=1)),
+            "holiday": holiday(day), "next": {"date": nxt[0].isoformat(), "names": nxt[1]} if nxt else None}
 
 
 @app.get("/api/geocode")

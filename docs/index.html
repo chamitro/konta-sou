@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261028-1544";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261028-1546";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
 <meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
@@ -324,7 +324,9 @@ async function loadNamedays() {
     const r = await api("/api/today");
     const box = $("#names"); box.hidden = false;
     const row = (lbl, ns) => `<div class="n"><span class="lbl">${lbl}</span>${ns.length ? ns.map(n => `<span class="name">${esc(n)}</span>`).join("") : `<span class="muted">κανένα γνωστό όνομα</span>`}</div>`;
-    box.innerHTML = `<div class="sub">🎉 Γιορτάζουν</div>` + row("σήμερα", r.namedays) + row("αύριο", r.tomorrow);
+    const dn = iso => new Date(iso + "T12:00:00").toLocaleDateString("el-GR", {weekday: "long", day: "numeric", month: "numeric"});
+    box.innerHTML = (r.holiday ? `<div class="n"><span class="badge info">🇬🇷 ${esc(r.holiday)}</span></div>` : "") + `<div class="sub">🎉 Γιορτάζουν</div>` + row("σήμερα", r.namedays) + row("αύριο", r.tomorrow)
+      + (!r.namedays.length && !r.tomorrow.length && r.next ? `<div class="n"><span class="lbl">έπειτα</span><span class="muted">${dn(r.next.date)}:</span>${r.next.names.map(n => `<span class="name">${esc(n)}</span>`).join("")}</div>` : "");
   } catch (e) { $("#names").hidden = true; }
 }
 

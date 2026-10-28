@@ -115,3 +115,25 @@ def names_for(day: date) -> list[str]:
         if n not in names:
             names.append(n)
     return names
+
+
+HOLIDAYS_FIXED = {(1, 1): "Πρωτοχρονιά", (1, 6): "Θεοφάνια", (3, 25): "Ευαγγελισμός · Εθνική εορτή", (5, 1): "Πρωτομαγιά",
+                  (8, 15): "Κοίμηση της Θεοτόκου", (10, 28): "Επέτειος του «Όχι» · Εθνική εορτή", (12, 25): "Χριστούγεννα", (12, 26): "Σύναξη της Θεοτόκου"}
+
+
+def holiday(day: date) -> str | None:
+    """Public holiday name for the day, if any (fixed plus the Easter-based ones)."""
+    if (day.month, day.day) in HOLIDAYS_FIXED:
+        return HOLIDAYS_FIXED[(day.month, day.day)]
+    easter = orthodox_easter(day.year)
+    return {easter - timedelta(days=48): "Καθαρά Δευτέρα", easter - timedelta(days=2): "Μεγάλη Παρασκευή", easter: "Πάσχα",
+            easter + timedelta(days=1): "Δευτέρα του Πάσχα", easter + timedelta(days=50): "Αγίου Πνεύματος"}.get(day)
+
+
+def next_nameday(after: date, limit: int = 60) -> tuple[date, list[str]] | None:
+    """The first day after `after` with names in the list."""
+    for i in range(1, limit + 1):
+        d = after + timedelta(days=i)
+        if names := names_for(d):
+            return d, names
+    return None

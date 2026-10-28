@@ -323,7 +323,9 @@ async function loadNamedays() {
     const r = await api("/api/today");
     const box = $("#names"); box.hidden = false;
     const row = (lbl, ns) => `<div class="n"><span class="lbl">${lbl}</span>${ns.length ? ns.map(n => `<span class="name">${esc(n)}</span>`).join("") : `<span class="muted">κανένα γνωστό όνομα</span>`}</div>`;
-    box.innerHTML = `<div class="sub">🎉 Γιορτάζουν</div>` + row("σήμερα", r.namedays) + row("αύριο", r.tomorrow);
+    const dn = iso => new Date(iso + "T12:00:00").toLocaleDateString("el-GR", {weekday: "long", day: "numeric", month: "numeric"});
+    box.innerHTML = (r.holiday ? `<div class="n"><span class="badge info">🇬🇷 ${esc(r.holiday)}</span></div>` : "") + `<div class="sub">🎉 Γιορτάζουν</div>` + row("σήμερα", r.namedays) + row("αύριο", r.tomorrow)
+      + (!r.namedays.length && !r.tomorrow.length && r.next ? `<div class="n"><span class="lbl">έπειτα</span><span class="muted">${dn(r.next.date)}:</span>${r.next.names.map(n => `<span class="name">${esc(n)}</span>`).join("")}</div>` : "");
   } catch (e) { $("#names").hidden = true; }
 }
 
