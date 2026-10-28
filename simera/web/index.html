@@ -194,7 +194,7 @@
   <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Προειδοποιήσεις: ΕΜΥ μέσω <a href="https://meteoalarm.org">MeteoAlarm</a></span><span>Αττική Οδός: αισθητήρες μέσω <a href="https://data.nap.gov.gr">data.nap.gov.gr</a> (ODbL)</span><span>Διακοπές ρεύματος: ΔΕΔΔΗΕ</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
 </footer>
 <div id="sheet-bg" class="sheet-bg" hidden></div>
-<div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Σε ακτίνα 1 χλμ από τη θέση σου, από το OpenStreetMap.</p><div class="grid" id="menu-grid"><div class="skel"></div></div><label class="toggle"><input type="checkbox" id="acc"> μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label></div>
+<div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Σε ακτίνα 1 χλμ από τη θέση σου, από το OpenStreetMap.</p><div class="grid" id="menu-grid"><div class="skel"></div></div><label class="toggle"><input type="checkbox" id="h24"> 🕛 μόνο 24ωρα (π.χ. περίπτερα, βενζινάδικα)</label><label class="toggle"><input type="checkbox" id="opennow"> 🟢 μόνο ανοιχτά τώρα, όπου το ωράριο είναι γνωστό</label><label class="toggle"><input type="checkbox" id="acc"> ♿ μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label></div>
 <div id="update" class="update" hidden>🆕 Νέα έκδοση διαθέσιμη <button id="update-btn">Ανανέωση</button></div>
 <div id="consent" class="consent" hidden><p>Μπορούμε να κρατάμε ανώνυμα στατιστικά επισκεψιμότητας με το Google Analytics, για να δούμε τι χρησιμοποιείται; Η θέση σου δεν αποστέλλεται.</p><button class="yes" id="c-yes">Εντάξει</button><button id="c-no">Όχι, ευχαριστώ</button></div>
 <script>
@@ -437,7 +437,7 @@ async function loadFuelStations() {
 }
 
 // ---- shared place row ----------------------------------------------------------
-function badge(s) { return (s.open_now===true?`<span class="badge open">ανοιχτό</span>`:s.open_now===false?`<span class="badge closed">κλειστό</span>`:"") + (s.wheelchair==="yes"?`<span title="προσβάσιμο ΑΜΕΑ">♿</span>`:""); }
+function badge(s) { return (s.all_day?`<span class="badge open">🕛 24ωρο</span>`:s.open_now===true?`<span class="badge open">ανοιχτό</span>`:s.open_now===false?`<span class="badge closed">κλειστό</span>`:"") + (s.wheelchair==="yes"?`<span title="προσβάσιμο ΑΜΕΑ">♿</span>`:""); }
 function place(s) {
   return `<div class="row"><div class="name">${esc(s.name)} ${badge(s)}<span class="dist">· ${m(s.distance_km)}</span></div>
     <div class="meta">${[s.address, s.opening_hours, s.cuisine].filter(Boolean).map(esc).join(" · ")}</div>
@@ -543,6 +543,8 @@ async function initChips() {
     $("#menu-grid").innerHTML = cats.map(c => `<button class="tile" type="button" data-k="${c.key}"><span class="i">${CAT_ICONS[c.key] || "📍"}</span>${esc(c.label)}</button>`).join("");
     $("#menu-grid").onclick = e => { const b = e.target.closest(".tile"); if (!b) return; if (window.gtag) gtag("event", "select_category", {category: b.dataset.k}); pick(b.dataset.k, true); };
     $("#acc").onchange = () => loadAround(currentCat);
+    $("#h24").onchange = () => { if ($("#h24").checked) $("#opennow").checked = false; loadAround(currentCat); };
+    $("#opennow").onchange = () => { if ($("#opennow").checked) $("#h24").checked = false; loadAround(currentCat); };
     let last = null; try { last = localStorage.getItem("cat"); } catch (e) {}
     if (last && cats.some(c => c.key === last) && pos) pick(last, false); else if (last && cats.some(c => c.key === last)) currentCat = last;
   } catch (e) { $("#offline").hidden = false; }
@@ -552,9 +554,12 @@ async function loadAround(cat) {
   if ($("#around-change").hidden && cats.length) { const c = cats.find(c => c.key === cat); if (c) { $("#around-title").textContent = `${CAT_ICONS[cat] || ""} ${c.label} κοντά σου`; $("#around-change").hidden = false; document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x.dataset.k === cat)); } }
   const body = $("#around-body"); body.innerHTML = `<div class="skel"></div><div class="skel" style="width:70%"></div>`;
   try {
-    const acc = $("#acc").checked;
-    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=1000&limit=15${acc?"&accessible=true":""}`);
-    body.innerHTML = r.items.length ? r.items.map(place).join("") : empty("🔍", `Τίποτα σε ακτίνα 1 χλμ${acc?" με δηλωμένη προσβασιμότητα":""}.`);
+    const acc = $("#acc").checked, h24 = $("#h24").checked, now = $("#opennow").checked;
+    const radius = h24 ? 3000 : 1000;   // 24-hour places are rarer: look further
+    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=${radius}&limit=15${acc?"&accessible=true":""}${h24?"&open=24h":now?"&open=now":""}`);
+    $("#around-src").textContent = `${radius/1000} χλμ · OpenStreetMap`;
+    const coverage = (h24 || now) && r.total ? `<div class="note">Ωράριο γνωστό για ${r.with_hours} από ${r.total} ${r.label.toLowerCase()} σε ακτίνα ${radius/1000} χλμ (OpenStreetMap). Όσα δεν έχουν δηλωμένο ωράριο δεν εμφανίζονται εδώ.</div>` : "";
+    body.innerHTML = (r.items.length ? r.items.map(place).join("") : empty("🔍", `Τίποτα σε ακτίνα ${radius/1000} χλμ${acc?" με δηλωμένη προσβασιμότητα":""}${h24?" με δηλωμένο 24ωρο":now?" ανοιχτό τώρα με γνωστό ωράριο":""}.`)) + coverage;
   } catch (e) { body.innerHTML = `<div class="err">${esc(e.message)}</div>`; }
 }
 

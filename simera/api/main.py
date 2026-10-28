@@ -292,9 +292,12 @@ def nearby_categories():
 
 
 @app.get("/api/nearby")
-def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1000, ge=100, le=5000), limit: int = Query(20, le=100), accessible: bool = False):
+def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1000, ge=100, le=5000), limit: int = Query(20, le=100), accessible: bool = False,
+           open: str | None = Query(None, pattern="^(24h|now)$")):
     """Places of one category around a point, nearest first, from OpenStreetMap.
-    accessible=true keeps only places tagged wheelchair=yes (or limited)."""
+    accessible=true keeps only places tagged wheelchair=yes (or limited); open=24h keeps places tagged 24/7,
+    open=now those whose known hours say they are open right now. Hours are known only for a share of places,
+    reported in `with_hours` so the page can say so."""
     if category not in osm.CATEGORIES:
         raise HTTPException(404, f"unknown category; see /api/nearby/categories")
     try:
@@ -303,8 +306,15 @@ def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1
         raise HTTPException(503, str(e))
     if accessible:
         items = [i for i in items if i.get("wheelchair") in ("yes", "limited")]
-    return {"category": category, "label": osm.CATEGORIES[category]["label"], "radius_m": radius, "accessible_only": accessible, "count": len(items), "items": items[:limit],
-            "attribution": "© OpenStreetMap contributors (ODbL)"}
+    total, with_hours = len(items), sum(1 for i in items if i.get("opening_hours"))
+    if open == "24h":
+        items = [i for i in items if "24/7" in (i.get("opening_hours") or "")]
+    elif open == "now":
+        items = [i for i in items if i.get("open_now") is True]
+    for i in items:
+        i["all_day"] = "24/7" in (i.get("opening_hours") or "")
+    return {"category": category, "label": osm.CATEGORIES[category]["label"], "radius_m": radius, "accessible_only": accessible, "open": open,
+            "total": total, "with_hours": with_hours, "count": len(items), "items": items[:limit], "attribution": "© OpenStreetMap contributors (ODbL)"}
 
 
 # ---- web ------------------------------------------------------------------

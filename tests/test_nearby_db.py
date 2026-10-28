@@ -49,3 +49,23 @@ def test_empty_table_falls_back_to_overpass(monkeypatch, tmp_path):
     monkeypatch.setattr(osm, "nearby_overpass", lambda *a, **k: called.setdefault("yes", []) )
     assert osm.nearby("fuel", 37.98, 23.72) == []
     assert "yes" in called
+
+
+def test_nearby_open_filters(monkeypatch):
+    from fastapi.testclient import TestClient
+    from simera import osm
+    from simera.api import main
+    sample = [
+        {"id": "n1", "name": "Περίπτερο Α", "opening_hours": "24/7", "open_now": True, "wheelchair": None, "distance_km": 0.1},
+        {"id": "n2", "name": "Περίπτερο Β", "opening_hours": "Mo-Su 08:00-23:00", "open_now": False, "wheelchair": None, "distance_km": 0.2},
+        {"id": "n3", "name": "Περίπτερο Γ", "opening_hours": None, "open_now": None, "wheelchair": None, "distance_km": 0.3},
+    ]
+    monkeypatch.setattr(osm, "nearby", lambda category, lat, lng, radius=1000: [dict(x) for x in sample])
+    c = TestClient(main.app)
+    r = c.get("/api/nearby?lat=37.98&lng=23.73&category=kiosk").json()
+    assert r["total"] == 3 and r["with_hours"] == 2 and r["count"] == 3 and r["items"][0]["all_day"] is True
+    r = c.get("/api/nearby?lat=37.98&lng=23.73&category=kiosk&open=24h").json()
+    assert r["count"] == 1 and r["items"][0]["id"] == "n1"
+    r = c.get("/api/nearby?lat=37.98&lng=23.73&category=kiosk&open=now").json()
+    assert [i["id"] for i in r["items"]] == ["n1"]
+    assert c.get("/api/nearby?lat=37.98&lng=23.73&category=kiosk&open=bogus").status_code == 422
