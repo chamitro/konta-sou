@@ -298,7 +298,7 @@ async function start(lat, lng, fallback) {
 
 // ---- today: weather (Open-Meteo, fetched by the browser) and name days ------------------
 const WX = {0:["☀️","Αίθριος"],1:["🌤","Κυρίως αίθριος"],2:["⛅","Λίγα σύννεφα"],3:["☁️","Συννεφιά"],45:["🌫","Ομίχλη"],48:["🌫","Ομίχλη"],51:["🌦","Ψιχάλες"],53:["🌦","Ψιχάλες"],55:["🌧","Ψιχάλες"],56:["🌧","Παγωμένες ψιχάλες"],57:["🌧","Παγωμένες ψιχάλες"],61:["🌧","Ασθενής βροχή"],63:["🌧","Βροχή"],65:["🌧","Δυνατή βροχή"],66:["🌧","Παγωμένη βροχή"],67:["🌧","Παγωμένη βροχή"],71:["🌨","Ασθενής χιονόπτωση"],73:["🌨","Χιόνι"],75:["❄️","Πυκνό χιόνι"],77:["🌨","Χιονόνερο"],80:["🌦","Μπόρες"],81:["🌧","Μπόρες"],82:["⛈","Ισχυρές μπόρες"],85:["🌨","Χιονόπτωση"],86:["🌨","Χιονόπτωση"],95:["⛈","Καταιγίδα"],96:["⛈","Καταιγίδα με χαλάζι"],99:["⛈","Καταιγίδα με χαλάζι"]};
-const wx = (code, night) => { const w = WX[code] || ["🌡", "—"]; return [night && (code === 0 || code === 1) ? "🌙" : w[0], w[1]]; };
+const wx = (code, night) => { const w = WX[code] || ["🌡", "—"]; return [night && code <= 2 ? (code === 2 ? "☁️" : "🌙") : w[0], w[1]]; };
 const aqi = v => v == null ? null : v <= 20 ? ["Καθαρός αέρας", "open"] : v <= 40 ? ["Καλός αέρας", "open"] : v <= 60 ? ["Μέτριος αέρας", "soon"] : v <= 80 ? ["Κακός αέρας", "closed"] : ["Πολύ κακός αέρας", "closed"];
 async function loadWeather() {
   const el = $("#wx");
@@ -314,7 +314,7 @@ async function loadWeather() {
     const uv = d.uv_index_max[0], rain = d.precipitation_probability_max[0], air = a && a.current ? aqi(a.current.european_aqi) : null;
     const sr = new Date(d.sunrise[0]), ss = new Date(d.sunset[0]), hm = x => x.toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit"});
     el.innerHTML = `<div class="wx"><div class="big">${ico}</div><div><div class="t">${Math.round(c.temperature_2m)}°<small>αίσθηση ${Math.round(c.apparent_temperature)}°</small></div><div class="d">${desc} · ${Math.round(d.temperature_2m_min[0])}° / ${Math.round(d.temperature_2m_max[0])}°</div></div></div>
-      <div class="wx-chips"><span class="pill">💨 ${Math.round(c.wind_speed_10m)} km/h</span><span class="pill">💧 ${c.relative_humidity_2m}%</span>${rain >= 20 ? `<span class="pill">🌧 βροχή ${rain}%</span>` : ""}${uv >= 3 ? `<span class="pill">☀️ UV ${Math.round(uv)}${uv >= 6 ? " · αντηλιακό" : ""}</span>` : ""}${air ? `<span class="badge ${air[1]}" style="align-self:center">${air[0]}</span>` : ""}<span class="pill">🌅 ${hm(sr)} · 🌇 ${hm(ss)}</span></div>
+      <div class="wx-chips"><span class="pill">💨 ${Math.round(c.wind_speed_10m)} km/h</span><span class="pill">💧 ${c.relative_humidity_2m}%</span>${rain >= 20 ? `<span class="pill" title="μέγιστη πιθανότητα βροχής σήμερα">🌧 βροχή σήμερα ${rain}%</span>` : ""}${uv >= 3 ? `<span class="pill">☀️ UV ${Math.round(uv)}${uv >= 6 ? " · αντηλιακό" : ""}</span>` : ""}${air ? `<span class="badge ${air[1]}" style="align-self:center">${air[0]}</span>` : ""}<span class="pill">🌅 ${hm(sr)} · 🌇 ${hm(ss)}</span></div>
       <div class="hours">${hours}</div>`;
   } catch (e) { el.innerHTML = `<div class="muted">Ο καιρός δεν είναι διαθέσιμος αυτή τη στιγμή.</div>`; }
 }

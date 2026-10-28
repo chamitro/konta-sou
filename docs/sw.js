@@ -1,6 +1,6 @@
 /* Κοντά σου service worker: makes the page installable and keeps the last copy of the shell for a
    quick start. Live data (API, relay) is never cached here; the page always fetches it fresh. */
-const CACHE = "konta-shell-20261028-1542"; // build_docs.py stamps the build version here so every release gets a fresh cache
+const CACHE = "konta-shell-20261028-1544"; // build_docs.py stamps the build version here so every release gets a fresh cache
 const SHELL = ["./", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).catch(() => {})); self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))); self.clients.claim(); });
