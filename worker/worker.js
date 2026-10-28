@@ -50,7 +50,16 @@ async function moh(env, pathAndQuery, ctx) {
   return new Response(r ? await r.text() : "upstream unreachable", { status: r ? r.status : 502, headers: CORS });
 }
 
+const API_ORIGIN = "https://konta-sou.onrender.com";
+
 export default {
+  /** Cron trigger (see wrangler.toml): keeps the free API instance awake and warm. */
+  async scheduled(event, env, ctx) {
+    for (const p of ["/healthz", "/api/fuel/latest"]) {
+      try { await fetch(API_ORIGIN + p, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(60000) }); } catch (e) { /* the next tick retries */ }
+    }
+  },
+
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const colo = (request.cf && request.cf.colo) || null;

@@ -8,3 +8,7 @@ compatibility_date = "2026-01-01"
 [[kv_namespaces]]
 binding = "CACHE"
 id = "198726964edd41038b2d1bef5978b968"
+
+# Keep the API on Render awake (free instances sleep after 15 idle minutes).
+[triggers]
+crons = ["*/10 * * * *"]
