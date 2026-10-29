@@ -136,6 +136,11 @@
   .bar { display:flex; height:8px; border-radius:4px; overflow:hidden; background:var(--line); margin:6px 0 2px } .bar i { display:block; height:100%; background:var(--ok) } .bar i.slow { background:#f59e0b } .bar i.jam { background:var(--bad) }
   .cut { padding:8px 0; border-top:1px solid var(--line); font-size:14px } .cut:first-child { border-top:0 } .cut b { display:block } .cut .when { color:var(--bad); font-weight:700; font-size:13px }
   .muni { display:flex; align-items:center; gap:8px; margin-top:6px; font-size:13px; color:var(--muted) } .muni select { max-width:70vw; font-size:13px; padding:5px 26px 5px 9px }
+  /* events */
+  #events { --c:#9333ea }
+  .ev { display:grid; grid-template-columns:52px 1fr; gap:10px; padding:10px 0; border-top:1px solid var(--line) } .ev:first-child { border-top:0; padding-top:2px }
+  .ev .d { background:var(--accent-soft); color:var(--accent); border-radius:12px; text-align:center; padding:6px 2px; line-height:1.1 } .ev .d b { display:block; font-size:20px } .ev .d span { font-size:11px; font-weight:700; text-transform:uppercase }
+  .ev .t { font-weight:700; line-height:1.3 } .ev .t a { color:var(--text); text-decoration:none } .ev .m { color:var(--muted); font-size:13.5px; margin-top:2px }
   /* category menu */
   .menu-btn { margin-left:auto; flex:none; background:var(--accent); color:#fff; border:0; border-radius:999px; padding:7px 14px; font-size:13px; font-weight:800; display:inline-flex; align-items:center; gap:6px; cursor:pointer; box-shadow:0 4px 14px rgba(42,91,215,.3) }
   .menu-btn:active { transform:scale(.97) }
@@ -170,7 +175,7 @@
   <div class="date" id="today"></div>
 </div></header>
 <nav class="nav" aria-label="Ενότητες"><div class="in" id="nav">
-  <a href="#today-card" data-for="today-card">🌤 Σήμερα</a><a href="#day" data-for="day">🚨 Η μέρα σου</a><a href="#pharm" data-for="pharm">💊 Φαρμακεία</a><a href="#transit" data-for="transit">🚌 Συγκοινωνίες</a><a href="#fuel" data-for="fuel">⛽ Καύσιμα</a><a href="#hosp" data-for="hosp">🏥 Νοσοκομεία</a><a href="#around" data-for="around">🧭 Κοντά</a>
+  <a href="#today-card" data-for="today-card">🌤 Σήμερα</a><a href="#day" data-for="day">🚨 Η μέρα σου</a><a href="#pharm" data-for="pharm">💊 Φαρμακεία</a><a href="#transit" data-for="transit">🚌 Συγκοινωνίες</a><a href="#fuel" data-for="fuel">⛽ Καύσιμα</a><a href="#hosp" data-for="hosp">🏥 Νοσοκομεία</a><a href="#events" data-for="events">🎭 Εκδηλώσεις</a><a href="#around" data-for="around">🧭 Κοντά</a>
   <button class="menu-btn" id="menu-btn" type="button">🔎 Τι ψάχνεις; ▾</button>
 </div></nav>
 <main id="main">
@@ -188,10 +193,11 @@
   <section class="card" id="transit"><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
   <section class="card" id="fuel"><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><div class="prices" id="fuel-table"></div><svg class="spark" id="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
   <section class="card" id="hosp"><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
+  <section class="card" id="events"><h2><span class="ic">🎭</span>Εκδηλώσεις κοντά<span class="right">Δήμος Αθηναίων · 3 χλμ</span></h2><div id="events-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
   <section class="card" id="around"><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right"><button class="link-btn" id="around-change" hidden>αλλαγή</button><span id="around-src">1 χλμ · OpenStreetMap</span></span></h2><div id="around-body"><button class="cta" id="around-cta" type="button">🔎 Διάλεξε τι ψάχνεις κοντά σου</button></div></section>
 </main>
 <footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a> <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
-  <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Προειδοποιήσεις: ΕΜΥ μέσω <a href="https://meteoalarm.org">MeteoAlarm</a></span><span>Αττική Οδός: αισθητήρες μέσω <a href="https://data.nap.gov.gr">data.nap.gov.gr</a> (ODbL)</span><span>Διακοπές ρεύματος: ΔΕΔΔΗΕ</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
+  <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Προειδοποιήσεις: ΕΜΥ μέσω <a href="https://meteoalarm.org">MeteoAlarm</a></span><span>Αττική Οδός: αισθητήρες μέσω <a href="https://data.nap.gov.gr">data.nap.gov.gr</a> (ODbL)</span><span>Διακοπές ρεύματος: ΔΕΔΔΗΕ</span><span>Εκδηλώσεις: <a href="https://cultureisathens.gr">Culture is Athens</a> (Δήμος Αθηναίων)</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
 </footer>
 <div id="sheet-bg" class="sheet-bg" hidden></div>
 <div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Σε ακτίνα 1 χλμ από τη θέση σου, από το OpenStreetMap.</p><div class="grid" id="menu-grid"><div class="skel"></div></div><label class="toggle"><input type="checkbox" id="h24"> 🕛 μόνο 24ωρα (π.χ. περίπτερα, βενζινάδικα)</label><label class="toggle"><input type="checkbox" id="opennow"> 🟢 μόνο ανοιχτά τώρα, όπου το ωράριο είναι γνωστό</label><label class="toggle"><input type="checkbox" id="acc"> ♿ μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label></div>
@@ -228,7 +234,7 @@ $("#greet").textContent = h < 5 ? "Καληνύχτα" : h < 12 ? "Καλημέ�
 $("#today").textContent = now.toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
 (function tick(){ $("#clock").textContent = new Date().toLocaleTimeString("el-GR", {hour:"2-digit", minute:"2-digit"}); setTimeout(tick, 15000); })();
 (function orderCards(){
-  const order = h < 11 ? ["transit","fuel","pharm","hosp","around"] : h < 19 ? ["pharm","transit","around","fuel","hosp"] : ["pharm","hosp","transit","around","fuel"];
+  const order = h < 11 ? ["transit","fuel","pharm","events","hosp","around"] : h < 19 ? ["pharm","transit","around","events","fuel","hosp"] : ["events","pharm","hosp","transit","around","fuel"];
   const cols = [$("#col1"), $("#col2")], nav = $("#nav");
   nav.appendChild(nav.querySelector('[data-for="today-card"]')); nav.appendChild(nav.querySelector('[data-for="day"]'));
   order.forEach((id, i) => { const c = document.getElementById(id); c.style.order = i + 1; cols[i % 2].appendChild(c); nav.appendChild(nav.querySelector(`[data-for="${id}"]`)); });
@@ -303,7 +309,7 @@ async function start(lat, lng, fallback) {
   pos = [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4];
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
-  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat); loadWeather(); loadNamedays(); loadDay();
+  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat); loadWeather(); loadNamedays(); loadDay(); loadEvents();
   if (RELAY && !window.__warmed) { window.__warmed = true; fetch(RELAY + "/warm").catch(() => {}); } // visitors in Greece refresh the relay's ministry copy
   try {
     const loc = await api(`/api/location?lat=${lat}&lng=${lng}`);
@@ -395,6 +401,20 @@ async function loadCuts(municipalityId) {
     el.innerHTML = list + sel;
     $("#muni").onchange = e => loadCuts(+e.target.value || undefined);
   } catch (e) { el.innerHTML = `<div class="muted">Οι διακοπές ΔΕΔΔΗΕ δεν είναι διαθέσιμες.</div>`; }
+}
+
+// ---- events near you (Culture is Athens) ---------------------------------------------------
+async function loadEvents() {
+  const el = $("#events-body");
+  try {
+    const r = await api(`/api/events?lat=${pos[0]}&lng=${pos[1]}&days=14&radius=3000&limit=12`);
+    if (!r.items.length) { el.innerHTML = empty("🎟", "Καμία καταχωρημένη εκδήλωση σε ακτίνα 3 χλμ τις επόμενες 2 εβδομάδες."); return; }
+    const dayName = d => d.toLocaleDateString("el-GR", {weekday: "short"}), mon = d => d.toLocaleDateString("el-GR", {month: "short"});
+    const today = new Date().toDateString();
+    el.innerHTML = r.items.map(e => { const d = new Date(e.starts_at); const when = d.toDateString() === today ? "σήμερα" : dayName(d); const hm = (d.getHours() || d.getMinutes()) ? d.toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit", hour12: false}) : "";
+      return `<div class="ev"><div class="d"><span>${esc(when)}</span><b>${d.getDate()}</b><span>${esc(mon(d))}</span></div><div><div class="t"><a href="${esc(e.url)}" target="_blank" rel="noreferrer">${esc(e.title)}</a></div><div class="m">${[hm, e.venue, e.price, e.categories].filter(Boolean).map(esc).join(" · ")} <span class="dist">· ${m2(e.distance_km)}</span></div></div></div>`; }).join("")
+      + `<div class="note">Πηγή: Culture is Athens, Δήμος Αθηναίων. Οι εκδηλώσεις εκτός Δήμου Αθηναίων δεν περιλαμβάνονται ακόμη.</div>`;
+  } catch (e) { el.innerHTML = `<div class="muted">Οι εκδηλώσεις δεν είναι διαθέσιμες αυτή τη στιγμή.</div>`; }
 }
 
 // ---- fuel ------------------------------------------------------------------

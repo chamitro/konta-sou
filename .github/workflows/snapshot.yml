@@ -35,6 +35,9 @@ jobs:
       - name: Pharmacies on duty (next 7 days)
         continue-on-error: true
         run: python -m simera.collectors.pharmacies --days-ahead 7
+      - name: Events from the City of Athens portal (full catalogue)
+        continue-on-error: true
+        run: python -m simera.collectors.events --all --pages 45 --delay 0.7
       - name: Build and upload the snapshot
         run: scripts/snapshot.sh --release
       - name: Ask Render to redeploy with the new snapshot

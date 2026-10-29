@@ -270,6 +270,15 @@ def power_outages(lat: float, lng: float, municipality_id: int | None = None, da
             "all_municipalities": [{"id": m["id"], "name": m["name"]} for m in _outages.MUNICIPALITIES]}
 
 
+@app.get("/api/events")
+def events_near(lat: float, lng: float, days: int = Query(14, ge=1, le=60), radius: int = Query(3000, ge=200, le=20000), limit: int = Query(20, le=100)):
+    """Upcoming cultural events near the point, from the City of Athens portal cultureisathens.gr."""
+    from simera.collectors import events as _events
+    now = datetime.now(ATHENS).replace(tzinfo=None)
+    items = _events.upcoming_near(lat, lng, now, days=days, radius_km=radius / 1000, limit=limit)
+    return {"radius_m": radius, "days": days, "count": len(items), "items": items, "source": "Culture is Athens (Δήμος Αθηναίων)"}
+
+
 @app.get("/api/today")
 def today(d: date | None = None):
     """Name days today and tomorrow (indicative list of common names, Orthodox calendar)."""

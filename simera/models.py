@@ -207,3 +207,25 @@ class PowerOutage(Base):
     starts_at: Mapped[datetime] = mapped_column(DateTime, index=True)   # Athens local time, naive
     ends_at: Mapped[datetime] = mapped_column(DateTime)
     fetched_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class Event(Base):
+    """A cultural event from the City of Athens portal cultureisathens.gr (public REST + event pages)."""
+
+    __tablename__ = "events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source: Mapped[str] = mapped_column(String(30), index=True)          # "cultureisathens"
+    source_id: Mapped[str] = mapped_column(String(40), index=True)       # post id
+    title: Mapped[str] = mapped_column(String(300))
+    url: Mapped[str] = mapped_column(String(500))
+    starts_at: Mapped[datetime] = mapped_column(DateTime, index=True)    # Athens local, naive
+    ends_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    venue: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    lat: Mapped[float | None] = mapped_column(Float, nullable=True)
+    lng: Mapped[float | None] = mapped_column(Float, nullable=True)
+    categories: Mapped[str | None] = mapped_column(String(300), nullable=True)   # "Μουσική · Παιδικές Δράσεις"
+    price: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    image: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    modified: Mapped[datetime] = mapped_column(DateTime)                 # source's modified stamp
+    fetched_at: Mapped[datetime] = mapped_column(DateTime)

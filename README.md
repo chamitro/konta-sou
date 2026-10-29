@@ -57,6 +57,14 @@ The free instance sleeps after 15 minutes without traffic; the first request aft
 - **Attiki Odos live:** the 600 vehicle-detection sensors published every minute on data.nap.gov.gr (ODbL), `simera/traffic.py`; sensor coordinates converted from the Greek grid in `simera/data/attiki_odos_vds.json`. Sensors reporting 0 km/h are ignored as unreliable.
 - **Planned power cuts:** ΔΕΔΔΗΕ's public lookup, one request per Attica municipality per day with a pause (`simera/collectors/outages.py`), stored in `power_outages`; the visitor's municipality comes from the reverse geocoder and is matched by name, with a manual selector as fallback.
 
+## Events near you
+
+Cultural events from the City of Athens portal cultureisathens.gr, which publishes its events through the public
+WordPress REST API; each event page carries the date, venue, category, price and map coordinates
+(`simera/collectors/events.py`, daily, pages fetched only when new or changed). Attica beyond the Municipality of
+Athens is not covered yet. Facebook was ruled out: its events API is closed to third parties and scraping it
+breaks its terms.
+
 ## Known limits
 
 - The Ministry of Health site and the OASA telematics API refuse connections from hosting networks abroad (observed from Render and GitHub Actions: HTTP 421 and timeouts). They do answer Cloudflare's Athens edge, which serves callers located in Greece: the page asks OASA through the relay in `worker/` straight from the visitor's phone, and visitors in Greece also refresh the relay's stored copy of the ministry rota pages, which the API server reads (see `worker/README.md`). If nobody in Greece opens the app for two weeks the copy expires; hospital rotas then fall back to `HOSPITALS_URL`, and bus endpoints on the server return 503 with a notice.
