@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261029-0959";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261029-1417";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
 <meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
@@ -28,7 +28,7 @@
   * { box-sizing:border-box; min-width:0 }
   [hidden] { display:none !important }
   html, body { max-width:100%; overflow-x:hidden }
-  html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:64px }
+  html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:70px }
   body { margin:0; background:var(--bg); color:var(--text); font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.45; font-size:16px }
   a { color:var(--accent) }
   button { font:inherit }
@@ -59,17 +59,17 @@
   .update button { font:inherit; font-weight:800; border:0; border-radius:999px; padding:7px 14px; background:var(--accent); color:#fff; cursor:pointer }
   .inapp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:10px 14px; font-size:14px; color:var(--text); grid-column:1/-1 } .inapp a { font-weight:700 }
 
-  /* section nav */
-  .nav { position:sticky; top:0; z-index:5; background:var(--bg); background:color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line) }
-  .nav .in { max-width:1100px; margin:0 auto; padding:8px 16px; display:flex; gap:6px; overflow-x:auto; scrollbar-width:none } .nav .in::-webkit-scrollbar { display:none }
-  .nav a { flex:none; text-decoration:none; color:var(--muted); font-size:13px; font-weight:700; padding:7px 12px; border-radius:999px; border:1px solid transparent; transition:all .15s }
-  .nav a.on { color:var(--text); background:var(--card); border-color:var(--line); box-shadow:0 2px 8px rgba(17,22,51,.06) }
-  .nav a:hover { color:var(--text) }
+  /* sticky bar: appears once the chooser has scrolled away */
+  .topbar { position:sticky; top:0; z-index:5; background:var(--bg); background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line) }
+  .topbar .in { max-width:1100px; margin:0 auto; padding:8px 16px; display:flex; gap:8px; align-items:center }
+  .topbar .sel { flex:1; min-width:0; display:flex; align-items:center; gap:8px; font-size:14px; font-weight:700; overflow:hidden; white-space:nowrap; text-overflow:ellipsis } .topbar .sel .km { color:var(--muted); font-weight:600 }
+  .menu-btn { flex:none; background:var(--accent); color:#fff; border:0; border-radius:999px; padding:8px 14px; font-size:13.5px; font-weight:800; display:inline-flex; align-items:center; gap:6px; cursor:pointer; box-shadow:0 4px 14px rgba(42,91,215,.3) }
+  .menu-btn:active { transform:scale(.97) }
 
   /* layout */
   main { max-width:1100px; margin:0 auto; padding:18px 16px 40px; display:grid; gap:16px; grid-template-columns:1fr }
-  .col { display:contents }
-  @media (min-width:900px) { main { grid-template-columns:1fr 1fr; align-items:start; gap:20px; padding-top:24px } .col { display:grid; gap:20px } }
+  @media (min-width:900px) { main { grid-template-columns:1fr 1fr; align-items:start; gap:20px; padding-top:24px } }
+  .wide { grid-column:1/-1 }
   .banner { grid-column:1/-1; background:var(--warn-soft); color:var(--warn); border:1px solid var(--line); border-radius:14px; padding:10px 14px; font-size:14px; font-weight:600 }
 
   /* cards */
@@ -104,16 +104,17 @@
   .hide { display:none }
   .muted { color:var(--muted); font-size:14px } .err { color:var(--bad); font-size:14px } .note { color:var(--muted); font-size:13px; margin-top:8px }
   .empty { display:flex; align-items:center; gap:10px; color:var(--muted); font-size:14px; padding:10px 0 } .empty span:first-child { font-size:22px }
+  .count { color:var(--muted); font-size:13px; font-weight:600; margin:-6px 0 6px } .count + .row, .count + .ev { border-top:0; padding-top:4px }
 
   /* fuel */
-  .prices { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:10px 0 4px } @media (min-width:420px) { .prices { grid-template-columns:repeat(3,1fr) } } @media (min-width:900px) { .prices { grid-template-columns:repeat(2,1fr) } } @media (min-width:1100px) { .prices { grid-template-columns:repeat(3,1fr) } }
+  .prices { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:10px 0 4px } @media (min-width:420px) { .prices { grid-template-columns:repeat(3,1fr) } } @media (min-width:900px) { .prices { grid-template-columns:repeat(6,1fr) } }
   .price { background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:10px 12px; display:grid; gap:2px }
   .price .f { font-size:12.5px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .price .v { font-size:22px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1.1 } .price .v small { font-size:12px; font-weight:600; color:var(--muted); margin-left:3px }
   .chg { font-size:12.5px; font-weight:700 } .up { color:var(--bad) } .down { color:var(--ok) } .flat { color:var(--muted) }
   svg.spark { width:100%; height:56px; margin-top:10px; display:block }
 
-  /* today: weather + name days */
+  /* today: weather, warnings, name days */
   #today-card { --c:#0ea5a4 }
   .wx { display:grid; grid-template-columns:auto 1fr; gap:6px 14px; align-items:center }
   .wx .big { font-size:48px; line-height:1 } .wx .t { font-size:34px; font-weight:800; letter-spacing:-.03em; line-height:1 } .wx .t small { font-size:15px; font-weight:600; color:var(--muted); margin-left:6px }
@@ -125,12 +126,13 @@
   .names { margin-top:14px; padding-top:12px; border-top:1px solid var(--line) }
   .names .n { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:6px } .names .n .lbl { color:var(--muted); font-size:13px; font-weight:700; width:52px }
   .names .name { background:var(--accent-soft); color:var(--accent); border-radius:999px; padding:4px 11px; font-size:14px; font-weight:700 }
-  /* your day: warnings, Attiki Odos, power cuts */
-  #day { --c:#e11d48 }
+  .alerts { margin-top:12px } .alerts:empty { display:none }
   .alert { border-radius:14px; padding:10px 12px; margin-bottom:8px; display:grid; gap:3px; border:1px solid var(--line); background:var(--bg2) }
   .alert.yellow { background:var(--warn-soft); border-color:transparent } .alert.orange { background:rgba(255,120,40,.18); border-color:transparent } .alert.red { background:var(--bad-soft); border-color:transparent }
   .alert .h { font-weight:800; display:flex; gap:8px; align-items:center; flex-wrap:wrap } .alert .w { color:var(--muted); font-size:13.5px }
   .ok { display:flex; align-items:center; gap:10px; color:var(--ok); font-weight:700; font-size:14.5px; padding:6px 0 }
+  /* roads & power cuts */
+  #day { --c:#e11d48 }
   .road { display:grid; grid-template-columns:auto 1fr auto; gap:6px 10px; align-items:center; padding:7px 0; border-top:1px solid var(--line); font-size:14px }
   .road:first-child { border-top:0 } .road .dot { width:12px; height:12px; border-radius:50%; background:var(--muted) } .road .dot.free { background:var(--ok) } .road .dot.slow { background:#f59e0b } .road .dot.jam { background:var(--bad) }
   .road .sp { font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap }
@@ -142,22 +144,54 @@
   .ev { display:grid; grid-template-columns:52px 1fr; gap:10px; padding:10px 0; border-top:1px solid var(--line) } .ev:first-child { border-top:0; padding-top:2px }
   .ev .d { background:var(--accent-soft); color:var(--accent); border-radius:12px; text-align:center; padding:6px 2px; line-height:1.1 } .ev .d b { display:block; font-size:20px } .ev .d span { font-size:11px; font-weight:700; text-transform:uppercase }
   .ev .t { font-weight:700; line-height:1.3 } .ev .t a { color:var(--text); text-decoration:none } .ev .m { color:var(--muted); font-size:13.5px; margin-top:2px }
-  /* category menu */
-  .menu-btn { margin-left:auto; flex:none; background:var(--accent); color:#fff; border:0; border-radius:999px; padding:7px 14px; font-size:13px; font-weight:800; display:inline-flex; align-items:center; gap:6px; cursor:pointer; box-shadow:0 4px 14px rgba(42,91,215,.3) }
-  .menu-btn:active { transform:scale(.97) }
+
+  /* the chooser card */
+  #finder { --c:var(--accent); display:flex; flex-direction:column; gap:12px }
+  #finder h2 { margin-bottom:0 }
+  #finder .lead { color:var(--muted); font-size:14px; margin:-4px 0 0 }
+  .big { width:100%; border:0; border-radius:18px; padding:18px 18px; background:linear-gradient(135deg,var(--hero2),var(--hero3)); color:#fff; font-weight:800; font-size:17px; display:flex; align-items:center; gap:14px; text-align:left; cursor:pointer; box-shadow:0 10px 28px rgba(42,91,215,.32); transition:transform .08s }
+  .big:active { transform:scale(.985) } .big .i { font-size:30px; line-height:1; flex:none } .big small { display:block; font-weight:600; font-size:13px; opacity:.85; margin-top:2px } .big .arr { margin-left:auto; font-size:22px; opacity:.85 }
+  .quick { display:grid; grid-template-columns:repeat(4,1fr); gap:8px } @media (max-width:360px) { .quick { grid-template-columns:repeat(2,1fr) } }
+  .quick button { background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:10px 4px 8px; display:grid; justify-items:center; gap:4px; font-size:12px; font-weight:700; color:var(--text); cursor:pointer; line-height:1.2; text-align:center }
+  .quick button .i { font-size:22px; line-height:1 } .quick button:active { transform:scale(.96) } .quick button.on { background:var(--accent-soft); border-color:var(--accent); color:var(--accent) }
+  .quick-lbl { font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:2px 0 -6px }
+
+  /* result bar: what is shown and how far */
+  .rbar { grid-column:1/-1; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:12px 16px; display:grid; grid-template-columns:1fr auto; gap:6px 12px; align-items:center; box-shadow:var(--shadow) }
+  .rbar .what { font-weight:800; font-size:15px; display:flex; align-items:center; gap:8px; min-width:0 } .rbar .what span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .rbar .swap { font-size:13px; font-weight:700; color:var(--accent); background:none; border:0; padding:0; cursor:pointer; white-space:nowrap }
+  .rbar .rng { grid-column:1/-1 }
+  @media (min-width:600px) { .rbar { grid-template-columns:auto 1fr auto } .rbar .rng { grid-column:auto; max-width:420px; width:100% } }
+
+  /* range slider */
+  .rng { display:grid; gap:2px } .rng .lbl { display:flex; justify-content:space-between; align-items:baseline; font-size:13px; color:var(--muted); font-weight:600 } .rng .lbl b { color:var(--text); font-size:15px; font-weight:800; font-variant-numeric:tabular-nums }
+  input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:30px; background:transparent; margin:0; cursor:pointer; --p:50% }
+  input[type=range]:focus { outline:none }
+  input[type=range]::-webkit-slider-runnable-track { height:6px; border-radius:3px; background:linear-gradient(var(--accent),var(--accent)) 0/var(--p) 100% no-repeat var(--line) }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:26px; height:26px; border-radius:50%; background:#fff; border:3px solid var(--accent); margin-top:-10px; box-shadow:0 2px 8px rgba(0,0,0,.22) }
+  input[type=range]::-moz-range-track { height:6px; border-radius:3px; background:var(--line) }
+  input[type=range]::-moz-range-progress { height:6px; border-radius:3px; background:var(--accent) }
+  input[type=range]::-moz-range-thumb { width:20px; height:20px; border-radius:50%; background:#fff; border:3px solid var(--accent); box-shadow:0 2px 8px rgba(0,0,0,.22) }
+  .rng .ticks { display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); font-weight:600; margin-top:-4px }
+
+  /* bottom sheet */
   .sheet-bg { position:fixed; inset:0; background:rgba(10,14,40,.45); z-index:40; backdrop-filter:blur(2px) }
-  .sheet { position:fixed; left:0; right:0; bottom:0; z-index:41; background:var(--card); color:var(--text); border-radius:22px 22px 0 0; padding:14px 16px calc(18px + env(safe-area-inset-bottom)); max-height:82vh; overflow:auto; box-shadow:0 -12px 40px rgba(0,0,0,.25); animation:up .22s ease-out }
+  .sheet { position:fixed; left:0; right:0; bottom:0; z-index:41; background:var(--card); color:var(--text); border-radius:22px 22px 0 0; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 -12px 40px rgba(0,0,0,.25); animation:up .22s ease-out }
   @keyframes up { from { transform:translateY(24px); opacity:0 } }
-  @media (min-width:900px) { .sheet { left:50%; right:auto; bottom:auto; top:64px; transform:translateX(-50%); width:760px; border-radius:22px; max-height:calc(100vh - 90px); animation:none } }
-  .sheet .grip { width:40px; height:4px; border-radius:2px; background:var(--line); margin:0 auto 12px } @media (min-width:900px) { .sheet .grip { display:none } }
+  @media (min-width:900px) { .sheet { left:50%; right:auto; bottom:auto; top:48px; transform:translateX(-50%); width:780px; border-radius:22px; max-height:calc(100vh - 80px); animation:none } }
+  .sheet .top { padding:12px 16px 0 } .sheet .grip { width:40px; height:4px; border-radius:2px; background:var(--line); margin:0 auto 12px } @media (min-width:900px) { .sheet .grip { display:none } }
   .sheet h3 { margin:0 0 4px; font-size:18px; font-weight:800; display:flex; align-items:center; gap:10px } .sheet h3 .x { margin-left:auto; background:var(--bg2); border:1px solid var(--line); color:var(--muted); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:grid; place-items:center }
-  .sheet .hint { color:var(--muted); font-size:13.5px; margin:0 0 12px }
+  .sheet .hint { color:var(--muted); font-size:13.5px; margin:0 0 10px }
+  .sheet .body { overflow:auto; padding:0 16px 12px; flex:1 1 auto; min-height:0 }
+  .sheet .group { font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:12px 0 6px } .sheet .group:first-child { margin-top:2px }
   .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px } @media (min-width:600px) { .grid { grid-template-columns:repeat(4,1fr) } } @media (min-width:900px) { .grid { grid-template-columns:repeat(6,1fr) } }
   .tile { background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:12px 6px 10px; display:grid; justify-items:center; gap:6px; font-size:12.5px; font-weight:700; cursor:pointer; color:var(--text); text-align:center; line-height:1.2; transition:transform .08s, background .15s }
   .tile .i { font-size:24px; line-height:1 } .tile:active { transform:scale(.96) } .tile.on { background:var(--accent-soft); border-color:var(--accent); color:var(--accent) }
-  .toggle { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px; margin:14px 0 0; cursor:pointer } .toggle input { width:18px; height:18px; accent-color:var(--accent) }
-  .cta { width:100%; background:var(--accent-soft); color:var(--accent); border:1px dashed var(--accent); border-radius:14px; padding:14px; font-weight:800; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px }
-  .link-btn { background:none; border:0; padding:0; color:var(--accent); font:inherit; font-size:13px; font-weight:700; cursor:pointer }
+  .panel { border-top:1px solid var(--line); padding:12px 16px calc(14px + env(safe-area-inset-bottom)); background:var(--card); display:grid; gap:10px; flex:none }
+  .panel .pk { font-weight:800; font-size:15px; display:flex; align-items:center; gap:8px } .panel .pk .i { font-size:22px }
+  .toggles { display:flex; flex-wrap:wrap; gap:6px 14px }
+  .toggle { display:inline-flex; align-items:center; gap:7px; color:var(--muted); font-size:13.5px; cursor:pointer } .toggle input { width:17px; height:17px; accent-color:var(--accent) }
+  .go { width:100%; background:var(--accent); color:#fff; border:0; border-radius:14px; padding:14px; font-weight:800; font-size:16px; cursor:pointer; box-shadow:0 8px 22px rgba(42,91,215,.3) } .go:active { transform:scale(.985) }
   .skel { height:14px; border-radius:7px; background:linear-gradient(90deg,var(--bg2),var(--line),var(--bg2)); background-size:200% 100%; animation:sh 1.2s infinite; margin:10px 0 } @keyframes sh { to { background-position:-200% 0 } }
   footer { max-width:1100px; margin:0 auto; padding:0 16px 36px; color:var(--muted); font-size:12.5px; line-height:1.6 } footer a { color:var(--muted) }
   footer .srcs { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:6px }
@@ -175,33 +209,47 @@
   <div class="results" id="results"></div>
   <div class="date" id="today"></div>
 </div></header>
-<nav class="nav" aria-label="Ενότητες"><div class="in" id="nav">
-  <a href="#today-card" data-for="today-card">🌤 Σήμερα</a><a href="#day" data-for="day">🚨 Η μέρα σου</a><a href="#pharm" data-for="pharm">💊 Φαρμακεία</a><a href="#transit" data-for="transit">🚌 Συγκοινωνίες</a><a href="#fuel" data-for="fuel">⛽ Καύσιμα</a><a href="#hosp" data-for="hosp">🏥 Νοσοκομεία</a><a href="#events" data-for="events">🎭 Εκδηλώσεις</a><a href="#around" data-for="around">🧭 Κοντά</a>
-  <button class="menu-btn" id="menu-btn" type="button">🔎 Τι ψάχνεις; ▾</button>
-</div></nav>
+<div class="topbar" id="topbar" hidden><div class="in"><div class="sel" id="topbar-sel"></div><button class="menu-btn" id="menu-btn" type="button">🔎 Τι ψάχνεις;</button></div></div>
 <main id="main">
-  <section class="card" id="today-card" style="grid-column:1/-1"><h2><span class="ic">🌤</span>Σήμερα<span class="right" id="today-src">Open-Meteo</span></h2><div id="wx"><div class="skel"></div><div class="skel" style="width:60%"></div></div><div class="names" id="names" hidden></div></section>
-  <section class="card" id="day" style="grid-column:1/-1"><h2><span class="ic">🚨</span>Η μέρα σου<span class="right">ΕΜΥ · Αττική Οδός · ΔΕΔΔΗΕ</span></h2>
-    <div id="day-alerts"><div class="skel"></div></div>
-    <div id="day-traffic" hidden><div class="sub">🛣 Αττική Οδός <span class="live" id="road-live"><i></i>live</span></div><div id="day-traffic-body"></div></div>
-    <div id="day-cuts"><div class="sub">🔌 Διακοπές ρεύματος</div><div id="day-cuts-body"><div class="skel" style="width:60%"></div></div></div>
+  <section class="card" id="today-card"><h2><span class="ic">🌤</span>Σήμερα<span class="right" id="today-src">Open-Meteo · ΕΜΥ</span></h2><div id="wx"><div class="skel"></div><div class="skel" style="width:60%"></div></div><div class="alerts" id="day-alerts"></div><div class="names" id="names" hidden></div></section>
+  <section class="card" id="finder">
+    <h2><span class="ic">🔎</span>Τι ψάχνεις κοντά σου;</h2>
+    <p class="lead">Διάλεξε τι θέλεις και πόσο μακριά να ψάξουμε. Τα αποτελέσματα έρχονται από το πιο κοντινό στο πιο μακρινό.</p>
+    <button class="big" id="finder-btn" type="button"><span class="i">🧭</span><span>Διάλεξε τι ψάχνεις<small>Φαρμακεία, νοσοκομεία, συγκοινωνίες, καύσιμα, εκδηλώσεις, ATM, περίπτερα και άλλα · ορίζεις εσύ τα χιλιόμετρα</small></span><span class="arr">›</span></button>
+    <div class="quick-lbl" id="quick-lbl">Γρήγορα</div><div class="quick" id="quick"></div>
   </section>
-  <div class="col" id="col1"></div><div class="col" id="col2"></div>
   <div id="inapp" class="inapp" hidden>Ανοίγεις τη σελίδα μέσα από εφαρμογή μηνυμάτων, που συχνά μπλοκάρει την τοποθεσία και την εγκατάσταση. <a id="inapp-link" href="#">Άνοιξέ τη στον browser</a> (ή πάτα το μενού <b>⋯</b> και «Άνοιγμα σε Chrome / Safari»). Μέχρι τότε γράψε την περιοχή σου πιο πάνω.</div>
   <div id="stale" class="banner" hidden></div>
   <div id="offline" class="banner" hidden>Ο διακομιστής δεδομένων δεν απαντά αυτή τη στιγμή. Η σελίδα χρειάζεται το API του «Κοντά σου». <a href="about.html">Δες τι κάνει η εφαρμογή →</a></div>
-  <section class="card" id="pharm"><h2><span class="ic">💊</span>Εφημερεύοντα φαρμακεία<span class="right" id="pharm-right">Αττική</span></h2><div id="pharm-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
-  <section class="card" id="transit"><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
-  <section class="card" id="fuel"><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><div class="prices" id="fuel-table"></div><svg class="spark" id="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
-  <section class="card" id="hosp"><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
-  <section class="card" id="events"><h2><span class="ic">🎭</span>Εκδηλώσεις κοντά<span class="right">Δήμος Αθηναίων · 10 χλμ</span></h2><div id="events-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
-  <section class="card" id="around"><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right"><button class="link-btn" id="around-change" hidden>αλλαγή</button><span id="around-src">1 χλμ · OpenStreetMap</span></span></h2><div id="around-body"><button class="cta" id="around-cta" type="button">🔎 Διάλεξε τι ψάχνεις κοντά σου</button></div></section>
+  <div class="rbar" id="rbar" hidden><div class="what"><span id="rbar-what"></span></div><div class="rng"><div class="lbl"><span>Απόσταση αναζήτησης</span><b id="rbar-km"></b></div><input type="range" id="rbar-range" aria-label="Απόσταση αναζήτησης"><div class="ticks"><span id="rbar-min"></span><span id="rbar-max"></span></div></div><button class="swap" id="rbar-change" type="button">αλλαγή επιλογής ›</button></div>
+  <section class="card wide" id="pharm" hidden><h2><span class="ic">💊</span>Εφημερεύοντα φαρμακεία<span class="right" id="pharm-right">Αττική</span></h2><div id="pharm-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
+  <section class="card wide" id="transit" hidden><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
+  <section class="card wide" id="fuel" hidden><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><div class="prices" id="fuel-table"></div><svg class="spark" id="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
+  <section class="card wide" id="hosp" hidden><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
+  <section class="card wide" id="events" hidden><h2><span class="ic">🎭</span>Εκδηλώσεις κοντά<span class="right" id="events-right">Δήμος Αθηναίων</span></h2><div id="events-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
+  <section class="card wide" id="day" hidden><h2><span class="ic">🛣</span>Δρόμοι &amp; ρεύμα<span class="right">Αττική Οδός · ΔΕΔΔΗΕ</span></h2>
+    <div id="day-traffic"><div class="sub">🛣 Αττική Οδός <span class="live" id="road-live"><i></i>live</span></div><div id="day-traffic-body"><div class="skel"></div></div></div>
+    <div id="day-cuts"><div class="sub">🔌 Διακοπές ρεύματος</div><div id="day-cuts-body"><div class="skel" style="width:60%"></div></div></div>
+  </section>
+  <section class="card wide" id="around" hidden><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right" id="around-src">OpenStreetMap</span></h2><div id="around-body"></div></section>
 </main>
 <footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a> <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
   <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Προειδοποιήσεις: ΕΜΥ μέσω <a href="https://meteoalarm.org">MeteoAlarm</a></span><span>Αττική Οδός: αισθητήρες μέσω <a href="https://data.nap.gov.gr">data.nap.gov.gr</a> (ODbL)</span><span>Διακοπές ρεύματος: ΔΕΔΔΗΕ</span><span>Εκδηλώσεις: <a href="https://cultureisathens.gr">Culture is Athens</a> (Δήμος Αθηναίων)</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
 </footer>
 <div id="sheet-bg" class="sheet-bg" hidden></div>
-<div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Σε ακτίνα 1 χλμ από τη θέση σου, από το OpenStreetMap.</p><div class="grid" id="menu-grid"><div class="skel"></div></div><label class="toggle"><input type="checkbox" id="h24"> 🕛 μόνο 24ωρα (π.χ. περίπτερα, βενζινάδικα)</label><label class="toggle"><input type="checkbox" id="opennow"> 🟢 μόνο ανοιχτά τώρα, όπου το ωράριο είναι γνωστό</label><label class="toggle"><input type="checkbox" id="acc"> ♿ μόνο προσβάσιμα ΑΜΕΑ, όπου έχει δηλωθεί</label></div>
+<div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου">
+  <div class="top"><div class="grip"></div><h3>Τι ψάχνεις κοντά σου;<button class="x" id="sheet-x" type="button" aria-label="Κλείσιμο">✕</button></h3><p class="hint">Πάτα μια επιλογή και όρισε πόσο μακριά να ψάξουμε.</p></div>
+  <div class="body">
+    <div class="group">Βασικά</div><div class="grid" id="menu-main"></div>
+    <div class="group">Μέρη γύρω σου · OpenStreetMap</div><div class="grid" id="menu-grid"><div class="skel"></div></div>
+  </div>
+  <div class="panel" id="panel" hidden>
+    <div class="pk"><span class="i" id="panel-icon"></span><span id="panel-label"></span></div>
+    <div class="rng"><div class="lbl"><span>Απόσταση αναζήτησης</span><b id="panel-km"></b></div><input type="range" id="panel-range" aria-label="Απόσταση αναζήτησης"><div class="ticks"><span id="panel-min"></span><span id="panel-max"></span></div></div>
+    <div class="toggles" id="place-filters" hidden><label class="toggle"><input type="checkbox" id="h24"> 🕛 μόνο 24ωρα</label><label class="toggle"><input type="checkbox" id="opennow"> 🟢 μόνο ανοιχτά τώρα</label><label class="toggle"><input type="checkbox" id="acc"> ♿ μόνο προσβάσιμα ΑΜΕΑ</label></div>
+    <button class="go" id="go" type="button">Δείξε μου</button>
+  </div>
+</div>
 <div id="update" class="update" hidden>🆕 Νέα έκδοση διαθέσιμη <button id="update-btn">Ανανέωση</button></div>
 <div id="consent" class="consent" hidden><p>Μπορούμε να κρατάμε ανώνυμα στατιστικά επισκεψιμότητας με το Google Analytics, για να δούμε τι χρησιμοποιείται; Η θέση σου δεν αποστέλλεται.</p><button class="yes" id="c-yes">Εντάξει</button><button id="c-no">Όχι, ευχαριστώ</button></div>
 <script>
@@ -229,22 +277,11 @@ const $ = s => document.querySelector(s);
 const FUELS = {unleaded_95:"Αμόλυβδη 95", unleaded_100:"Αμόλυβδη 100", diesel:"Diesel κίνησης", autogas:"Υγραέριο", heating_oil:"Θέρμανσης", super:"Super"};
 const CAT_ICONS = {atm:"🏧",charging:"🔌",pharmacy:"💊",supermarket:"🛒",bakery:"🥖",kiosk:"🏪",cafe:"☕",restaurant:"🍽",bar:"🍸",parking:"🅿",toilets:"🚻",water:"🚰",playground:"🛝",post:"📮",kep:"🏛",church:"⛪",hospital:"🏥",beach:"🏖",taxi:"🚕",bike:"🚲",wifi:"📶",metro:"🚇",bank:"🏦",fuel:"⛽"};
 const DEFAULT_POS = [37.9838, 23.7275]; // Omonoia
-let pos = null, latest = null, currentCat = null, stopsTimer = null;
+let pos = null, latest = null, prefecture = "ΝΟΜΟΣ ΑΤΤΙΚΗΣ", stopsTimer = null, roadTimer = null;
 const now = new Date(), h = now.getHours();
 $("#greet").textContent = h < 5 ? "Καληνύχτα" : h < 12 ? "Καλημέρα" : h < 18 ? "Καλό μεσημέρι" : "Καλησπέρα";
 $("#today").textContent = now.toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
 (function tick(){ $("#clock").textContent = new Date().toLocaleTimeString("el-GR", {hour:"2-digit", minute:"2-digit"}); setTimeout(tick, 15000); })();
-(function orderCards(){
-  const order = h < 11 ? ["transit","fuel","pharm","events","hosp","around"] : h < 19 ? ["pharm","transit","around","events","fuel","hosp"] : ["events","pharm","hosp","transit","around","fuel"];
-  const cols = [$("#col1"), $("#col2")], nav = $("#nav");
-  nav.appendChild(nav.querySelector('[data-for="today-card"]')); nav.appendChild(nav.querySelector('[data-for="day"]'));
-  order.forEach((id, i) => { const c = document.getElementById(id); c.style.order = i + 1; cols[i % 2].appendChild(c); nav.appendChild(nav.querySelector(`[data-for="${id}"]`)); });
-})();
-(function navHighlight(){
-  const links = [...document.querySelectorAll("#nav a")];
-  const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) links.forEach(a => a.classList.toggle("on", a.dataset.for === e.target.id)); }, {rootMargin:"-30% 0px -60% 0px"});
-  document.querySelectorAll("main .card").forEach(c => io.observe(c));
-})();
 
 // API calls: the last good answer of every request is kept on the device, so when the server is
 // asleep or down the page still shows yesterday's pharmacies, prices and rota, marked as such.
@@ -269,10 +306,106 @@ async function api(path) {
   }
 }
 const m = km => km < 1 ? `${Math.round(km*1000)} μ.` : `${km.toFixed(1)} χλμ`;
+const fmtKm = km => km < 1 ? `${Math.round(km * 1000)} μ.` : `${String(km).replace(".", ",")} χλμ`;
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const lineBadge = l => { const k = String(l||"?").toUpperCase(); const cls = /^M1/.test(k)?"m1":/^M2/.test(k)?"m2":/^M3/.test(k)?"m3":/^T/.test(k)?"t":""; return `<span class="ln ${cls}">${esc(k)}</span>`; };
 const mins = n => n <= 0 ? `<span class="now">τώρα</span>` : n === 1 ? `<span class="now">1′</span>` : `${n}′`;
 const empty = (icon, text) => `<div class="empty"><span>${icon}</span><span>${text}</span></div>`;
+// long lists: show the first few, the rest behind one button (nearest first, so the hidden ones are the far ones)
+const listed = (rows, first, what) => rows.map((r, i) => i < first ? r : r.replace(/^<div class="/, '<div class="extra hide ')).join("") + (rows.length > first ? `<button class="more" type="button">Δείξε ${rows.length - first} ακόμη${what ? " " + what : ""} πιο μακριά</button>` : "");
+document.addEventListener("click", e => { const b = e.target.closest(".more"); if (!b) return; b.parentElement.querySelectorAll(".extra").forEach(x => x.classList.remove("hide")); b.remove(); });
+
+// ---- the options: everything you can look for, each with its own distance range (km) ----------------
+const STEPS = [0.2, 0.3, 0.5, 0.8, 1, 1.5, 2, 3, 5, 8, 11, 15, 20, 30];
+const OPTS = {
+  pharm:   {icon:"💊", label:"Εφημερεύοντα φαρμακεία", short:"Φαρμακεία", card:"pharm", min:0.5, max:15, def:2, load: () => loadPharmacies()},
+  transit: {icon:"🚌", label:"Λεωφορεία, μετρό & τραμ", short:"Συγκοινωνίες", card:"transit", min:0.3, max:5, def:1, load: () => { loadRail(); loadStops(); }},
+  hosp:    {icon:"🏥", label:"Εφημερεύοντα νοσοκομεία", short:"Νοσοκομεία", card:"hosp", min:2, max:30, def:11, load: () => loadHospitals()},
+  fuel:    {icon:"⛽", label:"Τιμές καυσίμων & πρατήρια", short:"Καύσιμα", card:"fuel", min:0.5, max:15, def:1.5, load: () => loadFuel()},
+  events:  {icon:"🎭", label:"Εκδηλώσεις", short:"Εκδηλώσεις", card:"events", min:1, max:20, def:10, load: () => loadEvents()},
+  day:     {icon:"🛣", label:"Αττική Οδός & διακοπές ρεύματος", short:"Δρόμοι & ρεύμα", card:"day", min:1, max:15, def:5, load: () => { loadRoad(); loadCuts(); }},
+};
+const MAIN = ["pharm", "transit", "hosp", "fuel", "events", "day"];
+let cur = null;        // {key, km} — what is shown now
+let pend = null;       // option highlighted in the sheet, before "Δείξε μου"
+const kmSaved = key => { let v = null; try { v = +localStorage.getItem("km:" + key); } catch (e) {} const o = OPTS[key]; return v && STEPS.includes(v) && v >= o.min && v <= o.max ? v : o.def; };
+function setRange(input, key, km) {   // the slider walks the STEPS between the option's min and max
+  const o = OPTS[key], lo = STEPS.indexOf(o.min), hi = STEPS.indexOf(o.max);
+  input.min = lo; input.max = hi; input.step = 1; input.value = STEPS.indexOf(km);
+  input.style.setProperty("--p", ((input.value - lo) / (hi - lo) * 100) + "%");
+}
+const rangeKm = input => STEPS[+input.value];
+function bindRange(input, label, onInput, onChange) {
+  input.addEventListener("input", () => { label.textContent = fmtKm(rangeKm(input)); input.style.setProperty("--p", ((input.value - input.min) / (input.max - input.min) * 100) + "%"); if (onInput) onInput(rangeKm(input)); });
+  input.addEventListener("change", () => onChange(rangeKm(input)));
+}
+function apply(key, km, scroll) {
+  const o = OPTS[key]; if (!o) return;
+  cur = {key, km};
+  try { localStorage.setItem("opt", key); localStorage.setItem("km:" + key, km); } catch (e) {}
+  remember(key);
+  clearTimeout(stopsTimer); clearTimeout(roadTimer);
+  for (const k in OPTS) if (OPTS[k].card !== o.card) document.getElementById(OPTS[k].card).hidden = true;
+  document.getElementById(o.card).hidden = false;
+  const bar = $("#rbar"); bar.hidden = false;
+  $("#rbar-what").textContent = `${o.icon} ${o.label}`; $("#rbar-km").textContent = fmtKm(km); $("#rbar-min").textContent = fmtKm(o.min); $("#rbar-max").textContent = fmtKm(o.max);
+  setRange($("#rbar-range"), key, km);
+  $("#topbar-sel").innerHTML = `<span>${o.icon}</span><span>${esc(o.short)}</span><span class="km">· ${fmtKm(km)}</span>`;
+  document.querySelectorAll(".tile, .quick button").forEach(x => x.classList.toggle("on", x.dataset.k === key));
+  if (window.gtag) gtag("event", "select_option", {option: key, km: km});
+  if (pos) o.load();
+  if (scroll) bar.scrollIntoView({behavior: "smooth", block: "start"});
+}
+function remember(key) {
+  let r = []; try { r = JSON.parse(localStorage.getItem("recent")) || []; } catch (e) {}
+  r = [key].concat(r.filter(k => k !== key)).slice(0, 4);
+  try { localStorage.setItem("recent", JSON.stringify(r)); } catch (e) {}
+  renderQuick();
+}
+function renderQuick() {
+  let r = []; try { r = JSON.parse(localStorage.getItem("recent")) || []; } catch (e) {}
+  const keys = r.filter(k => OPTS[k]).concat(["pharm", "transit", "hosp", "p:atm"]).filter((k, i, a) => a.indexOf(k) === i && OPTS[k]).slice(0, 4);
+  $("#quick-lbl").textContent = r.length ? "Πρόσφατα" : "Γρήγορα";
+  $("#quick").innerHTML = keys.map(k => `<button type="button" data-k="${k}" class="${cur && cur.key === k ? "on" : ""}"><span class="i">${OPTS[k].icon}</span>${esc(OPTS[k].short)}</button>`).join("");
+}
+$("#quick").onclick = e => { const b = e.target.closest("button[data-k]"); if (!b) return; apply(b.dataset.k, kmSaved(b.dataset.k), true); };
+bindRange($("#rbar-range"), $("#rbar-km"), null, km => apply(cur.key, km, false));
+(function topbar(){
+  const io = new IntersectionObserver(es => { for (const e of es) $("#topbar").hidden = e.isIntersecting || e.boundingClientRect.top > 0; }, {threshold: 0});
+  io.observe($("#finder"));
+})();
+
+// ---- the sheet -------------------------------------------------------------------
+function openMenu() { $("#sheet-bg").hidden = false; $("#sheet").hidden = false; document.body.style.overflow = "hidden"; highlight(cur ? cur.key : pend ? pend.key : null, cur ? cur.km : pend ? pend.km : null); }
+function closeMenu() { $("#sheet-bg").hidden = true; $("#sheet").hidden = true; document.body.style.overflow = ""; }
+$("#finder-btn").onclick = openMenu; $("#menu-btn").onclick = openMenu; $("#rbar-change").onclick = openMenu; $("#sheet-x").onclick = closeMenu; $("#sheet-bg").onclick = closeMenu;
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+function highlight(key, km) {
+  document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x.dataset.k === key));
+  const p = $("#panel"); if (!key || !OPTS[key]) { p.hidden = true; pend = null; return; }
+  const o = OPTS[key]; pend = {key, km: km || kmSaved(key)};
+  p.hidden = false; $("#panel-icon").textContent = o.icon; $("#panel-label").textContent = o.label;
+  $("#panel-km").textContent = fmtKm(pend.km); $("#panel-min").textContent = fmtKm(o.min); $("#panel-max").textContent = fmtKm(o.max);
+  setRange($("#panel-range"), key, pend.km);
+  $("#place-filters").hidden = !o.cat;
+  $("#go").textContent = `Δείξε ${o.short.toLowerCase()} έως ${fmtKm(pend.km)}`;
+}
+bindRange($("#panel-range"), $("#panel-km"), km => { if (pend) { pend.km = km; $("#go").textContent = `Δείξε ${OPTS[pend.key].short.toLowerCase()} έως ${fmtKm(km)}`; } }, km => { if (pend) pend.km = km; });
+$("#go").onclick = () => { if (!pend) return; closeMenu(); apply(pend.key, pend.km, true); };
+$("#menu-main").innerHTML = MAIN.map(k => `<button class="tile" type="button" data-k="${k}"><span class="i">${OPTS[k].icon}</span>${esc(OPTS[k].short)}</button>`).join("");
+document.querySelector("#sheet .body").onclick = e => { const b = e.target.closest(".tile"); if (!b) return; highlight(b.dataset.k, b.dataset.k === (pend && pend.key) ? pend.km : null); b.scrollIntoView({block: "nearest"}); };
+$("#h24").onchange = () => { if ($("#h24").checked) $("#opennow").checked = false; if ($("#h24").checked && pend && pend.km < 3) highlight(pend.key, 3); };
+$("#opennow").onchange = () => { if ($("#opennow").checked) $("#h24").checked = false; };
+async function initCats() {
+  try {
+    const cats = (await api("/api/nearby/categories")).filter(c => c.key !== "fuel");
+    for (const c of cats) OPTS["p:" + c.key] = {icon: CAT_ICONS[c.key] || "📍", label: c.label, short: c.label, card: "around", cat: c.key, min: 0.2, max: 15, def: 1, load: () => loadAround(c.key)};
+    $("#menu-grid").innerHTML = cats.map(c => `<button class="tile" type="button" data-k="p:${c.key}"><span class="i">${CAT_ICONS[c.key] || "📍"}</span>${esc(c.label)}</button>`).join("");
+    renderQuick();
+    let last = null; try { last = localStorage.getItem("opt"); } catch (e) {}
+    if (last && OPTS[last]) apply(last, kmSaved(last), false);
+  } catch (e) { $("#offline").hidden = false; }
+}
 
 // ---- location --------------------------------------------------------------
 function locate(force) {
@@ -310,17 +443,18 @@ async function start(lat, lng, fallback) {
   pos = [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4];
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
-  loadPharmacies(); loadRail(); loadStops(); loadHospitals(); loadAround(currentCat); loadWeather(); loadNamedays(); loadDay(); loadEvents();
+  loadWeather(); loadNamedays(); loadAlerts();
+  if (cur) { clearTimeout(stopsTimer); clearTimeout(roadTimer); OPTS[cur.key].load(); }
   if (RELAY && !window.__warmed) { window.__warmed = true; fetch(RELAY + "/warm").catch(() => {}); } // visitors in Greece refresh the relay's ministry copy
   try {
     const loc = await api(`/api/location?lat=${lat}&lng=${lng}`);
     $("#offline").hidden = true;
     if (!fallback) $("#place").textContent = loc.display || `${lat.toFixed(3)}, ${lng.toFixed(3)}`;
-    loadFuel(loc.prefecture);
-  } catch (e) { if (e.name === "TypeError") $("#offline").hidden = false; loadFuel("ΝΟΜΟΣ ΑΤΤΙΚΗΣ"); }
+    if (loc.prefecture && loc.prefecture !== prefecture) { prefecture = loc.prefecture; if (cur && cur.key === "fuel") loadFuel(); }
+  } catch (e) { if (e.name === "TypeError") $("#offline").hidden = false; }
 }
 
-// ---- today: weather (Open-Meteo, fetched by the browser) and name days ------------------
+// ---- today: weather (Open-Meteo, fetched by the browser), ΕΜΥ warnings and name days ------------------
 const WX = {0:["☀️","Αίθριος"],1:["🌤","Κυρίως αίθριος"],2:["⛅","Λίγα σύννεφα"],3:["☁️","Συννεφιά"],45:["🌫","Ομίχλη"],48:["🌫","Ομίχλη"],51:["🌦","Ψιχάλες"],53:["🌦","Ψιχάλες"],55:["🌧","Ψιχάλες"],56:["🌧","Παγωμένες ψιχάλες"],57:["🌧","Παγωμένες ψιχάλες"],61:["🌧","Ασθενής βροχή"],63:["🌧","Βροχή"],65:["🌧","Δυνατή βροχή"],66:["🌧","Παγωμένη βροχή"],67:["🌧","Παγωμένη βροχή"],71:["🌨","Ασθενής χιονόπτωση"],73:["🌨","Χιόνι"],75:["❄️","Πυκνό χιόνι"],77:["🌨","Χιονόνερο"],80:["🌦","Μπόρες"],81:["🌧","Μπόρες"],82:["⛈","Ισχυρές μπόρες"],85:["🌨","Χιονόπτωση"],86:["🌨","Χιονόπτωση"],95:["⛈","Καταιγίδα"],96:["⛈","Καταιγίδα με χαλάζι"],99:["⛈","Καταιγίδα με χαλάζι"]};
 const wx = (code, night) => { const w = WX[code] || ["🌡", "—"]; return [night && code <= 2 ? (code === 2 ? "☁️" : "🌙") : w[0], w[1]]; };
 const aqi = v => v == null ? null : v <= 20 ? ["Καθαρός αέρας", "open"] : v <= 40 ? ["Καλός αέρας", "open"] : v <= 60 ? ["Μέτριος αέρας", "soon"] : v <= 80 ? ["Κακός αέρας", "closed"] : ["Πολύ κακός αέρας", "closed"];
@@ -352,38 +486,33 @@ async function loadNamedays() {
       + (!r.namedays.length && !r.tomorrow.length && r.next ? `<div class="n"><span class="lbl">έπειτα</span><span class="muted">${dn(r.next.date)}:</span>${r.next.names.map(n => `<span class="name">${esc(n)}</span>`).join("")}</div>` : "");
   } catch (e) { $("#names").hidden = true; }
 }
-
-// ---- your day: warnings (ΕΜΥ), Attiki Odos (live), planned power cuts (ΔΕΔΔΗΕ) -----------------
 const KIND_ICON = {Wind:"💨", Rain:"🌧", Thunderstorm:"⛈", Fog:"🌫", "Snow/Ice":"❄️", "Extreme high temperature":"🥵", "Extreme low temperature":"🥶", "Coastal event":"🌊", "Forest fire":"🔥", Avalanches:"🏔", Flooding:"🌊", "Rain-flood":"🌊"};
 const whenRange = (a, b) => { const f = d => new Date(d).toLocaleString("el-GR", {weekday: "short", hour: "2-digit", minute: "2-digit"}); return `${f(a)} – ${f(b)}`; };
-let roadTimer = null;
-async function loadDay() {
-  loadAlerts(); loadRoad(); loadCuts();
-}
 async function loadAlerts() {
   const el = $("#day-alerts");
   try {
     const r = await api(`/api/alerts?lat=${pos[0]}&lng=${pos[1]}`);
-    el.innerHTML = r.warnings.length ? r.warnings.map(w => `<div class="alert ${w.level}"><div class="h">${KIND_ICON[w.kind] || "⚠️"} ${esc(w.event)} <span class="badge ${w.level === "yellow" ? "soon" : "closed"}">${w.level === "yellow" ? "κίτρινη" : w.level === "orange" ? "πορτοκαλί" : "κόκκινη"}</span></div><div class="w">${esc(w.area)} · ${whenRange(w.onset, w.expires)}</div>${w.description ? `<div class="w">${esc(w.description)}</div>` : ""}</div>`).join("")
-      : `<div class="ok">✅ Καμία προειδοποίηση καιρού για την περιοχή σου</div>`;
-  } catch (e) { el.innerHTML = `<div class="muted">Οι προειδοποιήσεις ΕΜΥ δεν είναι διαθέσιμες.</div>`; }
+    el.innerHTML = r.warnings.length ? r.warnings.map(w => `<div class="alert ${w.level}"><div class="h">${KIND_ICON[w.kind] || "⚠️"} ${esc(w.event)} <span class="badge ${w.level === "yellow" ? "soon" : "closed"}">${w.level === "yellow" ? "κίτρινη προειδοποίηση ΕΜΥ" : w.level === "orange" ? "πορτοκαλί προειδοποίηση ΕΜΥ" : "κόκκινη προειδοποίηση ΕΜΥ"}</span></div><div class="w">${esc(w.area)} · ${whenRange(w.onset, w.expires)}</div>${w.description ? `<div class="w">${esc(w.description)}</div>` : ""}</div>`).join("")
+      : `<div class="ok">✅ Καμία προειδοποίηση καιρού από την ΕΜΥ για την περιοχή σου</div>`;
+  } catch (e) { el.innerHTML = ""; }
 }
+
+// ---- roads & power cuts: Attiki Odos (live) and planned cuts (ΔΕΔΔΗΕ) -----------------
 async function loadRoad() {
   clearTimeout(roadTimer);
-  const box = $("#day-traffic"), el = $("#day-traffic-body");
+  const el = $("#day-traffic-body"), km = cur ? cur.km : 5;
   try {
-    const r = await api(`/api/traffic/near?lat=${pos[0]}&lng=${pos[1]}&max_km=5`);
+    const r = await api(`/api/traffic/near?lat=${pos[0]}&lng=${pos[1]}&max_km=${Math.min(15, km)}`);
     const m = r.motorway, tot = m.sensors || 1;
     const summary = `<div class="bar"><i style="width:${m.free / tot * 100}%"></i><i class="slow" style="width:${m.slow / tot * 100}%"></i><i class="jam" style="width:${m.jam / tot * 100}%"></i></div><div class="muted">Σε όλη την Αττική Οδό: ${m.jam ? m.jam + " σημεία με μποτιλιάρισμα" : "ομαλή ροή"}${m.slow ? ", " + m.slow + " με φόρτο" : ""} · ${new Date(r.timestamp).toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit"})}</div>`;
-    if (!r.near.length) { if (m.jam || m.slow) { box.hidden = false; el.innerHTML = summary; } else box.hidden = true; }
+    if (!r.near.length) el.innerHTML = `<div class="muted">Κανένα σημείο μέτρησης της Αττικής Οδού σε ακτίνα ${fmtKm(km)}. Μεγάλωσε την απόσταση ή δες τη συνολική εικόνα:</div>` + summary;
     else {
-      box.hidden = false;
       const word = {free: "ομαλή ροή", slow: "φόρτος", jam: "μποτιλιάρισμα", none: "χωρίς μετρήσεις"}[r.overall];
       el.innerHTML = `<div class="ok" style="color:${r.overall === "free" ? "var(--ok)" : r.overall === "jam" ? "var(--bad)" : "#b45309"}">${r.overall === "free" ? "🟢" : r.overall === "jam" ? "🔴" : "🟡"} Κοντά σου: ${word}${r.avg_speed ? " · μέση ταχύτητα " + r.avg_speed + " km/h" : ""}</div>`
-        + r.near.filter(x => x.level !== "none").slice(0, 5).map(x => `<div class="road"><span class="dot ${x.level}"></span><span>${esc(sensorName(x.name))} <span class="dist">· ${m2(x.distance_km)}</span></span><span class="sp">${x.speed} km/h</span></div>`).join("") + summary;
+        + r.near.filter(x => x.level !== "none").map(x => `<div class="road"><span class="dot ${x.level}"></span><span>${esc(sensorName(x.name))} <span class="dist">· ${m2(x.distance_km)}</span></span><span class="sp">${x.speed} km/h</span></div>`).join("") + summary;
     }
     roadTimer = setTimeout(() => document.hidden ? (roadTimer = setTimeout(loadRoad, 30000)) : loadRoad(), 60000);
-  } catch (e) { box.hidden = true; }
+  } catch (e) { el.innerHTML = `<div class="muted">Τα δεδομένα της Αττικής Οδού δεν είναι διαθέσιμα αυτή τη στιγμή.</div>`; }
 }
 const m2 = km => km < 1 ? `${Math.round(km * 1000)} μ.` : `${km.toFixed(1)} χλμ`;
 const DIR = {A: "→ Αεροδρόμιο", E: "→ Ελευσίνα"};
@@ -404,26 +533,29 @@ async function loadCuts(municipalityId) {
   } catch (e) { el.innerHTML = `<div class="muted">Οι διακοπές ΔΕΔΔΗΕ δεν είναι διαθέσιμες.</div>`; }
 }
 
-// ---- events near you (Culture is Athens) ---------------------------------------------------
+// ---- events near you (Culture is Athens), nearest first ------------------------------------------
 async function loadEvents() {
-  const el = $("#events-body");
+  const el = $("#events-body"), km = cur ? cur.km : 10;
+  $("#events-right").textContent = `Δήμος Αθηναίων · έως ${fmtKm(km)}`;
+  el.innerHTML = `<div class="skel"></div><div class="skel" style="width:70%"></div>`;
   try {
-    const r = await api(`/api/events?lat=${pos[0]}&lng=${pos[1]}&days=14&radius=10000&limit=15`);
-    if (!r.items.length) { el.innerHTML = empty("🎟", "Καμία καταχωρημένη εκδήλωση σε ακτίνα 10 χλμ τις επόμενες 2 εβδομάδες."); return; }
+    const r = await api(`/api/events?lat=${pos[0]}&lng=${pos[1]}&days=14&radius=${Math.round(km * 1000)}&limit=40&sort=distance`);
+    if (!r.items.length) { el.innerHTML = empty("🎟", `Καμία καταχωρημένη εκδήλωση σε ακτίνα ${fmtKm(km)} τις επόμενες 2 εβδομάδες.`); return; }
     const dayName = d => d.toLocaleDateString("el-GR", {weekday: "short"}), mon = d => d.toLocaleDateString("el-GR", {month: "short"});
     const today = new Date().toDateString();
-    el.innerHTML = r.items.map(e => { const d = new Date(e.starts_at); const when = d.toDateString() === today ? "σήμερα" : dayName(d); const hm = (d.getHours() || d.getMinutes()) ? d.toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit", hour12: false}) : "";
-      return `<div class="ev"><div class="d"><span>${esc(when)}</span><b>${d.getDate()}</b><span>${esc(mon(d))}</span></div><div><div class="t"><a href="${esc(e.url)}" target="_blank" rel="noreferrer">${esc(e.title)}</a></div><div class="m">${[hm, e.venue, e.price, e.categories].filter(Boolean).map(esc).join(" · ")} <span class="dist">· ${m2(e.distance_km)}</span></div></div></div>`; }).join("")
+    const rows = r.items.map(e => { const d = new Date(e.starts_at); const when = d.toDateString() === today ? "σήμερα" : dayName(d); const hm = (d.getHours() || d.getMinutes()) ? d.toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit", hour12: false}) : "";
+      return `<div class="ev"><div class="d"><span>${esc(when)}</span><b>${d.getDate()}</b><span>${esc(mon(d))}</span></div><div><div class="t"><a href="${esc(e.url)}" target="_blank" rel="noreferrer">${esc(e.title)}</a></div><div class="m">${[hm, e.venue, e.price, e.categories].filter(Boolean).map(esc).join(" · ")} <span class="dist">· ${m2(e.distance_km)}</span></div></div></div>`; });
+    el.innerHTML = `<div class="count">${r.items.length} εκδηλώσεις τις επόμενες 2 εβδομάδες, από την πιο κοντινή</div>` + listed(rows, 10, "εκδηλώσεις")
       + `<div class="note">Πηγή: Culture is Athens, Δήμος Αθηναίων. Οι εκδηλώσεις εκτός Δήμου Αθηναίων δεν περιλαμβάνονται ακόμη.</div>`;
   } catch (e) { el.innerHTML = `<div class="muted">Οι εκδηλώσεις δεν είναι διαθέσιμες αυτή τη στιγμή.</div>`; }
 }
 
 // ---- fuel ------------------------------------------------------------------
-async function loadFuel(autoPref) {
+async function loadFuel() {
   try {
     if (!latest) latest = await api("/api/fuel/latest");
     const prefs = Object.keys(latest.prefectures).sort((a,b)=>a.localeCompare(b,"el"));
-    const sel = $("#pref"), pick = prefs.includes(autoPref) ? autoPref : "ΝΟΜΟΣ ΑΤΤΙΚΗΣ";
+    const sel = $("#pref"), pick = prefs.includes(prefecture) ? prefecture : "ΝΟΜΟΣ ΑΤΤΙΚΗΣ";
     sel.innerHTML = prefs.map(p=>`<option value="${esc(p)}" ${p===pick?"selected":""}>${p==="ΕΛΛΑΔΑ"?"Ελλάδα (μέσος όρος)":esc(p.replace("ΝΟΜΟΣ ",""))}</option>`).join("");
     sel.onchange = () => renderFuel(sel.value);
     renderFuel(pick); loadFuelStations();
@@ -450,10 +582,11 @@ async function loadSpark(pref, fuel) {
   } catch (e) {}
 }
 async function loadFuelStations() {
-  const el = $("#fuel-stations");
+  const el = $("#fuel-stations"), km = cur ? cur.km : 1.5;
+  el.innerHTML = `<div class="sub">Πρατήρια έως ${fmtKm(km)}</div><div class="skel"></div>`;
   try {
-    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=fuel&radius=1500&limit=5`);
-    el.innerHTML = r.items.length ? `<div class="sub">Πρατήρια κοντά σου</div>` + r.items.map(s=>place(s)).join("") + `<div class="note">Οι τιμές ανά πρατήριο δεν δημοσιεύονται ανοιχτά.</div>` : "";
+    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=fuel&radius=${Math.round(km * 1000)}&limit=40`);
+    el.innerHTML = `<div class="sub">Πρατήρια έως ${fmtKm(km)}</div>` + (r.items.length ? listed(r.items.map(place), 6, "πρατήρια") + `<div class="note">Από το πιο κοντινό. Οι τιμές ανά πρατήριο δεν δημοσιεύονται ανοιχτά.</div>` : empty("⛽", `Κανένα πρατήριο σε ακτίνα ${fmtKm(km)}.`));
   } catch (e) { el.innerHTML = ""; }
 }
 
@@ -465,41 +598,44 @@ function place(s) {
     <div class="acts">${s.phone?`<a href="tel:${esc(s.phone)}">📞 Κλήση</a>`:""}<a href="${esc(s.maps_url)}" target="_blank" rel="noreferrer">🧭 Πλοήγηση</a>${s.website?`<a href="${esc(s.website)}" target="_blank" rel="noreferrer">🔗 Ιστότοπος</a>`:""}</div></div>`;
 }
 
-// ---- pharmacies -------------------------------------------------------------
+// ---- pharmacies, nearest first -------------------------------------------------------------
 async function loadPharmacies() {
-  const body = $("#pharm-body");
+  const body = $("#pharm-body"), km = cur ? cur.km : 2;
+  body.innerHTML = `<div class="skel"></div><div class="skel" style="width:70%"></div>`;
   try {
-    const r = await api(`/api/pharmacies/on-duty?lat=${pos[0]}&lng=${pos[1]}&limit=8`);
-    if (!r.pharmacies.length) { body.innerHTML = empty("💤", "Δεν βρέθηκαν εφημερεύοντα φαρμακεία κοντά."); return; }
-    $("#pharm-right").textContent = `Αττική · ${new Date(r.date || Date.now()).toLocaleDateString("el-GR", {day:"numeric", month:"short"})}`;
-    body.innerHTML = r.pharmacies.map((p, i) => `<div class="row ${i>=4?"hide extra":""}"><div class="name">${esc(p.name)} ${p.open_now?`<span class="badge open">ανοιχτό</span>`:`<span class="badge soon">ανοίγει σε ${Math.round(p.opens_in_min/60*10)/10} ώρ.</span>`}<span class="dist">· ${m(p.distance_km)}</span></div>
+    const r = await api(`/api/pharmacies/on-duty?lat=${pos[0]}&lng=${pos[1]}&limit=40&max_km=${km}`);
+    $("#pharm-right").textContent = `Αττική · έως ${fmtKm(km)}`;
+    if (!r.pharmacies.length) { body.innerHTML = empty("💤", `Κανένα εφημερεύον φαρμακείο σε ακτίνα ${fmtKm(km)}.` + (r.total ? ` Το πιο κοντινό από τα ${r.total} σημερινά είναι πιο μακριά: μεγάλωσε την απόσταση.` : "")); return; }
+    const rows = r.pharmacies.map(p => `<div class="row"><div class="name">${esc(p.name)} ${p.open_now?`<span class="badge open">ανοιχτό</span>`:`<span class="badge soon">ανοίγει σε ${Math.round(p.opens_in_min/60*10)/10} ώρ.</span>`}<span class="dist">· ${m(p.distance_km)}</span></div>
       <div class="meta">${esc(p.address)}, ${esc(p.area)} · ${esc(p.hours.toLowerCase())}</div>
-      <div class="acts"><a href="tel:${esc(p.phone)}">📞 ${esc(p.phone)}</a><a href="${esc(p.maps_url)}" target="_blank" rel="noreferrer">🧭 Πλοήγηση</a></div></div>`).join("")
-      + (r.pharmacies.length > 4 ? `<button class="more" id="pharm-more">Δείξε ${r.pharmacies.length-4} ακόμη</button>` : "");
-    const b = $("#pharm-more"); if (b) b.onclick = () => { body.querySelectorAll(".extra").forEach(x => x.classList.remove("hide")); b.remove(); };
+      <div class="acts"><a href="tel:${esc(p.phone)}">📞 ${esc(p.phone)}</a><a href="${esc(p.maps_url)}" target="_blank" rel="noreferrer">🧭 Πλοήγηση</a></div></div>`);
+    body.innerHTML = `<div class="count">${r.count > r.pharmacies.length ? r.pharmacies.length + " από " + r.count : r.pharmacies.length} εφημερεύοντα έως ${fmtKm(km)}, από το πιο κοντινό</div>` + listed(rows, 6, "φαρμακεία");
   } catch (e) { body.innerHTML = `<div class="err">${esc(e.message)}</div>`; }
 }
 
 // ---- hospitals ------------------------------------------------------------------
 async function loadHospitals(spec) {
+  const km = cur ? cur.km : 11;
   try {
-    const q = new URLSearchParams({specialty: spec || $("#spec").value || "Παθολογική", lat: pos[0], lng: pos[1]});
+    const q = new URLSearchParams({specialty: spec || $("#spec").value || "Παθολογική", lat: pos[0], lng: pos[1], max_km: km});
     const r = await api(`/api/hospitals/on-duty?${q}`);
     const sel = $("#spec");
     if (sel.options.length <= 1) { sel.innerHTML = r.specialties.map(x=>`<option ${x===(spec||"Παθολογική")?"selected":""}>${esc(x)}</option>`).join(""); sel.onchange = () => loadHospitals(sel.value); }
-    $("#hosp-meta").textContent = `Αττική, ${new Date(r.date).toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long"})}` + (r.health_centers.length ? ` · Κέντρα Υγείας: ${r.health_centers.map(x=>x.name.replace("Κ.Υ. ","")+" ("+x.hours+")").join(", ")}` : "");
+    $("#hosp-meta").textContent = `Αττική, ${new Date(r.date).toLocaleDateString("el-GR", {weekday:"long", day:"numeric", month:"long"})} · έως ${fmtKm(km)}, από το πιο κοντινό` + (r.health_centers.length ? ` · Κέντρα Υγείας: ${r.health_centers.map(x=>x.name.replace("Κ.Υ. ","")+" ("+x.hours+")").join(", ")}` : "");
     const byShift = {}; for (const e of r.entries) (byShift[e.shift] || (byShift[e.shift] = [])).push(e);
     $("#hosp-body").innerHTML = Object.entries(byShift).map(([shift, es]) => `<div class="sub">${esc(shift)}</div>` +
-      es.map(e => `<div class="row"><div class="name">${esc(e.name || e.hospital)}${e.region?` <span class="badge info">${esc(e.region)}</span>`:""}${e.distance_km!=null?`<span class="dist">· ${m(e.distance_km)}</span>`:""}</div>${e.note?`<div class="meta">${esc(e.note)}</div>`:""}${e.maps_url?`<div class="acts"><a href="${esc(e.maps_url)}" target="_blank" rel="noreferrer">🧭 Πλοήγηση</a></div>`:""}</div>`).join("")).join("") || empty("🩺", "Καμία καταχώρηση για αυτή την κλινική.");
+      es.map(e => `<div class="row"><div class="name">${esc(e.name || e.hospital)}${e.region?` <span class="badge info">${esc(e.region)}</span>`:""}${e.distance_km!=null?`<span class="dist">· ${m(e.distance_km)}</span>`:`<span class="dist">· απόσταση άγνωστη</span>`}</div>${e.note?`<div class="meta">${esc(e.note)}</div>`:""}${e.maps_url?`<div class="acts"><a href="${esc(e.maps_url)}" target="_blank" rel="noreferrer">🧭 Πλοήγηση</a></div>`:""}</div>`).join("")).join("")
+      || empty("🩺", r.total ? `Κανένα εφημερεύον νοσοκομείο αυτής της κλινικής σε ακτίνα ${fmtKm(km)}. Μεγάλωσε την απόσταση.` : "Καμία καταχώρηση για αυτή την κλινική.");
   } catch (e) { $("#hosp-body").innerHTML = e.status===404 ? empty("📋", "Δεν υπάρχει ακόμη πρόγραμμα για σήμερα.") : `<div class="muted">${esc(e.message)}</div>`; }
 }
 
 // ---- metro / tram -------------------------------------------------------------------
 async function loadRail() {
-  const el = $("#rail-body");
+  const el = $("#rail-body"), km = cur ? cur.km : 1;
   try {
-    const r = await api(`/api/transit/rail/near?lat=${pos[0]}&lng=${pos[1]}&limit=2`);
-    if (!r.feed || !r.stations.length) { el.innerHTML = ""; return; }
+    const r = await api(`/api/transit/rail/near?lat=${pos[0]}&lng=${pos[1]}&limit=4&max_km=${km}`);
+    if (!r.feed) { el.innerHTML = ""; return; }
+    if (!r.stations.length) { el.innerHTML = `<div class="sub">Μετρό &amp; τραμ</div><div class="muted">Κανένας σταθμός σε ακτίνα ${fmtKm(km)}.</div>`; return; }
     el.innerHTML = `<div class="sub">Μετρό &amp; τραμ</div>` + r.stations.map(st => `<div class="row"><div class="name">${st.lines.some(l=>l.startsWith("T"))&&!st.lines.some(l=>l.startsWith("M"))?"🚋":"🚇"} ${esc(st.name)} ${st.lines.map(lineBadge).join("")}${st.wheelchair==="yes"?"<span title='προσβάσιμος σταθμός'>♿</span>":""}<span class="dist">· ${m(st.distance_km)}</span></div>
       <div class="pills">${st.departures.length ? st.departures.slice(0,6).map(d=>`<span class="pill" title="${esc(d.destination)}">${lineBadge(d.line)} ${mins(d.minutes)} <span class="to">→ ${esc(d.destination.split(" ")[0])}</span></span>`).join("") : `<span class="muted">Καμία αναχώρηση τις επόμενες 3 ώρες</span>`}</div></div>`).join("")
       + (r.feed.note ? `<div class="note">${esc(r.feed.note)}</div>` : "");
@@ -529,10 +665,10 @@ async function stopArrivals(code) {
 }
 async function loadStops() {
   clearTimeout(stopsTimer);
-  const body = $("#transit-body");
+  const body = $("#transit-body"), km = cur ? cur.km : 1;
   try {
-    const stops = (await nearStops()).slice(0,4);
-    if (!stops.length) { body.innerHTML = empty("🚏", "Καμία στάση ΟΑΣΑ κοντά."); return; }
+    const all = await nearStops(), stops = all.filter(s => s.distance_km <= km).slice(0, 6);
+    if (!stops.length) { body.innerHTML = empty("🚏", all.length ? `Καμία στάση σε ακτίνα ${fmtKm(km)}. Η πιο κοντινή είναι στα ${m(all[0].distance_km)}.` : "Καμία στάση ΟΑΣΑ κοντά."); return; }
     $("#bus-live").hidden = false;
     body.innerHTML = stops.map(s=>`<div class="row" data-code="${esc(s.code)}"><div class="name">🚏 ${esc(s.name)}<span class="dist">· ${m(s.distance_km)}</span></div><div class="pills"><span class="muted">…</span></div></div>`).join("");
     for (const s of stops) {
@@ -544,47 +680,25 @@ async function loadStops() {
   } catch (e) { $("#bus-live").hidden = true; body.innerHTML = empty("🚌", e.status === 503 || e.name === "TypeError" ? "Τα live δεδομένα λεωφορείων δεν είναι διαθέσιμα αυτή τη στιγμή. Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων." : esc(e.message)); }
 }
 
-// ---- what's around: category menu --------------------------------------------------
-let cats = [];
-function openMenu() { $("#sheet-bg").hidden = false; $("#sheet").hidden = false; document.body.style.overflow = "hidden"; }
-function closeMenu() { $("#sheet-bg").hidden = true; $("#sheet").hidden = true; document.body.style.overflow = ""; }
-$("#menu-btn").onclick = openMenu; $("#around-cta").onclick = openMenu; $("#around-change").onclick = openMenu; $("#sheet-x").onclick = closeMenu; $("#sheet-bg").onclick = closeMenu;
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
-function pick(k, scroll) {
-  currentCat = k; try { localStorage.setItem("cat", k); } catch (e) {}
-  document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x.dataset.k === k));
-  const c = cats.find(c => c.key === k);
-  $("#around-title").textContent = `${CAT_ICONS[k] || ""} ${c ? c.label : k} κοντά σου`; $("#around-change").hidden = false;
-  closeMenu(); loadAround(k);
-  if (scroll) document.getElementById("around").scrollIntoView({behavior: "smooth", block: "start"});
-}
-async function initChips() {
-  try {
-    cats = (await api("/api/nearby/categories")).filter(c => c.key !== "fuel");
-    $("#menu-grid").innerHTML = cats.map(c => `<button class="tile" type="button" data-k="${c.key}"><span class="i">${CAT_ICONS[c.key] || "📍"}</span>${esc(c.label)}</button>`).join("");
-    $("#menu-grid").onclick = e => { const b = e.target.closest(".tile"); if (!b) return; if (window.gtag) gtag("event", "select_category", {category: b.dataset.k}); pick(b.dataset.k, true); };
-    $("#acc").onchange = () => loadAround(currentCat);
-    $("#h24").onchange = () => { if ($("#h24").checked) $("#opennow").checked = false; loadAround(currentCat); };
-    $("#opennow").onchange = () => { if ($("#opennow").checked) $("#h24").checked = false; loadAround(currentCat); };
-    let last = null; try { last = localStorage.getItem("cat"); } catch (e) {}
-    if (last && cats.some(c => c.key === last) && pos) pick(last, false); else if (last && cats.some(c => c.key === last)) currentCat = last;
-  } catch (e) { $("#offline").hidden = false; }
-}
+// ---- places of one category (OpenStreetMap), nearest first -------------------------------------
 async function loadAround(cat) {
   if (!cat || !pos) return;
-  if ($("#around-change").hidden && cats.length) { const c = cats.find(c => c.key === cat); if (c) { $("#around-title").textContent = `${CAT_ICONS[cat] || ""} ${c.label} κοντά σου`; $("#around-change").hidden = false; document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x.dataset.k === cat)); } }
+  const o = OPTS["p:" + cat], km = cur ? cur.km : 1;
+  $("#around-title").textContent = `${o.label} κοντά σου`; document.querySelector("#around h2 .ic").textContent = o.icon;
   const body = $("#around-body"); body.innerHTML = `<div class="skel"></div><div class="skel" style="width:70%"></div>`;
   try {
     const acc = $("#acc").checked, h24 = $("#h24").checked, now = $("#opennow").checked;
-    const radius = h24 ? 3000 : 1000;   // 24-hour places are rarer: look further
-    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=${radius}&limit=15${acc?"&accessible=true":""}${h24?"&open=24h":now?"&open=now":""}`);
-    $("#around-src").textContent = `${radius/1000} χλμ · OpenStreetMap`;
-    const coverage = (h24 || now) && r.total ? `<div class="note">Ωράριο γνωστό για ${r.with_hours} από ${r.total} ${r.label.toLowerCase()} σε ακτίνα ${radius/1000} χλμ (OpenStreetMap). Όσα δεν έχουν δηλωμένο ωράριο δεν εμφανίζονται εδώ.</div>` : "";
-    body.innerHTML = (r.items.length ? r.items.map(place).join("") : empty("🔍", `Τίποτα σε ακτίνα ${radius/1000} χλμ${acc?" με δηλωμένη προσβασιμότητα":""}${h24?" με δηλωμένο 24ωρο":now?" ανοιχτό τώρα με γνωστό ωράριο":""}.`)) + coverage;
+    $("#around-src").textContent = `έως ${fmtKm(km)} · OpenStreetMap`;
+    const r = await api(`/api/nearby?lat=${pos[0]}&lng=${pos[1]}&category=${cat}&radius=${Math.round(km * 1000)}&limit=60${acc?"&accessible=true":""}${h24?"&open=24h":now?"&open=now":""}`);
+    const filters = [h24 ? "μόνο 24ωρα" : now ? "μόνο ανοιχτά τώρα" : "", acc ? "μόνο προσβάσιμα" : ""].filter(Boolean).join(", ");
+    const coverage = (h24 || now) && r.total ? `<div class="note">Ωράριο γνωστό για ${r.with_hours} από ${r.total} ${r.label.toLowerCase()} σε ακτίνα ${fmtKm(km)} (OpenStreetMap). Όσα δεν έχουν δηλωμένο ωράριο δεν εμφανίζονται εδώ.</div>` : "";
+    body.innerHTML = (r.items.length ? `<div class="count">${r.count > r.items.length ? r.items.length + " από " + r.count : r.items.length} έως ${fmtKm(km)}${filters ? " · " + filters : ""}, από το πιο κοντινό</div>` + listed(r.items.map(place), 12)
+      : empty("🔍", `Τίποτα σε ακτίνα ${fmtKm(km)}${acc?" με δηλωμένη προσβασιμότητα":""}${h24?" με δηλωμένο 24ωρο":now?" ανοιχτό τώρα με γνωστό ωράριο":""}. Μεγάλωσε την απόσταση.`)) + coverage;
   } catch (e) { body.innerHTML = `<div class="err">${esc(e.message)}</div>`; }
 }
 
-initChips();
+renderQuick();
+initCats();
 locate(false);
 
 // ---- install as an app (Android / desktop Chrome) ---------------------------------
@@ -615,7 +729,7 @@ locate(false);
   }
   if (navigator.serviceWorker) navigator.serviceWorker.addEventListener("controllerchange", () => { if (!reloading) { reloading = true; location.reload(); } });
   check(); setInterval(check, 15 * 60 * 1000);
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { check(); if (pos) loadStops(); } });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { check(); if (pos && cur && cur.key === "transit") loadStops(); } });
 })();
 </script>
 </body>

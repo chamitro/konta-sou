@@ -13,7 +13,7 @@ Open the app, it finds where you are, and shows what matters around you right no
 | Pharmacies on duty (Attica) | working | Attica Pharmacists' Association site (fsa-efimeries.gr), fetched daily for the next 7 days |
 | Hospitals on duty (Attica) | working | Ministry of Health daily rota (.doc), converted with LibreOffice; hospital coordinates from a curated table (approximate) |
 | Open-air market (λαϊκή) schedule | planned | curated table from regional decisions |
-| Events near me | planned | narrow slice, municipal culture calendars |
+| Events near me | working | City of Athens culture portal (cultureisathens.gr), nearest first within the chosen radius |
 | What's nearby (20 place categories) | working | OpenStreetMap Greece extract imported weekly into the `pois` table; Overpass API only as a fallback |
 | Location naming + prefecture detection | working | OSM Nominatim reverse geocoding (1 req/s, cached) + nearest prefecture centroid |
 
@@ -51,7 +51,18 @@ Set `DATABASE_URL` to use PostgreSQL instead of the default SQLite file in `data
 
 The free instance sleeps after 15 minutes without traffic; the first request afterwards takes about a minute.
 
-## "Η μέρα σου" card
+## The page: "Σήμερα" plus one chooser
+
+The first screen shows **Σήμερα** (weather, ΕΜΥ warnings, name days) and one big chooser, "Τι ψάχνεις κοντά σου;".
+Every option (pharmacies on duty, hospitals on duty, buses/metro, fuel, events, Attiki Odos & power cuts, and the
+twenty OpenStreetMap place categories) has its own distance slider, with sensible bounds per option (buses up to
+5 km, hospitals up to 30 km, places 200 m to 15 km). Results always come nearest first; long lists show the nearest
+few and a "show the rest, further away" button. The API side: `max_km` on `/api/pharmacies/on-duty`,
+`/api/hospitals/on-duty` and `/api/transit/rail/near`, `max_km` on `/api/traffic/near`, `radius` (up to 15 km) on
+`/api/nearby`, `radius` and `sort=distance|time` on `/api/events`. The chosen option and radius are remembered on the
+device; the last four options used appear as shortcuts on the first screen.
+
+## "Δρόμοι & ρεύμα" option
 
 - **Weather warnings:** ΕΜΥ warnings through the MeteoAlarm CAP feed (`simera/alerts.py`), matched to the visitor's region (prefecture → MeteoAlarm area), cached 15 min in memory.
 - **Attiki Odos live:** the 600 vehicle-detection sensors published every minute on data.nap.gov.gr (ODbL), `simera/traffic.py`; sensor coordinates converted from the Greek grid in `simera/data/attiki_odos_vds.json`. Sensors reporting 0 km/h are ignored as unreliable.

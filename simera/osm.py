@@ -88,7 +88,7 @@ def nearby(category: str, lat: float, lng: float, radius: int = 1000) -> list[di
     items = nearby_from_db(category, lat, lng, radius)
     if items is not None:
         return items
-    return nearby_overpass(category, lat, lng, radius)
+    return nearby_overpass(category, lat, lng, min(radius, 5000))  # the shared Overpass servers get at most a 5 km query
 
 
 def nearby_overpass(category: str, lat: float, lng: float, radius: int = 1000) -> list[dict]:

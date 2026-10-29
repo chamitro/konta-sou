@@ -144,7 +144,8 @@ def collect(delay: float = 1.0, max_pages: int = 8, lookback_days: int | None = 
     return {"listed": len(listed), "new": new, "changed": changed, "unchanged": skipped}
 
 
-def upcoming_near(lat: float, lng: float, now: datetime, days: int = 14, radius_km: float = 3.0, limit: int = 20) -> list[dict]:
+def upcoming_near(lat: float, lng: float, now: datetime, days: int = 14, radius_km: float = 3.0, limit: int = 20, sort: str = "distance") -> list[dict]:
+    """Events within radius_km over the next `days`, nearest first (sort="time": soonest first)."""
     from simera.geo import haversine_km
     with SessionLocal() as s:
         rows = s.execute(select(Event).where(Event.starts_at >= now - timedelta(hours=3), Event.starts_at <= now + timedelta(days=days), Event.lat.isnot(None)).order_by(Event.starts_at)).scalars().all()
@@ -155,6 +156,8 @@ def upcoming_near(lat: float, lng: float, now: datetime, days: int = 14, radius_
             out.append({"title": e.title, "url": e.url, "starts_at": e.starts_at.isoformat(), "ends_at": e.ends_at.isoformat() if e.ends_at else None, "venue": e.venue,
                         "lat": e.lat, "lng": e.lng, "distance_km": round(d, 2), "categories": e.categories, "price": e.price, "image": e.image,
                         "maps_url": f"https://www.google.com/maps/search/?api=1&query={e.lat}%2C{e.lng}"})
+    if sort == "distance":
+        out.sort(key=lambda e: (e["distance_km"], e["starts_at"]))
     return out[:limit]
 
 

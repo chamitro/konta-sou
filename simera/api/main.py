@@ -118,9 +118,9 @@ from simera import rail  # noqa: E402
 
 
 @app.get("/api/transit/rail/near")
-def rail_near(lat: float, lng: float, limit: int = Query(3, le=10)):
-    """Nearest metro/tram stations with the next scheduled departures (timetable, not live)."""
-    return rail.stations_near(lat, lng, limit=limit)
+def rail_near(lat: float, lng: float, limit: int = Query(3, le=10), max_km: float = Query(2.0, ge=0.2, le=15)):
+    """Nearest metro/tram stations within max_km with the next scheduled departures (timetable, not live)."""
+    return rail.stations_near(lat, lng, limit=limit, max_km=max_km)
 
 
 # ---- pharmacies (Attica) --------------------------------------------------
@@ -141,10 +141,9 @@ def _haversine_km(lat1, lng1, lat2, lng2):
 
 
 @app.get("/api/pharmacies/on-duty")
-def pharmacies_on_duty(lat: float, lng: float, at: datetime | None = None, limit: int = Query(10, le=50)):
-    """Pharmacies on duty near a point at a given moment (default: now, Athens time).
-
-    Checks today's and yesterday's rota, because night duties run past midnight.
+def pharmacies_on_duty(lat: float, lng: float, at: datetime | None = None, limit: int = Query(10, le=50), max_km: float | None = Query(None, ge=0.2, le=50)):
+    """Pharmacies on duty near a point at a given moment (default: now, Athens time), nearest first,
+    optionally only within max_km. Checks today's and yesterday's rota, because night duties run past midnight.
     """
     now = (at or datetime.now(ATHENS)).astimezone(ATHENS) if (at is None or at.tzinfo) else at.replace(tzinfo=ATHENS)
     today = now.date()
@@ -177,8 +176,11 @@ def pharmacies_on_duty(lat: float, lng: float, at: datetime | None = None, limit
                     }
                 )
         latest = s.scalar(select(func.max(PharmacyDuty.duty_date)))
-    candidates.sort(key=lambda c: (not c["open_now"], c["distance_km"]))
-    return {"at": now.isoformat(), "data_until": latest.isoformat() if latest else None, "pharmacies": candidates[:limit]}
+    candidates.sort(key=lambda c: c["distance_km"])
+    total = len(candidates)
+    if max_km is not None:
+        candidates = [c for c in candidates if c["distance_km"] <= max_km]
+    return {"at": now.isoformat(), "data_until": latest.isoformat() if latest else None, "max_km": max_km, "total": total, "count": len(candidates), "pharmacies": candidates[:limit]}
 
 
 
@@ -189,9 +191,10 @@ from simera.models import HealthCenterDuty, HospitalDuty, HospitalRota  # noqa: 
 
 
 @app.get("/api/hospitals/on-duty")
-def hospitals_on_duty(day: date | None = None, lat: float | None = None, lng: float | None = None, specialty: str | None = None):
+def hospitals_on_duty(day: date | None = None, lat: float | None = None, lng: float | None = None, specialty: str | None = None, max_km: float | None = Query(None, ge=1, le=100)):
     """Attica hospital duty rota for a day (default: today, Athens time), optionally one specialty,
-    with distance from (lat, lng) when the hospital is in our directory."""
+    with distance from (lat, lng) when the hospital is in our directory, nearest first. max_km drops the
+    hospitals known to be further away; hospitals we have no coordinates for are kept, listed last."""
     day = day or datetime.now(ATHENS).date()
     with SessionLocal() as s:
         rota = s.scalar(select(HospitalRota).where(HospitalRota.duty_date == day))
@@ -215,8 +218,12 @@ def hospitals_on_duty(day: date | None = None, lat: float | None = None, lng: fl
 
     entries = [{"specialty": d.specialty, "shift": d.shift, "hospital": d.hospital, "region": d.region, "note": d.note, "key": d.hospital_key, **enrich(d.hospital_key)} for d in duties]
     entries.sort(key=lambda e: (e["specialty"].lower(), e["shift"], e["distance_km"] if e["distance_km"] is not None else 999))
+    total = len(entries)
+    if max_km is not None:
+        entries = [e for e in entries if e["distance_km"] is None or e["distance_km"] <= max_km]
     return {
         "date": day.isoformat(),
+        "max_km": max_km, "total": total, "count": len(entries),
         "specialties": specialties,
         "health_centers": [{"name": h.name, "hours": h.hours, **enrich(h.hospital_key)} for h in hcs],
         "entries": entries,
@@ -271,12 +278,12 @@ def power_outages(lat: float, lng: float, municipality_id: int | None = None, da
 
 
 @app.get("/api/events")
-def events_near(lat: float, lng: float, days: int = Query(14, ge=1, le=60), radius: int = Query(3000, ge=200, le=20000), limit: int = Query(20, le=100)):
+def events_near(lat: float, lng: float, days: int = Query(14, ge=1, le=60), radius: int = Query(3000, ge=200, le=20000), limit: int = Query(20, le=100), sort: str = Query("distance", pattern="^(distance|time)$")):
     """Upcoming cultural events near the point, from the City of Athens portal cultureisathens.gr."""
     from simera.collectors import events as _events
     now = datetime.now(ATHENS).replace(tzinfo=None)
-    items = _events.upcoming_near(lat, lng, now, days=days, radius_km=radius / 1000, limit=limit)
-    return {"radius_m": radius, "days": days, "count": len(items), "items": items, "source": "Culture is Athens (Δήμος Αθηναίων)"}
+    items = _events.upcoming_near(lat, lng, now, days=days, radius_km=radius / 1000, limit=limit, sort=sort)
+    return {"radius_m": radius, "days": days, "sort": sort, "count": len(items), "items": items, "source": "Culture is Athens (Δήμος Αθηναίων)"}
 
 
 @app.get("/api/today")
@@ -301,7 +308,7 @@ def nearby_categories():
 
 
 @app.get("/api/nearby")
-def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1000, ge=100, le=5000), limit: int = Query(20, le=100), accessible: bool = False,
+def nearby(lat: float, lng: float, category: str = "fuel", radius: int = Query(1000, ge=100, le=15000), limit: int = Query(20, le=100), accessible: bool = False,
            open: str | None = Query(None, pattern="^(24h|now)$")):
     """Places of one category around a point, nearest first, from OpenStreetMap.
     accessible=true keeps only places tagged wheelchair=yes (or limited); open=24h keeps places tagged 24/7,
