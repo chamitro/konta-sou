@@ -16,14 +16,16 @@ def client(monkeypatch, tmp_path):
 
     import simera.db as db
     from simera.api import main
+    from simera import osm
     from simera.collectors import events
-    from simera.models import Event, Pharmacy, PharmacyDuty
+    from simera.models import Event, Pharmacy, PharmacyDuty, Poi
 
     engine = create_engine(f"sqlite:///{tmp_path}/t.db", future=True)
     db.Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine, expire_on_commit=False)
     monkeypatch.setattr(main, "SessionLocal", Session)
     monkeypatch.setattr(events, "SessionLocal", Session)
+    monkeypatch.setattr(osm, "SessionLocal", Session)   # places come from the same empty test database, never from Overpass
 
     now = datetime.now(main.ATHENS)
     with Session() as s:
@@ -34,6 +36,8 @@ def client(monkeypatch, tmp_path):
         # two events: the sooner one is further away
         s.add(Event(source="cia", source_id="1", title="Μακριά αλλά σύντομα", url="u1", starts_at=now.replace(tzinfo=None) + timedelta(hours=2), lat=38.03, lng=23.7275, modified=now.replace(tzinfo=None), fetched_at=now.replace(tzinfo=None)))
         s.add(Event(source="cia", source_id="2", title="Κοντά αλλά αργότερα", url="u2", starts_at=now.replace(tzinfo=None) + timedelta(days=3), lat=37.985, lng=23.7275, modified=now.replace(tzinfo=None), fetched_at=now.replace(tzinfo=None)))
+        # one place, so the API reads places from this database instead of asking Overpass
+        s.add(Poi(osm_type="n", osm_id=1, category="atm", name="ATM", lat=37.99, lng=23.7275))
         s.commit()
 
     from fastapi.testclient import TestClient
@@ -66,5 +70,6 @@ def test_events_sorted_by_distance_by_default_or_by_time(client):
 
 def test_places_radius_up_to_15_km(client):
     lat, lng = OMONOIA
-    assert client.get(f"/api/nearby?lat={lat}&lng={lng}&category=atm&radius=15000").status_code in (200, 503)
+    r = client.get(f"/api/nearby?lat={lat}&lng={lng}&category=atm&radius=15000&limit=5")
+    assert r.status_code == 200 and r.json()["radius_m"] == 15000 and r.json()["count"] == 1
     assert client.get(f"/api/nearby?lat={lat}&lng={lng}&category=atm&radius=16000").status_code == 422
