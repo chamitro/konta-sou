@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261029-0849";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261029-0959";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
 <meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
@@ -194,7 +194,7 @@
   <section class="card" id="transit"><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
   <section class="card" id="fuel"><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><div class="prices" id="fuel-table"></div><svg class="spark" id="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
   <section class="card" id="hosp"><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
-  <section class="card" id="events"><h2><span class="ic">🎭</span>Εκδηλώσεις κοντά<span class="right">Δήμος Αθηναίων · 3 χλμ</span></h2><div id="events-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
+  <section class="card" id="events"><h2><span class="ic">🎭</span>Εκδηλώσεις κοντά<span class="right">Δήμος Αθηναίων · 10 χλμ</span></h2><div id="events-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
   <section class="card" id="around"><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right"><button class="link-btn" id="around-change" hidden>αλλαγή</button><span id="around-src">1 χλμ · OpenStreetMap</span></span></h2><div id="around-body"><button class="cta" id="around-cta" type="button">🔎 Διάλεξε τι ψάχνεις κοντά σου</button></div></section>
 </main>
 <footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a> <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
@@ -408,8 +408,8 @@ async function loadCuts(municipalityId) {
 async function loadEvents() {
   const el = $("#events-body");
   try {
-    const r = await api(`/api/events?lat=${pos[0]}&lng=${pos[1]}&days=14&radius=3000&limit=12`);
-    if (!r.items.length) { el.innerHTML = empty("🎟", "Καμία καταχωρημένη εκδήλωση σε ακτίνα 3 χλμ τις επόμενες 2 εβδομάδες."); return; }
+    const r = await api(`/api/events?lat=${pos[0]}&lng=${pos[1]}&days=14&radius=10000&limit=15`);
+    if (!r.items.length) { el.innerHTML = empty("🎟", "Καμία καταχωρημένη εκδήλωση σε ακτίνα 10 χλμ τις επόμενες 2 εβδομάδες."); return; }
     const dayName = d => d.toLocaleDateString("el-GR", {weekday: "short"}), mon = d => d.toLocaleDateString("el-GR", {month: "short"});
     const today = new Date().toDateString();
     el.innerHTML = r.items.map(e => { const d = new Date(e.starts_at); const when = d.toDateString() === today ? "σήμερα" : dayName(d); const hm = (d.getHours() || d.getMinutes()) ? d.toLocaleTimeString("el-GR", {hour: "2-digit", minute: "2-digit", hour12: false}) : "";
