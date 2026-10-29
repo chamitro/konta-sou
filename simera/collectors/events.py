@@ -84,7 +84,7 @@ def parse_event_page(page: str) -> dict[str, Any]:
 def list_recent(client: httpx.Client, max_pages: int = 8, per_page: int = 50) -> list[dict]:
     items = []
     for page in range(1, max_pages + 1):
-        r = client.get(f"{BASE}/wp-json/wp/v2/event", params={"per_page": per_page, "page": page, "orderby": "modified", "order": "desc", "_fields": "id,modified,link,title,status"})
+        r = client.get(f"{BASE}/wp-json/wp/v2/event", params={"per_page": per_page, "page": page, "orderby": "modified", "order": "desc", "_fields": "id,date,modified,link,title,status"})
         if r.status_code == 400:   # past the last page
             break
         r.raise_for_status()
@@ -107,12 +107,15 @@ def collect(delay: float = 1.0, max_pages: int = 8, lookback_days: int | None = 
         with SessionLocal() as s:
             known = {e.source_id: e for e in s.execute(select(Event).where(Event.source == SOURCE)).scalars()}
             new = changed = skipped = 0
-            for it in listed:
+            stale = datetime.utcnow() - timedelta(days=540)   # posted 18+ months ago and never touched since: surely over
+            for n, it in enumerate(listed, 1):
                 if it.get("status") != "publish":
                     continue
                 sid, modified = str(it["id"]), datetime.fromisoformat(it["modified"])
-                if modified < cutoff:
+                if modified < cutoff or modified < stale:
                     continue
+                if n % 20 == 0:
+                    s.commit()   # keep progress if the run is cut short
                 ex = known.get(sid)
                 if ex and ex.modified >= modified:
                     skipped += 1
