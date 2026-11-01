@@ -9,6 +9,8 @@ self.addEventListener("fetch", e => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin || url.pathname.includes("/api/") || url.pathname.endsWith("version.json")) return;
   // network first, cached shell as a fallback when offline
-  e.respondWith(fetch(e.request).then(r => { if (r.ok && (e.request.mode === "navigate" || SHELL.some(p => url.pathname.endsWith(p.slice(1))))) caches.open(CACHE).then(c => c.put(e.request, r.clone())); return r; })
-    .catch(() => caches.match(e.request, {ignoreSearch: true})));
+  e.respondWith(fetch(e.request).then(r => {
+    if (r.ok && (e.request.mode === "navigate" || SHELL.some(p => url.pathname.endsWith(p.slice(1))))) { const copy = r.clone(); e.waitUntil(caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {})); } // clone before the page starts reading the body
+    return r;
+  }).catch(() => caches.match(e.request, {ignoreSearch: true})));
 });
