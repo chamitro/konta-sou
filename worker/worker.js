@@ -55,9 +55,11 @@ const API_ORIGIN = "https://konta-sou.onrender.com";
 export default {
   /** Cron trigger (see wrangler.toml): keeps the free API instance awake and warm. */
   async scheduled(event, env, ctx) {
+    const result = { at: new Date().toISOString() };
     for (const p of ["/healthz", "/api/fuel/latest"]) {
-      try { await fetch(API_ORIGIN + p, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(60000) }); } catch (e) { /* the next tick retries */ }
+      try { const r = await fetch(API_ORIGIN + p, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(60000) }); result[p] = r.status; } catch (e) { result[p] = String(e); /* the next tick retries */ }
     }
+    if (env.CACHE) await env.CACHE.put("cron:last", JSON.stringify(result)).catch(() => {});   // /probe shows when the keep-alive last ran and what Render answered
   },
 
   async fetch(request, env, ctx) {
@@ -67,6 +69,7 @@ export default {
 
     if (url.pathname === "/probe") {
       const out = { colo, kv: !!env.CACHE };
+      if (env.CACHE) { try { out.cron = JSON.parse(await env.CACHE.get("cron:last")); } catch (e) { out.cron = null; } }
       for (const [k, base] of Object.entries(UPSTREAMS)) {
         const target = k === "oasa" ? base + "/api/?act=webGetLines" : base + ROTA_PATH;
         try { const r = await upstream(target); out[k] = r.status; } catch (e) { out[k] = String(e); }
