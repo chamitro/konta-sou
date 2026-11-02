@@ -27,9 +27,21 @@ def test_parse_post_body_and_dates():
     assert body.startswith("Με στόχο την ενημέρωση")
     assert "Διοικητική Δομή" not in body          # the site menu is not the announcement
     assert "Από Δωδεκανήσου" in body
-    starts, ends, when = extract_dates(body)
+    starts, ends, when = extract_dates(body, date(2026, 11, 2))
     assert (starts, ends) == (date(2026, 11, 3), date(2026, 11, 3))
-    assert when.startswith("στις 03/11/2026")
+    assert when == "3/11 · 07:00–09:00"
+
+
+@pytest.mark.parametrize("text,published,expected", [
+    ("ανακοινώνει την παράταση έως 30/11/2026 της μερικής τροποποίησης", date(2026, 10, 31), (date(2026, 10, 31), date(2026, 11, 30), "έως 30/11")),
+    ("για κάθε Σάββατο από 31/10/2026 έως 30/04/2027, από 08:00 έως 16:00", date(2026, 10, 30), (date(2026, 10, 31), date(2027, 4, 30), "31/10–30/4 · 08:00–16:00 · κάθε Σάββατο")),
+    ("στις 31.10.2026 και τη 1.11.2026", date(2026, 10, 30), (date(2026, 10, 31), date(2026, 11, 1), "31/10–1/11")),
+    ("καμία ημερομηνία εδώ", date(2026, 10, 30), (None, None, None)),
+])
+def test_extract_dates_kinds(text, published, expected):
+    from simera.collectors.oasa_notices import extract_dates
+
+    assert extract_dates(text, published) == expected
 
 
 @pytest.mark.parametrize("title,lines", [

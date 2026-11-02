@@ -644,16 +644,16 @@ async function loadRail() {
 }
 
 // ---- OASA announcements: route changes that touch the visitor's municipality or lines ------------------
-const NT_PREFIX = /^(Παράταση\s+(της\s+)?)?((μερικής|προσωρινής|μερική|προσωρινή|της|των)\s+)*(τροποποίηση|τροποποίησης|αναστολή λειτουργίας|αναστολής λειτουργίας)\s*(,\s*)?((της|των)\s+)?((διαδρομής|διαδρομών|δρομολογίων)\s+)?((της|των)\s+)?(λεωφ\.|λεωφορειακής|λεωφορειακών|λεωφορειακής\s+γραμμής)?\s*(γραμμής|γραμμών)?\s*/i;
+const NT_PREFIX = /^(Παράταση\s+(της\s+)?)?((μερικής|προσωρινής|μερική|προσωρινή|της|των)\s+)*(τροποποίησης|τροποποίηση|αναστολής λειτουργίας|αναστολή λειτουργίας)\s*(,\s*)?((της|των)\s+)?((διαδρομής|διαδρομών|δρομολογίων)\s+)?((της|των)\s+)?(λεωφ\.|λεωφορειακής|λεωφορειακών|λεωφορειακής\s+γραμμής)?\s*(γραμμής|γραμμών)?\s*/i;
 function noticeRow(n) {
   const kind = /Παράταση/i.test(n.title) ? "Παράταση αλλαγής" : /αναστολή/i.test(n.title) ? "Αναστολή" : /^Λειτουργία/i.test(n.title) ? "" : "Αλλαγή διαδρομής";
   let rest = n.title.replace(NT_PREFIX, "").replace(/^[\dΑ-ΩA-Z]+(\s*,\s*[\dΑ-ΩA-Z]+)*(\s+και\s+[\dΑ-ΩA-Z]+)?\s*,?\s*/, "").trim();
   if (!rest || !kind) rest = n.title;
-  const when = n.when ? n.when.replace(/^(στις|από|για)\s+/i, "") : n.starts_on ? new Date(n.starts_on + "T12:00:00").toLocaleDateString("el-GR", {day: "numeric", month: "short"}) : "";
+  const when = n.when || (n.starts_on ? new Date(n.starts_on + "T12:00:00").toLocaleDateString("el-GR", {day: "numeric", month: "short"}) : "");
   const status = n.status === "active" ? `<span class="badge soon">σε ισχύ τώρα</span>` : n.status === "upcoming" ? `<span class="badge info">από ${new Date(n.starts_on + "T12:00:00").toLocaleDateString("el-GR", {weekday: "short", day: "numeric", month: "numeric"})}</span>` : "";
   const why = n.match === "line" ? `<span class="badge open">γραμμή ${n.matched_lines.join(", ")} της στάσης σου</span>` : n.match === "area" ? `<span class="badge open">στον δήμο σου</span>` : "";
   return `<div class="row nt"><div class="name">${n.lines.map(lineBadge).join("")}<span class="kind">${esc(kind)}</span> ${esc(rest)}</div>
-    <div class="meta">${[when, n.match !== "general" ? "" : "", new Date(n.published).toLocaleDateString("el-GR", {day: "numeric", month: "short"}) + " ΟΑΣΑ"].filter(Boolean).map(esc).join(" · ")} ${status} ${why}</div>
+    <div class="meta">${[when, "ανακοίνωση " + new Date(n.published).toLocaleDateString("el-GR", {day: "numeric", month: "short"})].filter(Boolean).map(esc).join(" · ")} ${status} ${why}</div>
     <div class="acts"><a href="${esc(n.url)}" target="_blank" rel="noreferrer">📄 Η ανακοίνωση</a></div></div>`;
 }
 async function loadNotices(lines) {

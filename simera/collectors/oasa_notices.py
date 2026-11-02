@@ -85,22 +85,37 @@ def extract_lines(text: str) -> list[str]:
     return seen
 
 
-def extract_dates(text: str) -> tuple[date | None, date | None, str | None]:
-    """First and last dd/mm/yyyy in the text, plus a short 'when' phrase around the first one."""
+_HOURS = re.compile(r"(?:ώρες\s+)?από\s+(?:τις\s+)?(\d{1,2})[.:](\d{2})\s*(?:π\.?\s?μ\.?|μ\.?\s?μ\.?)?\s*(?:έως|μέχρι|ως)(?:\s+και)?\s+(?:τις\s+)?(\d{1,2})[.:](\d{2})")
+_EVERY = re.compile(r"κάθε\s+(Δευτέρα|Τρίτη|Τετάρτη|Πέμπτη|Παρασκευή|Σάββατο|Κυριακή|Σαββατοκύριακο|μέρα|ημέρα)", re.I)
+
+
+def extract_dates(text: str, published: date | None = None) -> tuple[date | None, date | None, str | None]:
+    """Start and end dates named in the text (dd/mm/yyyy or dd.mm.yyyy), and a compact 'when' such as
+    "3/11 · 07:00–09:00", "31/10–30/4 · κάθε Σάββατο" or "έως 30/11". A lone date after "έως"/"μέχρι" is an end
+    date (an extension), so the change is in force from its publication."""
     found = []
     for m in _DATE.finditer(text):
         try:
-            found.append((date(int(m.group(3)), int(m.group(2)), int(m.group(1))), m.start()))
+            d = date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
         except ValueError:
             continue
+        before = text[max(0, m.start() - 14):m.start()]
+        found.append((d, "end" if re.search(r"έως|μέχρι|ως\s+(?:και\s+)?(?:τις|την)?$", before) else "start"))
     if not found:
         return None, None, None
     ds = sorted(d for d, _ in found)
-    pos = found[0][1]
-    start = max(text.rfind(",", 0, pos) + 1, pos - 40)
-    end = text.find(",", pos)
-    when = text[start: min(end if end > 0 else pos + 70, pos + 90)].strip(" ,")
-    return ds[0], ds[-1], when[:120] or None
+    starts, ends = ds[0], ds[-1]
+    if all(kind == "end" for _, kind in found) and published and published <= ends:
+        starts = published
+    dm = lambda d: f"{d.day}/{d.month}"
+    when = (f"έως {dm(ends)}" if starts == published and all(k == "end" for _, k in found) else dm(starts) if starts == ends else f"{dm(starts)}–{dm(ends)}")
+    h = _HOURS.search(text)
+    if h:
+        when += f" · {int(h.group(1)):02d}:{h.group(2)}–{int(h.group(3)):02d}:{h.group(4)}"
+    e = _EVERY.search(text)
+    if e:
+        when += f" · κάθε {e.group(1)}"
+    return starts, ends, when[:120]
 
 
 def extract_municipalities(text: str) -> tuple[list[int], str | None]:
@@ -134,7 +149,7 @@ def classify(item: dict, body: str) -> dict | None:
         return None
     lines = extract_lines(title) or extract_lines(body.split("ως εξής")[0][:400])
     muni_ids, area = extract_municipalities(title + " . " + body[:600])
-    starts, ends, when = extract_dates(body)
+    starts, ends, when = extract_dates(body, item["published"].date())
     return {
         "source_id": item["guid"], "title": title, "url": item["url"], "published": item["published"],
         "starts_on": starts, "ends_on": ends, "when_text": when, "lines": ",".join(lines),
