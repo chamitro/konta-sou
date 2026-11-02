@@ -1,8 +1,8 @@
 """In-process daily scheduler for hosts without cron (e.g. a single free web service).
 
 Enabled with SCHEDULER=1. Runs the light daily collectors (hospitals, pharmacies, fuel: last 14 days)
-right after startup and then once a day at SCHEDULE_HOUR_UTC (default 04:30 UTC); the hospital rota is
-also refreshed every HOSPITALS_EVERY_HOURS (default 6) because the ministry posts it during the day.
+right after startup and then once a day at SCHEDULE_HOUR_UTC (default 04:30 UTC); the hospital rota and the
+OASA announcements are also refreshed every HOSPITALS_EVERY_HOURS (default 6) because both are posted during the day.
 Heavy imports (OpenStreetMap places, GTFS) are shipped in the data snapshot instead.
 """
 from __future__ import annotations
@@ -30,13 +30,20 @@ def _hospitals():
         return {"fallback_file": hospitals.import_json(relay)}
 
 
+def _notices():
+    from simera.collectors import oasa_notices
+
+    return oasa_notices.collect(delay=0.7, max_pages=3)
+
+
 def _run_all() -> None:
-    from simera.collectors import events, fuel, hospitals, outages, pharmacies
+    from simera.collectors import events, fuel, hospitals, oasa_notices, outages, pharmacies
 
     # the quick, most time-sensitive sources first: the disk is ephemeral on free hosts, so after a
     # restart the rota must be back within a minute
     for name, fn in (("hospitals", _hospitals),
                      ("pharmacies", lambda: pharmacies.collect(7)),
+                     ("notices", _notices),
                      ("outages", lambda: outages.collect(delay=0.7)),
                      ("events", lambda: events.collect(delay=0.8, max_pages=4)),
                      ("fuel", lambda: fuel.collect(since=datetime.now(timezone.utc).date() - timedelta(days=14), keep_raw=False))):
@@ -68,9 +75,10 @@ def _loop() -> None:
             nxt += timedelta(days=1)
         wait = (nxt - now).total_seconds()
         hosp_due = max(0.0, last_hosp + every * 3600 - time.time())
-        if hosp_due < wait:   # the rota is posted during the day: refresh it a few times, cheaply
+        if hosp_due < wait:   # the rota is posted during the day: refresh it a few times, cheaply; OASA posts changes all day too
             time.sleep(hosp_due)
             _run_one("hospitals", _hospitals)
+            _run_one("notices", _notices)
             last_hosp = time.time()
             continue
         time.sleep(wait)

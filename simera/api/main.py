@@ -248,6 +248,7 @@ def location(lat: float, lng: float):
 
 from simera import alerts as _alerts, traffic as _traffic  # noqa: E402
 from simera.collectors import outages as _outages  # noqa: E402
+from simera.collectors import oasa_notices as _notices  # noqa: E402
 
 
 @app.get("/api/alerts")
@@ -275,6 +276,23 @@ def power_outages(lat: float, lng: float, municipality_id: int | None = None, da
     ids = [m["id"] for m in matched]
     return {"municipalities": [{"id": m["id"], "name": m["name"]} for m in matched], "outages": _outages.upcoming(ids, now, days) if ids else [],
             "all_municipalities": [{"id": m["id"], "name": m["name"]} for m in _outages.MUNICIPALITIES]}
+
+
+@app.get("/api/transit/notices")
+def transit_notices(lat: float, lng: float, lines: str = "", municipality_id: int | None = None, days: int = Query(14, ge=1, le=60), limit: int = Query(20, le=50)):
+    """OASA announcements (route changes, suspensions, holiday schedules) that touch the municipality around the
+    point, or any of the given bus lines (comma-separated LineIDs, e.g. the lines at the visitor's nearby stops).
+    `match` says why each one is shown: line, area, or general (names neither)."""
+    now = datetime.utcnow()
+    if municipality_id:
+        matched = [m for m in _outages.MUNICIPALITIES if m["id"] == municipality_id]
+    else:
+        loc = reverse_geocode(lat, lng)
+        names = [loc.get(k) for k in ("municipality", "place") if loc.get(k)]
+        matched = _outages.match_municipalities(*names) if names else []
+    wanted = [l.strip() for l in lines.split(",") if l.strip()]
+    items = _notices.relevant([m["id"] for m in matched], wanted, now, days_back=days, limit=limit)
+    return {"municipalities": [{"id": m["id"], "name": m["name"]} for m in matched], "lines": wanted, "count": len(items), "notices": items, "source": _notices.SOURCE}
 
 
 @app.get("/api/events")

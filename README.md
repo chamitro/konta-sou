@@ -14,6 +14,7 @@ Open the app, it finds where you are, and shows what matters around you right no
 | Hospitals on duty (Attica) | working | Ministry of Health daily rota (.doc), converted with LibreOffice; hospital coordinates from a curated table (approximate) |
 | Open-air market (λαϊκή) schedule | planned | curated table from regional decisions |
 | Events near me | working | City of Athens culture portal (cultureisathens.gr), nearest first within the chosen radius |
+| Bus route changes near you | working | OASA's own announcements feed (www.oasa.gr/feed): each post's lines and municipality are extracted and matched to the visitor's municipality and the lines at their nearby stops |
 | What's nearby (20 place categories) | working | OpenStreetMap Greece extract imported weekly into the `pois` table; Overpass API only as a fallback |
 | Location naming + prefecture detection | working | OSM Nominatim reverse geocoding (1 req/s, cached) + nearest prefecture centroid |
 
@@ -67,6 +68,17 @@ device; the last four options used appear as shortcuts on the first screen.
 - **Weather warnings:** ΕΜΥ warnings through the MeteoAlarm CAP feed (`simera/alerts.py`), matched to the visitor's region (prefecture → MeteoAlarm area), cached 15 min in memory.
 - **Attiki Odos live:** the 600 vehicle-detection sensors published every minute on data.nap.gov.gr (ODbL), `simera/traffic.py`; sensor coordinates converted from the Greek grid in `simera/data/attiki_odos_vds.json`. Sensors reporting 0 km/h are ignored as unreliable.
 - **Planned power cuts:** ΔΕΔΔΗΕ's public lookup, one request per Attica municipality per day with a pause (`simera/collectors/outages.py`), stored in `power_outages`; the visitor's municipality comes from the reverse geocoder and is matched by name, with a manual selector as fallback.
+
+## Bus changes near you (OASA announcements)
+
+OASA posts every diversion, suspension and holiday schedule on www.oasa.gr, with an RSS feed. The collector
+(`simera/collectors/oasa_notices.py`, every 6 h and daily) reads the feed, fetches each new post once with a
+pause, and extracts the line codes from the title ("γραμμών 219 και 816" → 219, 816), the municipality
+("στον Δήμο Αγ. Δημητρίου", matched to the ΔΕΔΔΗΕ municipality table, with a prefix rule for renamed
+municipalities such as Σπάτων-Αρτέμιδος) and the dates from the body. `/api/transit/notices?lat&lng&lines=`
+returns the notices that name the visitor's municipality, any of the lines at their nearby stops, or neither
+(general ones such as holiday schedules), current ones first. The transit card lists them under the live
+arrivals; the Σήμερα card shows a one-line shortcut when a change touches the visitor's area.
 
 ## Events near you
 

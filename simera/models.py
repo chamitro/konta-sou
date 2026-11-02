@@ -229,3 +229,24 @@ class Event(Base):
     image: Mapped[str | None] = mapped_column(String(500), nullable=True)
     modified: Mapped[datetime] = mapped_column(DateTime)                 # source's modified stamp
     fetched_at: Mapped[datetime] = mapped_column(DateTime)
+
+
+class TransitNotice(Base):
+    """An OASA announcement (www.oasa.gr/feed): a bus/trolley route change, with the lines and the
+    municipalities it names, so the page can show the ones that touch the visitor's area or stops."""
+
+    __tablename__ = "transit_notices"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source_id: Mapped[str] = mapped_column(String(80), unique=True)      # feed guid
+    title: Mapped[str] = mapped_column(String(400))
+    url: Mapped[str] = mapped_column(String(600))
+    published: Mapped[datetime] = mapped_column(DateTime, index=True)    # UTC, naive
+    starts_on: Mapped[date | None] = mapped_column(Date, nullable=True)  # first date named in the text
+    ends_on: Mapped[date | None] = mapped_column(Date, nullable=True)    # last date named in the text
+    when_text: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    lines: Mapped[str] = mapped_column(String(300), default="")          # "823" / "219,816" (OASA LineID spelling)
+    municipality_ids: Mapped[str] = mapped_column(String(120), default="")   # ΔΕΔΔΗΕ ids, "118,120"
+    area_text: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    summary: Mapped[str] = mapped_column(String, default="")
+    fetched_at: Mapped[datetime] = mapped_column(DateTime)

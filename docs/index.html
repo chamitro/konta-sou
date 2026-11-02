@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
 <meta charset="utf-8">
-<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261101-1309";</script>
+<script>window.KONTA_API = "https://konta-sou.onrender.com"; window.KONTA_RELAY = "https://konta-sou.charalambos-mitropoulos.workers.dev"; window.KONTA_GA = "G-N5TJ1JLB1M"; window.KONTA_VERSION = "20261102-1557";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Κοντά σου</title>
 <meta name="description" content="Ό,τι μετράει γύρω σου, τώρα: εφημερεύοντα φαρμακεία και νοσοκομεία, λεωφορεία και μετρό, τιμές καυσίμων και τι υπάρχει κοντά.">
@@ -131,6 +131,8 @@
   .alert.yellow { background:var(--warn-soft); border-color:transparent } .alert.orange { background:rgba(255,120,40,.18); border-color:transparent } .alert.red { background:var(--bad-soft); border-color:transparent }
   .alert .h { font-weight:800; display:flex; gap:8px; align-items:center; flex-wrap:wrap } .alert .w { color:var(--muted); font-size:13.5px }
   .ok { display:flex; align-items:center; gap:10px; color:var(--ok); font-weight:700; font-size:14.5px; padding:6px 0 }
+  .nt-today { display:flex; align-items:center; gap:10px; width:100%; text-align:left; margin-top:10px; background:var(--accent-soft); border:1px solid transparent; border-radius:14px; padding:10px 12px; font:inherit; font-size:14px; font-weight:700; color:var(--text); cursor:pointer } .nt-today .arr { margin-left:auto; color:var(--accent) } .nt-today small { display:block; font-weight:600; color:var(--muted); font-size:12.5px }
+  .nt .kind { font-weight:800 } .nt .ln { margin-right:2px }
   /* roads & power cuts */
   #day { --c:#e11d48 }
   .road { display:grid; grid-template-columns:auto 1fr auto; gap:6px 10px; align-items:center; padding:7px 0; border-top:1px solid var(--line); font-size:14px }
@@ -211,7 +213,7 @@
 </div></header>
 <div class="topbar" id="topbar" hidden><div class="in"><div class="sel" id="topbar-sel"></div><button class="menu-btn" id="menu-btn" type="button">🔎 Τι ψάχνεις;</button></div></div>
 <main id="main">
-  <section class="card" id="today-card"><h2><span class="ic">🌤</span>Σήμερα<span class="right" id="today-src">Open-Meteo · ΕΜΥ</span></h2><div id="wx"><div class="skel"></div><div class="skel" style="width:60%"></div></div><div class="alerts" id="day-alerts"></div><div class="names" id="names" hidden></div></section>
+  <section class="card" id="today-card"><h2><span class="ic">🌤</span>Σήμερα<span class="right" id="today-src">Open-Meteo · ΕΜΥ</span></h2><div id="wx"><div class="skel"></div><div class="skel" style="width:60%"></div></div><div class="alerts" id="day-alerts"></div><div id="today-notices"></div><div class="names" id="names" hidden></div></section>
   <section class="card" id="finder">
     <h2><span class="ic">🔎</span>Τι ψάχνεις κοντά σου;</h2>
     <p class="lead">Διάλεξε τι θέλεις και πόσο μακριά να ψάξουμε. Τα αποτελέσματα έρχονται από το πιο κοντινό στο πιο μακρινό.</p>
@@ -223,7 +225,7 @@
   <div id="offline" class="banner" hidden>Ο διακομιστής δεδομένων δεν απαντά αυτή τη στιγμή. Η σελίδα χρειάζεται το API του «Κοντά σου». <a href="about.html">Δες τι κάνει η εφαρμογή →</a></div>
   <div class="rbar" id="rbar" hidden><div class="what"><span id="rbar-what"></span></div><div class="rng"><div class="lbl"><span>Απόσταση αναζήτησης</span><b id="rbar-km"></b></div><input type="range" id="rbar-range" aria-label="Απόσταση αναζήτησης"><div class="ticks"><span id="rbar-min"></span><span id="rbar-max"></span></div></div><button class="swap" id="rbar-change" type="button">αλλαγή επιλογής ›</button></div>
   <section class="card wide" id="pharm" hidden><h2><span class="ic">💊</span>Εφημερεύοντα φαρμακεία<span class="right" id="pharm-right">Αττική</span></h2><div id="pharm-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
-  <section class="card wide" id="transit" hidden><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div></section>
+  <section class="card wide" id="transit" hidden><h2><span class="ic">🚌</span>Συγκοινωνίες<span class="right">ΟΑΣΑ · ΣΤΑΣΥ</span></h2><div id="rail-body"></div><div class="sub">Λεωφορεία <span class="live" id="bus-live" hidden><i></i>live</span></div><div id="transit-body"><div class="skel"></div><div class="skel" style="width:60%"></div></div><div id="transit-notices"></div></section>
   <section class="card wide" id="fuel" hidden><h2><span class="ic">⛽</span>Καύσιμα<span class="right"><select id="pref" aria-label="Νομός"></select></span></h2><div class="muted" id="fuel-meta"><div class="skel"></div></div><div class="prices" id="fuel-table"></div><svg class="spark" id="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg><div class="note" id="spark-label"></div><div id="fuel-stations"></div></section>
   <section class="card wide" id="hosp" hidden><h2><span class="ic">🏥</span>Εφημερεύοντα νοσοκομεία<span class="right"><select id="spec" aria-label="Κλινική"><option>Παθολογική</option></select></span></h2><div class="muted" id="hosp-meta"></div><div id="hosp-body"><div class="skel"></div><div class="skel" style="width:80%"></div></div></section>
   <section class="card wide" id="events" hidden><h2><span class="ic">🎭</span>Εκδηλώσεις κοντά<span class="right" id="events-right">Δήμος Αθηναίων</span></h2><div id="events-body"><div class="skel"></div><div class="skel" style="width:70%"></div></div></section>
@@ -234,7 +236,7 @@
   <section class="card wide" id="around" hidden><h2><span class="ic">🧭</span><span id="around-title">Τι υπάρχει κοντά</span><span class="right" id="around-src">OpenStreetMap</span></h2><div id="around-body"></div></section>
 </main>
 <footer>Η θέση σου μένει στη συσκευή σου. <a href="about.html" id="about-link" hidden>Σχετικά με την εφαρμογή</a> <a href="#" id="consent-reset" hidden>Στατιστικά: αλλαγή επιλογής</a>
-  <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ</span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Προειδοποιήσεις: ΕΜΥ μέσω <a href="https://meteoalarm.org">MeteoAlarm</a></span><span>Αττική Οδός: αισθητήρες μέσω <a href="https://data.nap.gov.gr">data.nap.gov.gr</a> (ODbL)</span><span>Διακοπές ρεύματος: ΔΕΔΔΗΕ</span><span>Εκδηλώσεις: <a href="https://cultureisathens.gr">Culture is Athens</a> (Δήμος Αθηναίων)</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
+  <div class="srcs"><span>Φαρμακευτικός Σύλλογος Αττικής</span><span>Υπουργείο Υγείας (εφημερίες Αττικής, συντεταγμένες προσεγγιστικές)</span><span>Τηλεματική ΟΑΣΑ · ανακοινώσεις <a href="https://www.oasa.gr">oasa.gr</a></span><span>Δρομολόγια ΣΤΑΣΥ (GTFS)</span><span>Παρατηρητήριο Τιμών Υγρών Καυσίμων (μέσες τιμές νομού)</span><span>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</span><span>Καιρός: <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0)</span><span>Προειδοποιήσεις: ΕΜΥ μέσω <a href="https://meteoalarm.org">MeteoAlarm</a></span><span>Αττική Οδός: αισθητήρες μέσω <a href="https://data.nap.gov.gr">data.nap.gov.gr</a> (ODbL)</span><span>Διακοπές ρεύματος: ΔΕΔΔΗΕ</span><span>Εκδηλώσεις: <a href="https://cultureisathens.gr">Culture is Athens</a> (Δήμος Αθηναίων)</span><span>Εορτολόγιο: ενδεικτικά κύρια ονόματα</span></div>
 </footer>
 <div id="sheet-bg" class="sheet-bg" hidden></div>
 <div id="sheet" class="sheet" hidden role="dialog" aria-label="Τι ψάχνεις κοντά σου">
@@ -440,10 +442,10 @@ $("#search").onsubmit = async e => {
   $("#inapp-link").target = /Android/i.test(ua) ? "_self" : "_blank";
 })();
 async function start(lat, lng, fallback) {
-  pos = [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4];
+  pos = [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4]; window.__noticesFor = null;
   $("#place").textContent = fallback ? "Ομόνοια (χωρίς άδεια θέσης)" : "…";
   $("#relocate").hidden = false;
-  loadWeather(); loadNamedays(); loadAlerts();
+  loadWeather(); loadNamedays(); loadAlerts(); loadTodayNotices();
   if (cur) { clearTimeout(stopsTimer); clearTimeout(roadTimer); OPTS[cur.key].load(); }
   if (RELAY && !window.__warmed) { window.__warmed = true; fetch(RELAY + "/warm").catch(() => {}); } // visitors in Greece refresh the relay's ministry copy
   try {
@@ -642,6 +644,39 @@ async function loadRail() {
   } catch (e) { el.innerHTML = ""; }
 }
 
+// ---- OASA announcements: route changes that touch the visitor's municipality or lines ------------------
+const NT_PREFIX = /^(Παράταση\s+(της\s+)?)?((μερικής|προσωρινής|μερική|προσωρινή|της|των)\s+)*(τροποποίηση|τροποποίησης|αναστολή λειτουργίας|αναστολής λειτουργίας)\s*(,\s*)?((της|των)\s+)?((διαδρομής|διαδρομών|δρομολογίων)\s+)?((της|των)\s+)?(λεωφ\.|λεωφορειακής|λεωφορειακών|λεωφορειακής\s+γραμμής)?\s*(γραμμής|γραμμών)?\s*/i;
+function noticeRow(n) {
+  const kind = /Παράταση/i.test(n.title) ? "Παράταση αλλαγής" : /αναστολή/i.test(n.title) ? "Αναστολή" : /^Λειτουργία/i.test(n.title) ? "" : "Αλλαγή διαδρομής";
+  let rest = n.title.replace(NT_PREFIX, "").replace(/^[\dΑ-ΩA-Z]+(\s*,\s*[\dΑ-ΩA-Z]+)*(\s+και\s+[\dΑ-ΩA-Z]+)?\s*,?\s*/, "").trim();
+  if (!rest || !kind) rest = n.title;
+  const when = n.when ? n.when.replace(/^(στις|από|για)\s+/i, "") : n.starts_on ? new Date(n.starts_on + "T12:00:00").toLocaleDateString("el-GR", {day: "numeric", month: "short"}) : "";
+  const status = n.status === "active" ? `<span class="badge soon">σε ισχύ τώρα</span>` : n.status === "upcoming" ? `<span class="badge info">από ${new Date(n.starts_on + "T12:00:00").toLocaleDateString("el-GR", {weekday: "short", day: "numeric", month: "numeric"})}</span>` : "";
+  const why = n.match === "line" ? `<span class="badge open">γραμμή ${n.matched_lines.join(", ")} της στάσης σου</span>` : n.match === "area" ? `<span class="badge open">στον δήμο σου</span>` : "";
+  return `<div class="row nt"><div class="name">${n.lines.map(lineBadge).join("")}<span class="kind">${esc(kind)}</span> ${esc(rest)}</div>
+    <div class="meta">${[when, n.match !== "general" ? "" : "", new Date(n.published).toLocaleDateString("el-GR", {day: "numeric", month: "short"}) + " ΟΑΣΑ"].filter(Boolean).map(esc).join(" · ")} ${status} ${why}</div>
+    <div class="acts"><a href="${esc(n.url)}" target="_blank" rel="noreferrer">📄 Η ανακοίνωση</a></div></div>`;
+}
+async function loadNotices(lines) {
+  const el = $("#transit-notices"); if (!el) return;
+  try {
+    const r = await api(`/api/transit/notices?lat=${pos[0]}&lng=${pos[1]}&lines=${encodeURIComponent((lines || []).join(","))}`);
+    if (!r.notices.length) { el.innerHTML = `<div class="sub">🚧 Αλλαγές γραμμών</div><div class="ok">✅ Καμία ανακοίνωση του ΟΑΣΑ για τον δήμο σου ή τις γραμμές της γειτονιάς σου τις τελευταίες 2 εβδομάδες</div>`; return; }
+    el.innerHTML = `<div class="sub">🚧 Αλλαγές γραμμών κοντά σου</div>` + listed(r.notices.map(noticeRow), 5, "ανακοινώσεις") + `<div class="note">Από τις επίσημες ανακοινώσεις του ΟΑΣΑ (oasa.gr): εκτροπές, αναστολές και εορταστικά δρομολόγια που αναφέρουν ${r.municipalities.length ? "τον δήμο " + esc(r.municipalities[0].name.replace("ΔΗΜΟΣ ", "")) : "την περιοχή σου"}${lines && lines.length ? " ή τις γραμμές των στάσεων γύρω σου" : ""}.</div>`;
+  } catch (e) { el.innerHTML = ""; }
+}
+async function loadTodayNotices() {
+  const el = $("#today-notices"); if (!el) return;
+  try {
+    const r = await api(`/api/transit/notices?lat=${pos[0]}&lng=${pos[1]}&days=7`);
+    const mine = r.notices.filter(n => n.match !== "general" && n.status !== "recent" || n.match === "general" && n.status === "active");
+    if (!mine.length) { el.innerHTML = ""; return; }
+    const lines = [...new Set(mine.reduce((a, n) => a.concat(n.lines), []))].slice(0, 6);
+    el.innerHTML = `<button class="nt-today" type="button" id="nt-today-btn">🚧 <span>${mine.length === 1 ? "1 αλλαγή λεωφορείων" : mine.length + " αλλαγές λεωφορείων"} στον δήμο σου${lines.length ? `<small>γραμμές ${esc(lines.join(", "))}${mine.some(n => n.status === "active") ? " · σε ισχύ τώρα" : ""}</small>` : ""}</span><span class="arr">›</span></button>`;
+    $("#nt-today-btn").onclick = () => apply("transit", kmSaved("transit"), true);
+  } catch (e) { el.innerHTML = ""; }
+}
+
 // ---- buses -----------------------------------------------------------------------
 const hav = (a,b,c,d) => { const r=Math.PI/180, x=(c-a)*r, y=(d-b)*r, h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2; return 2*6371*Math.asin(Math.sqrt(h)); };
 async function oasa(act, p) {
@@ -671,13 +706,16 @@ async function loadStops() {
     if (!stops.length) { body.innerHTML = empty("🚏", all.length ? `Καμία στάση σε ακτίνα ${fmtKm(km)}. Η πιο κοντινή είναι στα ${m(all[0].distance_km)}.` : "Καμία στάση ΟΑΣΑ κοντά."); return; }
     $("#bus-live").hidden = false;
     body.innerHTML = stops.map(s=>`<div class="row" data-code="${esc(s.code)}"><div class="name">🚏 ${esc(s.name)}<span class="dist">· ${m(s.distance_km)}</span></div><div class="pills"><span class="muted">…</span></div></div>`).join("");
+    const lines = new Set();
     for (const s of stops) {
       const a = await stopArrivals(s.code);
+      a.arrivals.forEach(x => { if (x.line) lines.add(String(x.line)); });
       const el = body.querySelector(`[data-code="${s.code}"] .pills`); if (!el) continue;
       el.innerHTML = a.arrivals.length ? a.arrivals.slice(0,6).map(x=>`<span class="pill" title="${esc(x.destination||"")}">${lineBadge(x.line)} ${mins(x.minutes)}</span>`).join("") : `<span class="muted">Καμία άφιξη τα επόμενα λεπτά</span>`;
     }
+    if (!window.__noticesFor || window.__noticesFor !== [...lines].sort().join(",")) { window.__noticesFor = [...lines].sort().join(","); loadNotices([...lines]); }   // once per set of lines, not every minute
     stopsTimer = setTimeout(() => document.hidden ? (stopsTimer = setTimeout(loadStops, 15000)) : loadStops(), 60000); // live arrivals: once a minute, and not while the tab is hidden
-  } catch (e) { $("#bus-live").hidden = true; body.innerHTML = empty("🚌", e.status === 503 || e.name === "TypeError" ? "Τα live δεδομένα λεωφορείων δεν είναι διαθέσιμα αυτή τη στιγμή. Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων." : esc(e.message)); }
+  } catch (e) { $("#bus-live").hidden = true; body.innerHTML = empty("🚌", e.status === 503 || e.name === "TypeError" ? "Τα live δεδομένα λεωφορείων δεν είναι διαθέσιμα αυτή τη στιγμή. Το μετρό και το τραμ πιο πάνω έρχονται από το πρόγραμμα δρομολογίων." : esc(e.message)); if (!window.__noticesFor) { window.__noticesFor = "-"; loadNotices([]); } }
 }
 
 // ---- places of one category (OpenStreetMap), nearest first -------------------------------------
